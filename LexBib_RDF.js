@@ -1,11 +1,3 @@
-/** This script serves for exporting Zotero Bibliodata from Zotero to a custom
-    RDF format, as needed in the LexBib project http://lexbib.org
-
-		It is based on the "Bibliontology RDF" Zotero translator by Simon Kornblith
-
-		david.lindemann@ehu.eus team@lexbib.org
-**/
-
 {
 	"translatorID": "14763d25-8ba0-45df-8f52-b8d110LexBib",
 	"label": "LexBib RDF",
@@ -27,6 +19,15 @@
 	"lastUpdated": "2019-09-01 13:38:00"
 }
 
+/** This script serves for exporting Zotero Bibliodata from Zotero to a custom
+    RDF format, as needed in the LexBib project http://lexbib.org
+
+		It is based on the "Bibliontology RDF" Zotero translator by Simon Kornblith
+
+		david.lindemann@ehu.eus team@lexbib.org
+**/
+
+
 var n = {
 	address:"http://schemas.talis.com/2005/address/schema#",	// could also use vcard?
 	bibo:"http://purl.org/ontology/bibo/",
@@ -41,6 +42,7 @@ var n = {
 	res:"http://purl.org/vocab/resourcelist/schema#",
 	sc:"http://umbel.org/umbel/sc/",
 	sioct:"http://rdfs.org/sioc/types#",
+	owl:"http://www.w3.org/2002/07/owl#",
 	zotexport:"http://www.zotero.org/namespaces/export#",
 	lexbibitem:"http://lexbib.org/lexbib/",
 	lexdo:"http://lexbib.org/lexdo/",
@@ -468,7 +470,7 @@ var FIELDS = {
 	"version":				[ITEM,			n.doap+"revision"],
 	"system":				[ITEM, 			n.doap+"os"],
 	"conferenceName":		[ITEM,			[n.bibo+"presentedAt", [[n.rdf+"type", n.bibo+"Conference"]], n.dcterms+"title"]],
-	"language":				[USERITEM,		n.lexdo+"publicationLanguageLiteral"],
+	"language":				[USERITEM,		n.zotexport+"publicationLanguage"],
 	"programmingLanguage":	[ITEM,			n.doap+"programming-language"],
 	"abstractNote":			[ITEM,			n.dcterms+"abstract"],
 	"type":					[ITEM,			n.dcterms+"type"],
@@ -731,8 +733,17 @@ Type.prototype.addNodeRelations = function(nodes) {
  */
 Type.prototype.createNodes = function(item) {
 	var nodes = {};
-	//	nodes[USERITEM] = (item.uri ? item.uri : "#item_"+item.itemID);
-	nodes[USERITEM] = (item.archiveLocation);
+	nodes[USERITEM] = (item.uri ? item.uri : "#item_"+item.itemID);
+// (deprecated)	nodes[USERITEM] = (item.archiveLocation);
+// use Zotero field archiveLocation literal content as item URI
+  nodes[ITEM] = (item.archiveLocation);
+
+	// no suitable item URI; fall back to a blank node
+	if (!nodes[ITEM]) nodes[ITEM] = Zotero.RDF.newResource();
+  // list in usedURIs
+	usedURIs[Zotero.RDF.getResourceURI(nodes[ITEM])] = true;
+
+	/** original item node set-uri-snippet
 
 	// come up with an item node URI
 	nodes[ITEM] = null;
@@ -765,9 +776,14 @@ Type.prototype.createNodes = function(item) {
 		// no suitable item URI; fall back to a blank node
 	if (!nodes[ITEM]) nodes[ITEM] = Zotero.RDF.newResource();
 	usedURIs[Zotero.RDF.getResourceURI(nodes[ITEM])] = true;
+**/
 
-	// attach item node to user item node
-	Zotero.RDF.addStatement(nodes[USERITEM], RDF_TYPE, n.lexdo+"BibItem", false);
+	// set useritem and item node rdf:type
+	Zotero.RDF.addStatement(nodes[USERITEM], RDF_TYPE, n.owl+"NamedIndividual", false);
+	Zotero.RDF.addStatement(nodes[USERITEM], RDF_TYPE, n.zotexport+"Item", false);
+	Zotero.RDF.addStatement(nodes[ITEM], RDF_TYPE, n.owl+"NamedIndividual", false);
+
+// attach item node to user item node
 	Zotero.RDF.addStatement(nodes[USERITEM], n.res+"resource", nodes[ITEM], false);
 
 	// container node
@@ -926,13 +942,33 @@ CreatorProperty.prototype.mapFromCreator = function(item, creator, nodes) {
 	}
 
 	var creatorNode = Zotero.RDF.newResource();
+
 	if (creator.fieldMode == 1) {
+		// var creatorNode = Zotero.RDF.newResource(); //this creatorNode will be a blank node
 		Zotero.RDF.addStatement(creatorNode, RDF_TYPE, n.foaf+"Organization");
 		if (creator.lastName) Zotero.RDF.addStatement(creatorNode, n.foaf+"name", creator.lastName, true);
 	} else {
-		Zotero.RDF.addStatement(creatorNode, RDF_TYPE, n.foaf+"Person");
-		if (creator.firstName) Zotero.RDF.addStatement(creatorNode, n.foaf+"givenName", creator.firstName, true);
+		// create camelcase version of name and output as lexbibperson uri, attached to creator node uwing owl:sameAs
+
+				var camelCreator = (creator.lastName+creator.firstName).normalize("NFD").replace(/[\u0300-\u036f\-\. ]/g, "")
+
+				var camelSentence = function camelSentence(camelCreator) {
+			    return  (" " + camelCreator).toLowerCase().replace(/[^a-zA-Z0-9]+(.)/g, function(match, chr)
+			    {
+			        return chr.toUpperCase();
+			    });
+					}
+					//var creatorNode = n.lexperson+camelCreator;
+					//var creatorNode = Zotero.RDF.newResource(); //this creatorNode will be a blank node
+					Zotero.RDF.addStatement(creatorNode, RDF_TYPE, n.lexdo+"Person", false);
+					Zotero.RDF.addStatement(creatorNode, n.owl+"sameAs", n.lexperson+camelCreator, false);
+
+
+		// Zotero.RDF.addStatement(creatorNode, RDF_TYPE, n.foaf+"Person");
+		if (creator.firstName) Zotero.RDF.addStatement(creatorNode, n.foaf+"firstName", creator.firstName, true);
 		if (creator.lastName) Zotero.RDF.addStatement(creatorNode, n.foaf+"surname", creator.lastName, true);
+
+
 	}
 	if (creator.birthYear) Zotero.RDF.addStatement(creatorNode, n.foaf+"birthday", creator.birthYear, true);
 	if (creator.shortName) Zotero.RDF.addStatement(creatorNode, n.foaf+"nick", creator.shortName, true);
@@ -1313,14 +1349,14 @@ function doExport() {
 				//	hier ursprünglich:		Zotero.RDF.addStatement(nodes[USERITEM], n.ctag+"tagged", tagNode, false);
 			var taglit = tag.tag;
 			if (taglit.startsWith(':') == false) {
-				// Zotero-Tag beginnt nicht mit ':' und wird literal ausgegeben
+				// Zotero-Tag beginnt nicht mit ':' und wird literal im UserItem ausgegeben
 				Zotero.RDF.addStatement(nodes[USERITEM], n.zotexport+"zoteroTag", taglit, true);
 			} else {
-				// Zotero-Tag beginnt ':' und wird als lexdo-roperty und object statement interpretiert
+				// Zotero-Tag beginnt ':' und wird als lexdo-roperty und object statement interpretiert und Item hinzugefügt
 				var taglitarray = taglit.split(" ");
 				let tagprop = taglitarray[0].substring(1);
 				let tagobj = taglitarray[1];
-				Zotero.RDF.addStatement(nodes[USERITEM], n.lexdo+tagprop, tagobj, false);
+				Zotero.RDF.addStatement(nodes[ITEM], n.lexdo+tagprop, tagobj, false);
 			}
 		}
 
@@ -1328,10 +1364,10 @@ function doExport() {
 	var zotlangfield = item.language.toLowerCase();
 	if (zotlangfield != undefined) {
 		var lexvouri = LANGUAGES[zotlangfield];
-		Zotero.RDF.addStatement(nodes[USERITEM], n.lexdo+"publicationLanguage", lexvouri, false);
+		Zotero.RDF.addStatement(nodes[ITEM], n.lexdo+"publicationLanguage", lexvouri, false);
 		}
 // add Zotero Groups Link
-		Zotero.RDF.addStatement(nodes[USERITEM], n.zotexport+"item", item.uri ? item.uri : "#item_"+item.itemID);
+		Zotero.RDF.addStatement(nodes[ITEM], n.zotexport+"itemUri", item.uri ? item.uri : "#item_"+item.itemID);
 
 
 		type.addNodeRelations(nodes);
