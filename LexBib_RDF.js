@@ -1,3 +1,11 @@
+/** This script serves for exporting Zotero Bibliodata from Zotero to a custom
+    RDF format, as needed in the LexBib project http://lexbib.org
+
+		It is based on the "Bibliontology RDF" Zotero translator by Simon Kornblith
+
+		david.lindemann@ehu.eus team@lexbib.org
+**/
+
 {
 	"translatorID": "14763d25-8ba0-45df-8f52-b8d110LexBib",
 	"label": "LexBib RDF",
@@ -35,7 +43,9 @@ var n = {
 	sioct:"http://rdfs.org/sioc/types#",
 	zotexport:"http://www.zotero.org/namespaces/export#",
 	lexbibitem:"http://lexbib.org/lexbib/",
-	lexdo:"http://lexbib.org/lexdo/"
+	lexdo:"http://lexbib.org/lexdo/",
+	lexperson:"http://lexbib.org/agents/person#",
+	lexorg:"http://lexbib.org/agents/organization#"
 };
 
 // lexvo mapping table http://www.lexvo.org/resources/lexvo-iso639-1.tsv
