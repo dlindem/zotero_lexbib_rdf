@@ -941,10 +941,10 @@ CreatorProperty.prototype.mapFromCreator = function(item, creator, nodes) {
 		}
 	}
 
-	var creatorNode = Zotero.RDF.newResource();
+	//var creatorNode = Zotero.RDF.newResource();
 
 	if (creator.fieldMode == 1) {
-		// var creatorNode = Zotero.RDF.newResource(); //this creatorNode will be a blank node
+		var creatorNode = Zotero.RDF.newResource(); //this creatorNode will be a blank node
 		Zotero.RDF.addStatement(creatorNode, RDF_TYPE, n.foaf+"Organization");
 		if (creator.lastName) Zotero.RDF.addStatement(creatorNode, n.foaf+"name", creator.lastName, true);
 	} else {
@@ -958,20 +958,23 @@ CreatorProperty.prototype.mapFromCreator = function(item, creator, nodes) {
 			        return chr.toUpperCase();
 			    });
 					}
-					//var creatorNode = n.lexperson+camelCreator;
+					var creatorNode = n.lexperson+camelCreator;
 					//var creatorNode = Zotero.RDF.newResource(); //this creatorNode will be a blank node
-					Zotero.RDF.addStatement(creatorNode, RDF_TYPE, n.lexdo+"Person", false);
-					Zotero.RDF.addStatement(creatorNode, n.owl+"sameAs", n.lexperson+camelCreator, false);
 
 
+		// if this camelCreator has not appeared before, write data to creatorNode
+		if (usedURIs[Zotero.RDF.getResourceURI(creatorNode)] != true) {
 		// Zotero.RDF.addStatement(creatorNode, RDF_TYPE, n.foaf+"Person");
+		Zotero.RDF.addStatement(creatorNode, RDF_TYPE, n.lexdo+"Person", false);
+
 		if (creator.firstName) Zotero.RDF.addStatement(creatorNode, n.foaf+"firstName", creator.firstName, true);
 		if (creator.lastName) Zotero.RDF.addStatement(creatorNode, n.foaf+"surname", creator.lastName, true);
-
-
+		// list in usedURIs
+		usedURIs[Zotero.RDF.getResourceURI(creatorNode)] = true;
+		}
 	}
-	if (creator.birthYear) Zotero.RDF.addStatement(creatorNode, n.foaf+"birthday", creator.birthYear, true);
-	if (creator.shortName) Zotero.RDF.addStatement(creatorNode, n.foaf+"nick", creator.shortName, true);
+	// if (creator.birthYear) Zotero.RDF.addStatement(creatorNode, n.foaf+"birthday", creator.birthYear, true);
+	// if (creator.shortName) Zotero.RDF.addStatement(creatorNode, n.foaf+"nick", creator.shortName, true);
 
 	// attach creator node
 	var attachTo = nodes[mapping[0]];
