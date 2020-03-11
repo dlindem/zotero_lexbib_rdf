@@ -44,7 +44,7 @@ var n = {
 	sioct:"http://rdfs.org/sioc/types#",
 	owl:"http://www.w3.org/2002/07/owl#",
 	zotexport:"http://www.zotero.org/namespaces/export#",
-	lexbibitem:"http://lexbib.org/lexbib/",
+	lexbib:"http://lexbib.org/lexbib/item#",
 	lexdo:"http://lexbib.org/lexdo/",
 	lexperson:"http://lexbib.org/agents/person#",
 	lexorg:"http://lexbib.org/agents/organization#"
@@ -549,7 +549,7 @@ Type.prototype.createNodes = function(item) {
 	nodes[USERITEM] = (item.uri ? item.uri : "#item_"+item.itemID);
 // (deprecated)	nodes[USERITEM] = (item.archiveLocation);
 // use Zotero field archiveLocation literal content as item URI
-  nodes[ITEM] = (item.archiveLocation);
+  nodes[ITEM] = n.lexbib+(item.archiveLocation);
 
 	// no suitable item URI; fall back to a blank node
 	if (!nodes[ITEM]) nodes[ITEM] = Zotero.RDF.newResource();
@@ -1158,21 +1158,37 @@ function doExport() {
 				var tagNode = Zotero.RDF.newResource();
 				Zotero.RDF.addStatement(tagNode, n.rdf+"type",
 					(tag.type == 0 ? n.zotexport+"ZoteroTag" : n.ctag+"AutoTag"), false);
-//				Zotero.RDF.addStatement(tagNode, n.ctag+"label", tag.tag, true);
-//				(Einfügen des labels n.ctag auskommentiert)
+				Zotero.RDF.addStatement(tagNode, n.ctag+"label", tag.tag, true);
+
 				tagCollection[tag.tag] = tagNode;
 			}
-				//	hier ursprünglich:		Zotero.RDF.addStatement(nodes[USERITEM], n.ctag+"tagged", tagNode, false);
+			Zotero.RDF.addStatement(nodes[USERITEM], n.ctag+"tagged", tagNode, false);
 			var taglit = tag.tag;
 			if (taglit.startsWith(':') == false) {
 				// Zotero-Tag beginnt nicht mit ':' und wird literal im UserItem ausgegeben
 				Zotero.RDF.addStatement(nodes[USERITEM], n.zotexport+"zoteroTag", taglit, true);
 			} else {
-				// Zotero-Tag beginnt ':' und wird als lexdo-roperty und object statement interpretiert und Item hinzugefügt
+				// Zotero-Tag beginnt ':' und wird als lexdo-property und object statement interpretiert und Item hinzugefügt
 				var taglitarray = taglit.split(" ");
 				let tagprop = taglitarray[0].substring(1);
 				let tagobj = taglitarray[1];
-				Zotero.RDF.addStatement(nodes[ITEM], n.lexdo+tagprop, tagobj, false);
+				// lexdo:objectLanguage (in Zotero-Tag ":objectLanguage")
+				if (tagprop == "objectLanguage") {
+					var oLang = tagobj.toLowerCase();
+					if (oLang != undefined) {
+								if (oLang.length == 2) {
+								var oLangUri = TwoDigitLang[oLang];// ? TwoDigitLang[olang] : "ERROR_UNKNOWN_LANGUAGE_CODE";
+								Zotero.RDF.addStatement(nodes[ITEM], n.lexdo+tagprop, oLangUri, false);
+								} else if (oLang.length == 3) {
+								var oLangUri = ThreeDigitLang[oLang];// ? ThreeDigitLang[olang] : "ERROR_UNKNOWN_LANGUAGE_CODE";
+								Zotero.RDF.addStatement(nodes[ITEM], n.lexdo+tagprop, oLangUri, false);
+								}
+						}
+					}
+					if (tagprop == "container") {
+						Zotero.RDF.addStatement(nodes[ITEM], n.lexdo+tagprop, n.lexbib+tagobj, false);
+					}
+				// always write statement:	Zotero.RDF.addStatement(nodes[ITEM], n.lexdo+tagprop, tagobj, false);
 			}
 		}
 
@@ -1183,10 +1199,10 @@ function doExport() {
 		for (var i=0; i<langarray.length; i++) {
 			var lang = langarray[i];
 			if (lang.length == 2) {
-				var lexvouri = TwoDigitLang[lang];
+				var lexvouri = TwoDigitLang[lang];// ? TwoDigitLang[lang] : "ERROR_UNKNOWN_LANGUAGE_CODE";
 				Zotero.RDF.addStatement(nodes[ITEM], n.lexdo+"publicationLanguage", lexvouri, false);
 			} else if (lang.length == 3) {
-				var lexvouri = ThreeDigitLang[lang];
+				var lexvouri = ThreeDigitLang[lang];// ? ThreeDigitLang[lang] : "ERROR_UNKNOWN_LANGUAGE_CODE";
 				Zotero.RDF.addStatement(nodes[ITEM], n.lexdo+"publicationLanguage", lexvouri, false);
 			}
 		}
