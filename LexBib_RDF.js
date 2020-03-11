@@ -23,7 +23,7 @@
     RDF format, as needed in the LexBib project http://lexbib.org
 
 		It is based on the "Bibliontology RDF" Zotero translator by Simon Kornblith
-
+		https://github.com/zotero/translators/blob/master/Bibliontology%20RDF.js
 		david.lindemann@ehu.eus team@lexbib.org
 **/
 
