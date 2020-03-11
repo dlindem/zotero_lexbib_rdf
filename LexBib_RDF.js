@@ -1150,8 +1150,10 @@ function doExport() {
 		// add tags
 		for (var i=0; i<item.tags.length; i++) {
 			var tag = item.tags[i];
-			var tagCollection = tag.type == 0 ? userTags : autoTags;
 
+/**	original tagNode creation
+
+			var tagCollection = tag.type == 0 ? userTags : autoTags;
 			if (tagCollection[tag.tag]) {
 				var tagNode = tagCollection[tag.tag];
 			} else {
@@ -1163,6 +1165,8 @@ function doExport() {
 				tagCollection[tag.tag] = tagNode;
 			}
 			Zotero.RDF.addStatement(nodes[USERITEM], n.ctag+"tagged", tagNode, false);
+**/
+			//LexBib/LexDo custom use of Zotero tags
 			var taglit = tag.tag;
 			if (taglit.startsWith(':') == false) {
 				// Zotero-Tag beginnt nicht mit ':' und wird literal im UserItem ausgegeben
