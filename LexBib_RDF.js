@@ -594,7 +594,7 @@ Type.prototype.createNodes = function(item) {
 	Zotero.RDF.addStatement(nodes[USERITEM], RDF_TYPE, n.owl+"NamedIndividual", false);
 	Zotero.RDF.addStatement(nodes[USERITEM], RDF_TYPE, n.zotexport+"Item", false);
 	Zotero.RDF.addStatement(nodes[ITEM], RDF_TYPE, n.owl+"NamedIndividual", false);
-
+	Zotero.RDF.addStatement(nodes[ITEM], RDF_TYPE, n.lexdo+"BibItem", false);
 // attach item node to user item node
 	Zotero.RDF.addStatement(nodes[USERITEM], n.lexdo+"bibItem", nodes[ITEM], false);
 
@@ -777,6 +777,7 @@ CreatorProperty.prototype.mapFromCreator = function(item, creator, nodes) {
 		// if this camelCreator has not appeared before, write data to creatorNode
 		if (usedURIs[Zotero.RDF.getResourceURI(creatorNode)] != true) {
 		// Zotero.RDF.addStatement(creatorNode, RDF_TYPE, n.foaf+"Person");
+		Zotero.RDF.addStatement(creatorNode, RDF_TYPE, n.owl+"NamedIndividual", false);
 		Zotero.RDF.addStatement(creatorNode, RDF_TYPE, n.lexdo+"Person", false);
 
 		if (creator.firstName) Zotero.RDF.addStatement(creatorNode, n.foaf+"firstName", creator.firstName, true);
