@@ -1,0 +1,1214 @@
+#################################################################
+#    Individuals
+#################################################################
+
+###  http://lexbib.org/agents/person#AbelAndrea
+<http://lexbib.org/agents/person#AbelAndrea> rdf:type owl:NamedIndividual ,
+                                                      lexdo:Person ;
+                                             foaf:firstName "Andrea" ;
+                                             foaf:surname "Abel" .
+
+
+###  http://lexbib.org/agents/person#AldeaMaria
+<http://lexbib.org/agents/person#AldeaMaria> rdf:type owl:NamedIndividual ,
+                                                      lexdo:Person ;
+                                             foaf:firstName "Maria" ;
+                                             foaf:surname "Aldea" .
+
+
+###  http://lexbib.org/agents/person#AldersladeAshleigh
+<http://lexbib.org/agents/person#AldersladeAshleigh> rdf:type owl:NamedIndividual ,
+                                                              lexdo:Person ;
+                                                     foaf:firstName "Ashleigh" ;
+                                                     foaf:surname "Alderslade" .
+
+
+###  http://lexbib.org/agents/person#AmatuzziAntonella
+<http://lexbib.org/agents/person#AmatuzziAntonella> rdf:type owl:NamedIndividual ,
+                                                             lexdo:Person ;
+                                                    foaf:firstName "Antonella" ;
+                                                    foaf:surname "Amatuzzi" .
+
+
+###  http://lexbib.org/agents/person#AnastassiadisSymeonidisAnna
+<http://lexbib.org/agents/person#AnastassiadisSymeonidisAnna> rdf:type owl:NamedIndividual ,
+                                                                       lexdo:Person ;
+                                                              foaf:firstName "Anna" ;
+                                                              foaf:surname "Anastassiadis-Symeonidis" .
+
+
+###  http://lexbib.org/agents/person#ArharHoldtSpela
+<http://lexbib.org/agents/person#ArharHoldtSpela> rdf:type owl:NamedIndividual ,
+                                                           lexdo:Person ;
+                                                  foaf:firstName "Špela" ;
+                                                  foaf:surname "Arhar Holdt" .
+
+
+###  http://lexbib.org/agents/person#BagoPetra
+<http://lexbib.org/agents/person#BagoPetra> rdf:type owl:NamedIndividual ,
+                                                     lexdo:Person ;
+                                            foaf:firstName "Petra" ;
+                                            foaf:surname "Bago" .
+
+
+###  http://lexbib.org/agents/person#BainesDavid
+<http://lexbib.org/agents/person#BainesDavid> rdf:type owl:NamedIndividual ,
+                                                       lexdo:Person ;
+                                              foaf:firstName "David" ;
+                                              foaf:surname "Baines" .
+
+
+###  http://lexbib.org/agents/person#BakuradzeLia
+<http://lexbib.org/agents/person#BakuradzeLia> rdf:type owl:NamedIndividual ,
+                                                        lexdo:Person ;
+                                               foaf:firstName "Lia" ;
+                                               foaf:surname "Bakuradze" .
+
+
+###  http://lexbib.org/agents/person#BarbosaSilvia
+<http://lexbib.org/agents/person#BarbosaSilvia> rdf:type owl:NamedIndividual ,
+                                                         lexdo:Person ;
+                                                foaf:firstName "Sílvia" ;
+                                                foaf:surname "Barbosa" .
+
+
+###  http://lexbib.org/agents/person#BarbuAnaMaria
+<http://lexbib.org/agents/person#BarbuAnaMaria> rdf:type owl:NamedIndividual ,
+                                                         lexdo:Person ;
+                                                foaf:firstName "Ana-Maria" ;
+                                                foaf:surname "Barbu" .
+
+
+###  http://lexbib.org/agents/person#BatinicDolores
+<http://lexbib.org/agents/person#BatinicDolores> rdf:type owl:NamedIndividual ,
+                                                          lexdo:Person ;
+                                                 foaf:firstName "Dolores" ;
+                                                 foaf:surname "Batinić" .
+
+
+###  http://lexbib.org/agents/person#BattistaSimonetta
+<http://lexbib.org/agents/person#BattistaSimonetta> rdf:type owl:NamedIndividual ,
+                                                             lexdo:Person ;
+                                                    foaf:firstName "Simonetta" ;
+                                                    foaf:surname "Battista" .
+
+
+###  http://lexbib.org/agents/person#BenkoVladimir
+<http://lexbib.org/agents/person#BenkoVladimir> rdf:type owl:NamedIndividual ,
+                                                         lexdo:Person ;
+                                                foaf:firstName "Vladimír" ;
+                                                foaf:surname "Benko" .
+
+
+###  http://lexbib.org/agents/person#BeridzeMarine
+<http://lexbib.org/agents/person#BeridzeMarine> rdf:type owl:NamedIndividual ,
+                                                         lexdo:Person ;
+                                                foaf:firstName "Marine" ;
+                                                foaf:surname "Beridze" .
+
+
+###  http://lexbib.org/agents/person#BleickenJulian
+<http://lexbib.org/agents/person#BleickenJulian> rdf:type owl:NamedIndividual ,
+                                                          lexdo:Person ;
+                                                 foaf:firstName "Julian" ;
+                                                 foaf:surname "Bleicken" .
+
+
+###  http://lexbib.org/agents/person#BoschettiFederico
+<http://lexbib.org/agents/person#BoschettiFederico> rdf:type owl:NamedIndividual ,
+                                                             lexdo:Person ;
+                                                    foaf:firstName "Federico" ;
+                                                    foaf:surname "Boschetti" .
+
+
+###  http://lexbib.org/agents/person#CabezasGarciaMelania
+<http://lexbib.org/agents/person#CabezasGarciaMelania> rdf:type owl:NamedIndividual ,
+                                                                lexdo:Person ;
+                                                       foaf:firstName "Melania" ;
+                                                       foaf:surname "Cabezas-García" .
+
+
+###  http://lexbib.org/agents/person#ChadjipapaElina
+<http://lexbib.org/agents/person#ChadjipapaElina> rdf:type owl:NamedIndividual ,
+                                                           lexdo:Person ;
+                                                  foaf:firstName "Elina" ;
+                                                  foaf:surname "Chadjipapa" .
+
+
+###  http://lexbib.org/agents/person#ChoiJun
+<http://lexbib.org/agents/person#ChoiJun> rdf:type owl:NamedIndividual ,
+                                                   lexdo:Person ;
+                                          foaf:firstName "Jun" ;
+                                          foaf:surname "Choi" .
+
+
+###  http://lexbib.org/agents/person#CibejJaka
+<http://lexbib.org/agents/person#CibejJaka> rdf:type owl:NamedIndividual ,
+                                                     lexdo:Person ;
+                                            foaf:firstName "Jaka" ;
+                                            foaf:surname "Čibej" .
+
+
+###  http://lexbib.org/agents/person#CiucciLuca
+<http://lexbib.org/agents/person#CiucciLuca> rdf:type owl:NamedIndividual ,
+                                                      lexdo:Person ;
+                                             foaf:firstName "Luca" ;
+                                             foaf:surname "Ciucci" .
+
+
+###  http://lexbib.org/agents/person#ColmanLut
+<http://lexbib.org/agents/person#ColmanLut> rdf:type owl:NamedIndividual ,
+                                                     lexdo:Person ;
+                                            foaf:firstName "Lut" ;
+                                            foaf:surname "Colman" .
+
+
+###  http://lexbib.org/agents/person#CorreiaMargarita
+<http://lexbib.org/agents/person#CorreiaMargarita> rdf:type owl:NamedIndividual ,
+                                                            lexdo:Person ;
+                                                   foaf:firstName "Margarita" ;
+                                                   foaf:surname "Correia" .
+
+
+###  http://lexbib.org/agents/person#CreeseSharon
+<http://lexbib.org/agents/person#CreeseSharon> rdf:type owl:NamedIndividual ,
+                                                        lexdo:Person ;
+                                               foaf:firstName "Sharon" ;
+                                               foaf:surname "Creese" .
+
+
+###  http://lexbib.org/agents/person#DalpanagiotiThomai
+<http://lexbib.org/agents/person#DalpanagiotiThomai> rdf:type owl:NamedIndividual ,
+                                                              lexdo:Person ;
+                                                     foaf:firstName "Thomai" ;
+                                                     foaf:surname "Dalpanagioti" .
+
+
+###  http://lexbib.org/agents/person#DeCesarisJanet
+<http://lexbib.org/agents/person#DeCesarisJanet> rdf:type owl:NamedIndividual ,
+                                                          lexdo:Person ;
+                                                 foaf:firstName "Janet" ;
+                                                 foaf:surname "DeCesaris" .
+
+
+###  http://lexbib.org/agents/person#DeksneDaiga
+<http://lexbib.org/agents/person#DeksneDaiga> rdf:type owl:NamedIndividual ,
+                                                       lexdo:Person ;
+                                              foaf:firstName "Daiga" ;
+                                              foaf:surname "Deksne" .
+
+
+###  http://lexbib.org/agents/person#DobrovoljcKaja
+<http://lexbib.org/agents/person#DobrovoljcKaja> rdf:type owl:NamedIndividual ,
+                                                          lexdo:Person ;
+                                                 foaf:firstName "Kaja" ;
+                                                 foaf:surname "Dobrovoljc" .
+
+
+###  http://lexbib.org/agents/person#DominguezVazquezMariaJose
+<http://lexbib.org/agents/person#DominguezVazquezMariaJose> rdf:type owl:NamedIndividual ,
+                                                                     lexdo:Person ;
+                                                            foaf:firstName "María José" ;
+                                                            foaf:surname "Domínguez Vázquez" .
+
+
+###  http://lexbib.org/agents/person#DominguezVazquezMariaJoseDominguez
+<http://lexbib.org/agents/person#DominguezVazquezMariaJoseDominguez> rdf:type owl:NamedIndividual ,
+                                                                              lexdo:Person ;
+                                                                     foaf:firstName "María José Domínguez" ;
+                                                                     foaf:surname "Domínguez Vázquez" .
+
+
+###  http://lexbib.org/agents/person#EfthimiouEleni
+<http://lexbib.org/agents/person#EfthimiouEleni> rdf:type owl:NamedIndividual ,
+                                                          lexdo:Person ;
+                                                 foaf:firstName "Eleni" ;
+                                                 foaf:surname "Efthimiou" .
+
+
+###  http://lexbib.org/agents/person#EnikeevaEkaterina
+<http://lexbib.org/agents/person#EnikeevaEkaterina> rdf:type owl:NamedIndividual ,
+                                                             lexdo:Person ;
+                                                    foaf:firstName "Ekaterina" ;
+                                                    foaf:surname "Enikeeva" .
+
+
+###  http://lexbib.org/agents/person#EppingerMirjam
+<http://lexbib.org/agents/person#EppingerMirjam> rdf:type owl:NamedIndividual ,
+                                                          lexdo:Person ;
+                                                 foaf:firstName "Mirjam" ;
+                                                 foaf:surname "Eppinger" .
+
+
+###  http://lexbib.org/agents/person#FalkeStefan
+<http://lexbib.org/agents/person#FalkeStefan> rdf:type owl:NamedIndividual ,
+                                                       lexdo:Person ;
+                                              foaf:firstName "Stefan" ;
+                                              foaf:surname "Falke" .
+
+
+###  http://lexbib.org/agents/person#FerreiraJosePedro
+<http://lexbib.org/agents/person#FerreiraJosePedro> rdf:type owl:NamedIndividual ,
+                                                             lexdo:Person ;
+                                                    foaf:firstName "José Pedro" ;
+                                                    foaf:surname "Ferreira" .
+
+
+###  http://lexbib.org/agents/person#FliatourasAsimakis
+<http://lexbib.org/agents/person#FliatourasAsimakis> rdf:type owl:NamedIndividual ,
+                                                              lexdo:Person ;
+                                                     foaf:firstName "Asimakis" ;
+                                                     foaf:surname "Fliatouras" .
+
+
+###  http://lexbib.org/agents/person#FlinzCarolina
+<http://lexbib.org/agents/person#FlinzCarolina> rdf:type owl:NamedIndividual ,
+                                                         lexdo:Person ;
+                                                foaf:firstName "Carolina" ;
+                                                foaf:surname "Flinz" .
+
+
+###  http://lexbib.org/agents/person#FrankenbergGarciaAna
+<http://lexbib.org/agents/person#FrankenbergGarciaAna> rdf:type owl:NamedIndividual ,
+                                                                lexdo:Person ;
+                                                       foaf:firstName "Ana" ;
+                                                       foaf:surname "Frankenberg-Garcia" .
+
+
+###  http://lexbib.org/agents/person#FuriassiCristiano
+<http://lexbib.org/agents/person#FuriassiCristiano> rdf:type owl:NamedIndividual ,
+                                                             lexdo:Person ;
+                                                    foaf:firstName "Cristiano" ;
+                                                    foaf:surname "Furiassi" .
+
+
+###  http://lexbib.org/agents/person#GalievaAlfiia
+<http://lexbib.org/agents/person#GalievaAlfiia> rdf:type owl:NamedIndividual ,
+                                                         lexdo:Person ;
+                                                foaf:firstName "Alfiia" ;
+                                                foaf:surname "Galieva" .
+
+
+###  http://lexbib.org/agents/person#GantarPolona
+<http://lexbib.org/agents/person#GantarPolona> rdf:type owl:NamedIndividual ,
+                                                        lexdo:Person ;
+                                               foaf:firstName "Polona" ;
+                                               foaf:surname "Gantar" .
+
+
+###  http://lexbib.org/agents/person#GartigAnneKathrin
+<http://lexbib.org/agents/person#GartigAnneKathrin> rdf:type owl:NamedIndividual ,
+                                                             lexdo:Person ;
+                                                    foaf:firstName "Anne-Kathrin" ;
+                                                    foaf:surname "Gärtig" .
+
+
+###  http://lexbib.org/agents/person#GatiatullinAyrat
+<http://lexbib.org/agents/person#GatiatullinAyrat> rdf:type owl:NamedIndividual ,
+                                                            lexdo:Person ;
+                                                   foaf:firstName "Ayrat" ;
+                                                   foaf:surname "Gatiatullin" .
+
+
+###  http://lexbib.org/agents/person#GavriilidouZoe
+<http://lexbib.org/agents/person#GavriilidouZoe> rdf:type owl:NamedIndividual ,
+                                                          lexdo:Person ;
+                                                 foaf:firstName "Zoe" ;
+                                                 foaf:surname "Gavriilidou" .
+
+
+###  http://lexbib.org/agents/person#GiacominiLaura
+<http://lexbib.org/agents/person#GiacominiLaura> rdf:type owl:NamedIndividual ,
+                                                          lexdo:Person ;
+                                                 foaf:firstName "Laura" ;
+                                                 foaf:surname "Giacomini" .
+
+
+###  http://lexbib.org/agents/person#GilBerrozpeJuanCarlos
+<http://lexbib.org/agents/person#GilBerrozpeJuanCarlos> rdf:type owl:NamedIndividual ,
+                                                                 lexdo:Person ;
+                                                        foaf:firstName "Juan Carlos" ;
+                                                        foaf:surname "Gil-Berrozpe" .
+
+
+###  http://lexbib.org/agents/person#GiunchigliaFausto
+<http://lexbib.org/agents/person#GiunchigliaFausto> rdf:type owl:NamedIndividual ,
+                                                             lexdo:Person ;
+                                                    foaf:firstName "Fausto" ;
+                                                    foaf:surname "Giunchiglia" .
+
+
+###  http://lexbib.org/agents/person#GizatovaGuzel
+<http://lexbib.org/agents/person#GizatovaGuzel> rdf:type owl:NamedIndividual ,
+                                                         lexdo:Person ;
+                                                foaf:firstName "Guzel" ;
+                                                foaf:surname "Gizatova" .
+
+
+###  http://lexbib.org/agents/person#GorjancVojko
+<http://lexbib.org/agents/person#GorjancVojko> rdf:type owl:NamedIndividual ,
+                                                        lexdo:Person ;
+                                               foaf:firstName "Vojko" ;
+                                               foaf:surname "Gorjanc" .
+
+
+###  http://lexbib.org/agents/person#GrangerSylviane
+<http://lexbib.org/agents/person#GrangerSylviane> rdf:type owl:NamedIndividual ,
+                                                           lexdo:Person ;
+                                                  foaf:firstName "Sylviane" ;
+                                                  foaf:surname "Granger" .
+
+
+###  http://lexbib.org/agents/person#GrønvikOddrun
+<http://lexbib.org/agents/person#GrønvikOddrun> rdf:type owl:NamedIndividual ,
+                                                         lexdo:Person ;
+                                                foaf:firstName "Oddrun" ;
+                                                foaf:surname "Grønvik" .
+
+
+###  http://lexbib.org/agents/person#HamalainenMika
+<http://lexbib.org/agents/person#HamalainenMika> rdf:type owl:NamedIndividual ,
+                                                          lexdo:Person ;
+                                                 foaf:firstName "Mika" ;
+                                                 foaf:surname "Hämäläinen" .
+
+
+###  http://lexbib.org/agents/person#HeidUlrich
+<http://lexbib.org/agents/person#HeidUlrich> rdf:type owl:NamedIndividual ,
+                                                      lexdo:Person ;
+                                             foaf:firstName "Ulrich" ;
+                                             foaf:surname "Heid" .
+
+
+###  http://lexbib.org/agents/person#HoldtSpelaArhar
+<http://lexbib.org/agents/person#HoldtSpelaArhar> rdf:type owl:NamedIndividual ,
+                                                           lexdo:Person ;
+                                                  foaf:firstName "Špela Arhar" ;
+                                                  foaf:surname "Holdt" .
+
+
+###  http://lexbib.org/agents/person#HorakAles
+<http://lexbib.org/agents/person#HorakAles> rdf:type owl:NamedIndividual ,
+                                                     lexdo:Person ;
+                                            foaf:firstName "Aleš" ;
+                                            foaf:surname "Horák" .
+
+
+###  http://lexbib.org/agents/person#HuertasMiguelanezMercedes
+<http://lexbib.org/agents/person#HuertasMiguelanezMercedes> rdf:type owl:NamedIndividual ,
+                                                                     lexdo:Person ;
+                                                            foaf:firstName "Mercedes" ;
+                                                            foaf:surname "Huertas-Migueláñez" .
+
+
+###  http://lexbib.org/agents/person#JanssenMaarten
+<http://lexbib.org/agents/person#JanssenMaarten> rdf:type owl:NamedIndividual ,
+                                                          lexdo:Person ;
+                                                 foaf:firstName "Maarten" ;
+                                                 foaf:surname "Janssen" .
+
+
+###  http://lexbib.org/agents/person#JohannssonEllertThor
+<http://lexbib.org/agents/person#JohannssonEllertThor> rdf:type owl:NamedIndividual ,
+                                                                lexdo:Person ;
+                                                       foaf:firstName "Ellert Thor" ;
+                                                       foaf:surname "Johannsson" .
+
+
+###  http://lexbib.org/agents/person#JonsdottirHalldora
+<http://lexbib.org/agents/person#JonsdottirHalldora> rdf:type owl:NamedIndividual ,
+                                                              lexdo:Person ;
+                                                     foaf:firstName "Halldóra" ;
+                                                     foaf:surname "Jónsdóttir" .
+
+
+###  http://lexbib.org/agents/person#JungHaeYun
+<http://lexbib.org/agents/person#JungHaeYun> rdf:type owl:NamedIndividual ,
+                                                      lexdo:Person ;
+                                             foaf:firstName "Hae-Yun" ;
+                                             foaf:surname "Jung" .
+
+
+###  http://lexbib.org/agents/person#KabashiBesim
+<http://lexbib.org/agents/person#KabashiBesim> rdf:type owl:NamedIndividual ,
+                                                        lexdo:Person ;
+                                               foaf:firstName "Besim" ;
+                                               foaf:surname "Kabashi" .
+
+
+###  http://lexbib.org/agents/person#KallasJelena
+<http://lexbib.org/agents/person#KallasJelena> rdf:type owl:NamedIndividual ,
+                                                        lexdo:Person ;
+                                               foaf:firstName "Jelena" ;
+                                               foaf:surname "Kallas" .
+
+
+###  http://lexbib.org/agents/person#KardanovaBiryukovaKseniaS
+<http://lexbib.org/agents/person#KardanovaBiryukovaKseniaS> rdf:type owl:NamedIndividual ,
+                                                                     lexdo:Person ;
+                                                            foaf:firstName "Ksenia S." ;
+                                                            foaf:surname "Kardanova-Biryukova" .
+
+
+###  http://lexbib.org/agents/person#KettnerovaVaclava
+<http://lexbib.org/agents/person#KettnerovaVaclava> rdf:type owl:NamedIndividual ,
+                                                             lexdo:Person ;
+                                                    foaf:firstName "Václava" ;
+                                                    foaf:surname "Kettnerová" .
+
+
+###  http://lexbib.org/agents/person#KhanAnasFahad
+<http://lexbib.org/agents/person#KhanAnasFahad> rdf:type owl:NamedIndividual ,
+                                                         lexdo:Person ;
+                                                foaf:firstName "Anas Fahad" ;
+                                                foaf:surname "Khan" .
+
+
+###  http://lexbib.org/agents/person#KhokhlovaMaria
+<http://lexbib.org/agents/person#KhokhlovaMaria> rdf:type owl:NamedIndividual ,
+                                                          lexdo:Person ;
+                                                 foaf:firstName "Maria" ;
+                                                 foaf:surname "Khokhlova" .
+
+
+###  http://lexbib.org/agents/person#KissMargit
+<http://lexbib.org/agents/person#KissMargit> rdf:type owl:NamedIndividual ,
+                                                      lexdo:Person ;
+                                             foaf:firstName "Margit" ;
+                                             foaf:surname "Kiss" .
+
+
+###  http://lexbib.org/agents/person#KlemencBojan
+<http://lexbib.org/agents/person#KlemencBojan> rdf:type owl:NamedIndividual ,
+                                                        lexdo:Person ;
+                                               foaf:firstName "Bojan" ;
+                                               foaf:surname "Klemenc" .
+
+
+###  http://lexbib.org/agents/person#KlicheFritz
+<http://lexbib.org/agents/person#KlicheFritz> rdf:type owl:NamedIndividual ,
+                                                       lexdo:Person ;
+                                              foaf:firstName "Fritz" ;
+                                              foaf:surname "Kliche" .
+
+
+###  http://lexbib.org/agents/person#KlosaAnnette
+<http://lexbib.org/agents/person#KlosaAnnette> rdf:type owl:NamedIndividual ,
+                                                        lexdo:Person ;
+                                               foaf:firstName "Annette" ;
+                                               foaf:surname "Klosa" .
+
+
+###  http://lexbib.org/agents/person#KoppelKristina
+<http://lexbib.org/agents/person#KoppelKristina> rdf:type owl:NamedIndividual ,
+                                                          lexdo:Person ;
+                                                 foaf:firstName "Kristina" ;
+                                                 foaf:surname "Koppel" .
+
+
+###  http://lexbib.org/agents/person#KosemIztok
+<http://lexbib.org/agents/person#KosemIztok> rdf:type owl:NamedIndividual ,
+                                                      lexdo:Person ;
+                                             foaf:firstName "Iztok" ;
+                                             foaf:surname "Kosem" .
+
+
+###  http://lexbib.org/agents/person#KrekSimon
+<http://lexbib.org/agents/person#KrekSimon> rdf:type owl:NamedIndividual ,
+                                                     lexdo:Person ;
+                                            foaf:firstName "Simon" ;
+                                            foaf:surname "Krek" .
+
+
+###  http://lexbib.org/agents/person#KristinssonAriPall
+<http://lexbib.org/agents/person#KristinssonAriPall> rdf:type owl:NamedIndividual ,
+                                                              lexdo:Person ;
+                                                     foaf:firstName "Ari Páll" ;
+                                                     foaf:surname "Kristinsson" .
+
+
+###  http://lexbib.org/agents/person#KrotovaElena
+<http://lexbib.org/agents/person#KrotovaElena> rdf:type owl:NamedIndividual ,
+                                                        lexdo:Person ;
+                                               foaf:firstName "Elena" ;
+                                               foaf:surname "Krotova" .
+
+
+###  http://lexbib.org/agents/person#KroupovaMagdalena
+<http://lexbib.org/agents/person#KroupovaMagdalena> rdf:type owl:NamedIndividual ,
+                                                             lexdo:Person ;
+                                                    foaf:firstName "Magdalena" ;
+                                                    foaf:surname "Kroupová" .
+
+
+###  http://lexbib.org/agents/person#KrstevCvetana
+<http://lexbib.org/agents/person#KrstevCvetana> rdf:type owl:NamedIndividual ,
+                                                         lexdo:Person ;
+                                                foaf:firstName "Cvetana" ;
+                                                foaf:surname "Krstev" .
+
+
+###  http://lexbib.org/agents/person#KuhnTanaraZingano
+<http://lexbib.org/agents/person#KuhnTanaraZingano> rdf:type owl:NamedIndividual ,
+                                                             lexdo:Person ;
+                                                    foaf:firstName "Tanara Zingano" ;
+                                                    foaf:surname "Kuhn" .
+
+
+###  http://lexbib.org/agents/person#KøhlerSimonsenHenrik
+<http://lexbib.org/agents/person#KøhlerSimonsenHenrik> rdf:type owl:NamedIndividual ,
+                                                                lexdo:Person ;
+                                                       foaf:firstName "Henrik" ;
+                                                       foaf:surname "Køhler Simonsen" .
+
+
+###  http://lexbib.org/agents/person#LangemetsMargit
+<http://lexbib.org/agents/person#LangemetsMargit> rdf:type owl:NamedIndividual ,
+                                                           lexdo:Person ;
+                                                  foaf:firstName "Margit" ;
+                                                  foaf:surname "Langemets" .
+
+
+###  http://lexbib.org/agents/person#LangerGabriele
+<http://lexbib.org/agents/person#LangerGabriele> rdf:type owl:NamedIndividual ,
+                                                          lexdo:Person ;
+                                                 foaf:firstName "Gabriele" ;
+                                                 foaf:surname "Langer" .
+
+
+###  http://lexbib.org/agents/person#LaskowskiCyprian
+<http://lexbib.org/agents/person#LaskowskiCyprian> rdf:type owl:NamedIndividual ,
+                                                            lexdo:Person ;
+                                                   foaf:firstName "Cyprian" ;
+                                                   foaf:surname "Laskowski" .
+
+
+###  http://lexbib.org/agents/person#LefkosIoannis
+<http://lexbib.org/agents/person#LefkosIoannis> rdf:type owl:NamedIndividual ,
+                                                         lexdo:Person ;
+                                                foaf:firstName "Ioannis" ;
+                                                foaf:surname "Lefkos" .
+
+
+###  http://lexbib.org/agents/person#LeonArauzPilar
+<http://lexbib.org/agents/person#LeonArauzPilar> rdf:type owl:NamedIndividual ,
+                                                          lexdo:Person ;
+                                                 foaf:firstName "Pilar" ;
+                                                 foaf:surname "León-Araúz" .
+
+
+###  http://lexbib.org/agents/person#LeonardiNatascia
+<http://lexbib.org/agents/person#LeonardiNatascia> rdf:type owl:NamedIndividual ,
+                                                            lexdo:Person ;
+                                                   foaf:firstName "Natascia" ;
+                                                   foaf:surname "Leonardi" .
+
+
+###  http://lexbib.org/agents/person#LeroyerPatrick
+<http://lexbib.org/agents/person#LeroyerPatrick> rdf:type owl:NamedIndividual ,
+                                                          lexdo:Person ;
+                                                 foaf:firstName "Patrick" ;
+                                                 foaf:surname "Leroyer" .
+
+
+###  http://lexbib.org/agents/person#LewRobert
+<http://lexbib.org/agents/person#LewRobert> rdf:type owl:NamedIndividual ,
+                                                     lexdo:Person ;
+                                            foaf:firstName "Robert" ;
+                                            foaf:surname "Lew" .
+
+
+###  http://lexbib.org/agents/person#LindemannDavid
+<http://lexbib.org/agents/person#LindemannDavid> rdf:type owl:NamedIndividual ,
+                                                          lexdo:Person ;
+                                                 foaf:firstName "David" ;
+                                                 foaf:surname "Lindemann" .
+
+
+###  http://lexbib.org/agents/person#LoingsighKatieNi
+<http://lexbib.org/agents/person#LoingsighKatieNi> rdf:type owl:NamedIndividual ,
+                                                            lexdo:Person ;
+                                                   foaf:firstName "Katie Ní" ;
+                                                   foaf:surname "Loingsigh" .
+
+
+###  http://lexbib.org/agents/person#LopatkovaMarketa
+<http://lexbib.org/agents/person#LopatkovaMarketa> rdf:type owl:NamedIndividual ,
+                                                            lexdo:Person ;
+                                                   foaf:firstName "Markéta" ;
+                                                   foaf:surname "Lopatková" .
+
+
+###  http://lexbib.org/agents/person#LungenHarald
+<http://lexbib.org/agents/person#LungenHarald> rdf:type owl:NamedIndividual ,
+                                                        lexdo:Person ;
+                                               foaf:firstName "Harald" ;
+                                               foaf:surname "Lüngen" .
+
+
+###  http://lexbib.org/agents/person#MajeticKlara
+<http://lexbib.org/agents/person#MajeticKlara> rdf:type owl:NamedIndividual ,
+                                                        lexdo:Person ;
+                                               foaf:firstName "Klara" ;
+                                               foaf:surname "Majetić" .
+
+
+###  http://lexbib.org/agents/person#MargalitadzeTinatin
+<http://lexbib.org/agents/person#MargalitadzeTinatin> rdf:type owl:NamedIndividual ,
+                                                               lexdo:Person ;
+                                                      foaf:firstName "Tinatin" ;
+                                                      foaf:surname "Margalitadze" .
+
+
+###  http://lexbib.org/agents/person#MarjanovicSasa
+<http://lexbib.org/agents/person#MarjanovicSasa> rdf:type owl:NamedIndividual ,
+                                                          lexdo:Person ;
+                                                 foaf:firstName "Saša" ;
+                                                 foaf:surname "Marjanović" .
+
+
+###  http://lexbib.org/agents/person#MartinezWilliam
+<http://lexbib.org/agents/person#MartinezWilliam> rdf:type owl:NamedIndividual ,
+                                                           lexdo:Person ;
+                                                  foaf:firstName "William" ;
+                                                  foaf:surname "Martinez" .
+
+
+###  http://lexbib.org/agents/person#MatsumotoOsamu
+<http://lexbib.org/agents/person#MatsumotoOsamu> rdf:type owl:NamedIndividual ,
+                                                          lexdo:Person ;
+                                                 foaf:firstName "Osamu" ;
+                                                 foaf:surname "Matsumoto" .
+
+
+###  http://lexbib.org/agents/person#MavrommatidouStavroula
+<http://lexbib.org/agents/person#MavrommatidouStavroula> rdf:type owl:NamedIndividual ,
+                                                                  lexdo:Person ;
+                                                         foaf:firstName "Stavroula" ;
+                                                         foaf:surname "Mavrommatidou" .
+
+
+###  http://lexbib.org/agents/person#McCraeJohnP
+<http://lexbib.org/agents/person#McCraeJohnP> rdf:type owl:NamedIndividual ,
+                                                       lexdo:Person ;
+                                              foaf:firstName "John P" ;
+                                              foaf:surname "McCrae" .
+
+
+###  http://lexbib.org/agents/person#McGillivrayBarbara
+<http://lexbib.org/agents/person#McGillivrayBarbara> rdf:type owl:NamedIndividual ,
+                                                              lexdo:Person ;
+                                                     foaf:firstName "Barbara" ;
+                                                     foaf:surname "McGillivray" .
+
+
+###  http://lexbib.org/agents/person#MechuraMichal
+<http://lexbib.org/agents/person#MechuraMichal> rdf:type owl:NamedIndividual ,
+                                                         lexdo:Person ;
+                                                foaf:firstName "Michal" ;
+                                                foaf:surname "Měchura" .
+
+
+###  http://lexbib.org/agents/person#MelissMeike
+<http://lexbib.org/agents/person#MelissMeike> rdf:type owl:NamedIndividual ,
+                                                       lexdo:Person ;
+                                              foaf:firstName "Meike" ;
+                                              foaf:surname "Meliss" .
+
+
+###  http://lexbib.org/agents/person#MenzelKatrin
+<http://lexbib.org/agents/person#MenzelKatrin> rdf:type owl:NamedIndividual ,
+                                                        lexdo:Person ;
+                                               foaf:firstName "Katrin" ;
+                                               foaf:surname "Menzel" .
+
+
+###  http://lexbib.org/agents/person#MeszarosTamas
+<http://lexbib.org/agents/person#MeszarosTamas> rdf:type owl:NamedIndividual ,
+                                                         lexdo:Person ;
+                                                foaf:firstName "Tamás" ;
+                                                foaf:surname "Mészáros" .
+
+
+###  http://lexbib.org/agents/person#MeyerPeter
+<http://lexbib.org/agents/person#MeyerPeter> rdf:type owl:NamedIndividual ,
+                                                      lexdo:Person ;
+                                             foaf:firstName "Peter" ;
+                                             foaf:surname "Meyer" .
+
+
+###  http://lexbib.org/agents/person#MileticAleksandra
+<http://lexbib.org/agents/person#MileticAleksandra> rdf:type owl:NamedIndividual ,
+                                                             lexdo:Person ;
+                                                    foaf:firstName "Aleksandra" ;
+                                                    foaf:surname "Miletic" .
+
+
+###  http://lexbib.org/agents/person#MitsiakiMaria
+<http://lexbib.org/agents/person#MitsiakiMaria> rdf:type owl:NamedIndividual ,
+                                                         lexdo:Person ;
+                                                foaf:firstName "Maria" ;
+                                                foaf:surname "Mitsiaki" .
+
+
+###  http://lexbib.org/agents/person#MohrsChristine
+<http://lexbib.org/agents/person#MohrsChristine> rdf:type owl:NamedIndividual ,
+                                                          lexdo:Person ;
+                                                 foaf:firstName "Christine" ;
+                                                 foaf:surname "Möhrs" .
+
+
+###  http://lexbib.org/agents/person#MullerAnke
+<http://lexbib.org/agents/person#MullerAnke> rdf:type owl:NamedIndividual ,
+                                                      lexdo:Person ;
+                                             foaf:firstName "Anke" ;
+                                             foaf:surname "Müller" .
+
+
+###  http://lexbib.org/agents/person#MullerSpitzerCarolin
+<http://lexbib.org/agents/person#MullerSpitzerCarolin> rdf:type owl:NamedIndividual ,
+                                                                lexdo:Person ;
+                                                       foaf:firstName "Carolin" ;
+                                                       foaf:surname "Müller-Spitzer" .
+
+
+###  http://lexbib.org/agents/person#MutterChristina
+<http://lexbib.org/agents/person#MutterChristina> rdf:type owl:NamedIndividual ,
+                                                           lexdo:Person ;
+                                                  foaf:firstName "Christina" ;
+                                                  foaf:surname "Mutter" .
+
+
+###  http://lexbib.org/agents/person#NadaraiaDavid
+<http://lexbib.org/agents/person#NadaraiaDavid> rdf:type owl:NamedIndividual ,
+                                                         lexdo:Person ;
+                                                foaf:firstName "David" ;
+                                                foaf:surname "Nadaraia" .
+
+
+###  http://lexbib.org/agents/person#NavigliRoberto
+<http://lexbib.org/agents/person#NavigliRoberto> rdf:type owl:NamedIndividual ,
+                                                          lexdo:Person ;
+                                                 foaf:firstName "Roberto" ;
+                                                 foaf:surname "Navigli" .
+
+
+###  http://lexbib.org/agents/person#NesiHilary
+<http://lexbib.org/agents/person#NesiHilary> rdf:type owl:NamedIndividual ,
+                                                      lexdo:Person ;
+                                             foaf:firstName "Hilary" ;
+                                             foaf:surname "Nesi" .
+
+
+###  http://lexbib.org/agents/person#NiedCurcioMartina
+<http://lexbib.org/agents/person#NiedCurcioMartina> rdf:type owl:NamedIndividual ,
+                                                             lexdo:Person ;
+                                                    foaf:firstName "Martina" ;
+                                                    foaf:surname "Nied Curcio" .
+
+
+###  http://lexbib.org/agents/person#NikolaouGeorgia
+<http://lexbib.org/agents/person#NikolaouGeorgia> rdf:type owl:NamedIndividual ,
+                                                           lexdo:Person ;
+                                                  foaf:firstName "Georgia" ;
+                                                  foaf:surname "Nikolaou" .
+
+
+###  http://lexbib.org/agents/person#NimbSanni
+<http://lexbib.org/agents/person#NimbSanni> rdf:type owl:NamedIndividual ,
+                                                     lexdo:Person ;
+                                            foaf:firstName "Sanni" ;
+                                            foaf:surname "Nimb" .
+
+
+###  http://lexbib.org/agents/person#NovaJana
+<http://lexbib.org/agents/person#NovaJana> rdf:type owl:NamedIndividual ,
+                                                    lexdo:Person ;
+                                           foaf:firstName "Jana" ;
+                                           foaf:surname "Nová" .
+
+
+###  http://lexbib.org/agents/person#PanocovaRenata
+<http://lexbib.org/agents/person#PanocovaRenata> rdf:type owl:NamedIndividual ,
+                                                          lexdo:Person ;
+                                                 foaf:firstName "Renáta" ;
+                                                 foaf:surname "Panocová" .
+
+
+###  http://lexbib.org/agents/person#PedersenBoletteSandford
+<http://lexbib.org/agents/person#PedersenBoletteSandford> rdf:type owl:NamedIndividual ,
+                                                                   lexdo:Person ;
+                                                          foaf:firstName "Bolette Sandford" ;
+                                                          foaf:surname "Pedersen" .
+
+
+###  http://lexbib.org/agents/person#PereplotchykovaSvitlana
+<http://lexbib.org/agents/person#PereplotchykovaSvitlana> rdf:type owl:NamedIndividual ,
+                                                                   lexdo:Person ;
+                                                          foaf:firstName "Svitlana" ;
+                                                          foaf:surname "Pereplotchykova" .
+
+
+###  http://lexbib.org/agents/person#PerkuhnRainer
+<http://lexbib.org/agents/person#PerkuhnRainer> rdf:type owl:NamedIndividual ,
+                                                         lexdo:Person ;
+                                                foaf:firstName "Rainer" ;
+                                                foaf:surname "Perkuhn" .
+
+
+###  http://lexbib.org/agents/person#PopovAndrey
+<http://lexbib.org/agents/person#PopovAndrey> rdf:type owl:NamedIndividual ,
+                                                       lexdo:Person ;
+                                              foaf:firstName "Andrey" ;
+                                              foaf:surname "Popov" .
+
+
+###  http://lexbib.org/agents/person#PortaZamoranoJordi
+<http://lexbib.org/agents/person#PortaZamoranoJordi> rdf:type owl:NamedIndividual ,
+                                                              lexdo:Person ;
+                                                     foaf:firstName "Jordi" ;
+                                                     foaf:surname "Porta-Zamorano" .
+
+
+###  http://lexbib.org/agents/person#PourtskhvanidzeZakharia
+<http://lexbib.org/agents/person#PourtskhvanidzeZakharia> rdf:type owl:NamedIndividual ,
+                                                                   lexdo:Person ;
+                                                          foaf:firstName "Zakharia" ;
+                                                          foaf:surname "Pourtskhvanidze" .
+
+
+###  http://lexbib.org/agents/person#RambousekAdam
+<http://lexbib.org/agents/person#RambousekAdam> rdf:type owl:NamedIndividual ,
+                                                         lexdo:Person ;
+                                                foaf:firstName "Adam" ;
+                                                foaf:surname "Rambousek" .
+
+
+###  http://lexbib.org/agents/person#ReesGeraintPaul
+<http://lexbib.org/agents/person#ReesGeraintPaul> rdf:type owl:NamedIndividual ,
+                                                           lexdo:Person ;
+                                                  foaf:firstName "Geraint Paul" ;
+                                                  foaf:surname "Rees" .
+
+
+###  http://lexbib.org/agents/person#ReimerinkArianne
+<http://lexbib.org/agents/person#ReimerinkArianne> rdf:type owl:NamedIndividual ,
+                                                            lexdo:Person ;
+                                                   foaf:firstName "Arianne" ;
+                                                   foaf:surname "Reimerink" .
+
+
+###  http://lexbib.org/agents/person#RippSaskia
+<http://lexbib.org/agents/person#RippSaskia> rdf:type owl:NamedIndividual ,
+                                                      lexdo:Person ;
+                                             foaf:firstName "Saskia" ;
+                                             foaf:surname "Ripp" .
+
+
+###  http://lexbib.org/agents/person#RobertsJonathanC
+<http://lexbib.org/agents/person#RobertsJonathanC> rdf:type owl:NamedIndividual ,
+                                                            lexdo:Person ;
+                                                   foaf:firstName "Jonathan C." ;
+                                                   foaf:surname "Roberts" .
+
+
+###  http://lexbib.org/agents/person#RobnikSikonjaMarko
+<http://lexbib.org/agents/person#RobnikSikonjaMarko> rdf:type owl:NamedIndividual ,
+                                                              lexdo:Person ;
+                                                     foaf:firstName "Marko" ;
+                                                     foaf:surname "Robnik-Šikonja" .
+
+
+###  http://lexbib.org/agents/person#RueterJack
+<http://lexbib.org/agents/person#RueterJack> rdf:type owl:NamedIndividual ,
+                                                      lexdo:Person ;
+                                             foaf:firstName "Jack" ;
+                                             foaf:surname "Rueter" .
+
+
+###  http://lexbib.org/agents/person#RundellMichael
+<http://lexbib.org/agents/person#RundellMichael> rdf:type owl:NamedIndividual ,
+                                                          lexdo:Person ;
+                                                 foaf:firstName "Michael" ;
+                                                 foaf:surname "Rundell" .
+
+
+###  http://lexbib.org/agents/person#SaboOlga
+<http://lexbib.org/agents/person#SaboOlga> rdf:type owl:NamedIndividual ,
+                                                    lexdo:Person ;
+                                           foaf:firstName "Olga" ;
+                                           foaf:surname "Sabo" .
+
+
+###  http://lexbib.org/agents/person#SanMartinAntonio
+<http://lexbib.org/agents/person#SanMartinAntonio> rdf:type owl:NamedIndividual ,
+                                                            lexdo:Person ;
+                                                   foaf:firstName "Antonio" ;
+                                                   foaf:surname "San Martín" .
+
+
+###  http://lexbib.org/agents/person#SauriRoser
+<http://lexbib.org/agents/person#SauriRoser> rdf:type owl:NamedIndividual ,
+                                                      lexdo:Person ;
+                                             foaf:firstName "Roser" ;
+                                             foaf:surname "Saurí" .
+
+
+###  http://lexbib.org/agents/person#SchierholzStefanJ
+<http://lexbib.org/agents/person#SchierholzStefanJ> rdf:type owl:NamedIndividual ,
+                                                             lexdo:Person ;
+                                                    foaf:firstName "Stefan J." ;
+                                                    foaf:surname "Schierholz" .
+
+
+###  http://lexbib.org/agents/person#SchutzNatassia
+<http://lexbib.org/agents/person#SchutzNatassia> rdf:type owl:NamedIndividual ,
+                                                          lexdo:Person ;
+                                                 foaf:firstName "Natassia" ;
+                                                 foaf:surname "Schutz" .
+
+
+###  http://lexbib.org/agents/person#ShapiroRichard
+<http://lexbib.org/agents/person#ShapiroRichard> rdf:type owl:NamedIndividual ,
+                                                          lexdo:Person ;
+                                                 foaf:firstName "Richard" ;
+                                                 foaf:surname "Shapiro" .
+
+
+###  http://lexbib.org/agents/person#SharmaNirwan
+<http://lexbib.org/agents/person#SharmaNirwan> rdf:type owl:NamedIndividual ,
+                                                        lexdo:Person ;
+                                               foaf:firstName "Nirwan" ;
+                                               foaf:surname "Sharma" .
+
+
+###  http://lexbib.org/agents/person#SiegelJasonF
+<http://lexbib.org/agents/person#SiegelJasonF> rdf:type owl:NamedIndividual ,
+                                                        lexdo:Person ;
+                                               foaf:firstName "Jason F." ;
+                                               foaf:surname "Siegel" .
+
+
+###  http://lexbib.org/agents/person#SilvaDiasIdaleteMaria
+<http://lexbib.org/agents/person#SilvaDiasIdaleteMaria> rdf:type owl:NamedIndividual ,
+                                                                 lexdo:Person ;
+                                                        foaf:firstName "Idalete Maria" ;
+                                                        foaf:surname "Silva Dias" .
+
+
+###  http://lexbib.org/agents/person#SkadinaInguna
+<http://lexbib.org/agents/person#SkadinaInguna> rdf:type owl:NamedIndividual ,
+                                                         lexdo:Person ;
+                                                foaf:firstName "Inguna" ;
+                                                foaf:surname "Skadiņa" .
+
+
+###  http://lexbib.org/agents/person#SmithOreChristianEmil
+<http://lexbib.org/agents/person#SmithOreChristianEmil> rdf:type owl:NamedIndividual ,
+                                                                 lexdo:Person ;
+                                                        foaf:firstName "Christian-Emil" ;
+                                                        foaf:surname "Smith Ore" .
+
+
+###  http://lexbib.org/agents/person#StankovicRanka
+<http://lexbib.org/agents/person#StankovicRanka> rdf:type owl:NamedIndividual ,
+                                                          lexdo:Person ;
+                                                 foaf:firstName "Ranka" ;
+                                                 foaf:surname "Stanković" .
+
+
+###  http://lexbib.org/agents/person#SteingrimssonSteinþor
+<http://lexbib.org/agents/person#SteingrimssonSteinþor> rdf:type owl:NamedIndividual ,
+                                                                 lexdo:Person ;
+                                                        foaf:firstName "Steinþór" ;
+                                                        foaf:surname "Steingrímsson" .
+
+
+###  http://lexbib.org/agents/person#StemleEgonW
+<http://lexbib.org/agents/person#StemleEgonW> rdf:type owl:NamedIndividual ,
+                                                       lexdo:Person ;
+                                              foaf:firstName "Egon W." ;
+                                              foaf:surname "Stemle" .
+
+
+###  http://lexbib.org/agents/person#StepankovaBarbora
+<http://lexbib.org/agents/person#StepankovaBarbora> rdf:type owl:NamedIndividual ,
+                                                             lexdo:Person ;
+                                                    foaf:firstName "Barbora" ;
+                                                    foaf:surname "Štěpánková" .
+
+
+###  http://lexbib.org/agents/person#StijovicRada
+<http://lexbib.org/agents/person#StijovicRada> rdf:type owl:NamedIndividual ,
+                                                        lexdo:Person ;
+                                               foaf:firstName "Rada" ;
+                                               foaf:surname "Stijović" .
+
+
+###  http://lexbib.org/agents/person#StorjohannPetra
+<http://lexbib.org/agents/person#StorjohannPetra> rdf:type owl:NamedIndividual ,
+                                                           lexdo:Person ;
+                                                  foaf:firstName "Petra" ;
+                                                  foaf:surname "Storjohann" .
+
+
+###  http://lexbib.org/agents/person#StosicDejan
+<http://lexbib.org/agents/person#StosicDejan> rdf:type owl:NamedIndividual ,
+                                                       lexdo:Person ;
+                                              foaf:firstName "Dejan" ;
+                                              foaf:surname "Stosic" .
+
+
+###  http://lexbib.org/agents/person#SuleKatalin
+<http://lexbib.org/agents/person#SuleKatalin> rdf:type owl:NamedIndividual ,
+                                                       lexdo:Person ;
+                                              foaf:firstName "Katalin" ;
+                                              foaf:surname "Sule" .
+
+
+###  http://lexbib.org/agents/person#SørensenNicolaiH
+<http://lexbib.org/agents/person#SørensenNicolaiH> rdf:type owl:NamedIndividual ,
+                                                            lexdo:Person ;
+                                                   foaf:firstName "Nicolai H." ;
+                                                   foaf:surname "Sørensen" .
+
+
+###  http://lexbib.org/agents/person#TavastArvi
+<http://lexbib.org/agents/person#TavastArvi> rdf:type owl:NamedIndividual ,
+                                                      lexdo:Person ;
+                                             foaf:firstName "Arvi" ;
+                                             foaf:surname "Tavast" .
+
+
+###  http://lexbib.org/agents/person#TiberiusCarole
+<http://lexbib.org/agents/person#TiberiusCarole> rdf:type owl:NamedIndividual ,
+                                                          lexdo:Person ;
+                                                 foaf:firstName "Carole" ;
+                                                 foaf:surname "Tiberius" .
+
+
+###  http://lexbib.org/agents/person#TittelSabine
+<http://lexbib.org/agents/person#TittelSabine> rdf:type owl:NamedIndividual ,
+                                                        lexdo:Person ;
+                                               foaf:firstName "Sabine" ;
+                                               foaf:surname "Tittel" .
+
+
+###  http://lexbib.org/agents/person#TrapJensenLars
+<http://lexbib.org/agents/person#TrapJensenLars> rdf:type owl:NamedIndividual ,
+                                                          lexdo:Person ;
+                                                 foaf:firstName "Lars" ;
+                                                 foaf:surname "Trap-Jensen" .
+
+
+###  http://lexbib.org/agents/person#TroelsgardThomas
+<http://lexbib.org/agents/person#TroelsgardThomas> rdf:type owl:NamedIndividual ,
+                                                            lexdo:Person ;
+                                                   foaf:firstName "Thomas" ;
+                                                   foaf:surname "Troelsgård" .
+
+
+###  http://lexbib.org/agents/person#VacalopoulouAnna
+<http://lexbib.org/agents/person#VacalopoulouAnna> rdf:type owl:NamedIndividual ,
+                                                            lexdo:Person ;
+                                                   foaf:firstName "Anna" ;
+                                                   foaf:surname "Vacalopoulou" .
+
+
+###  http://lexbib.org/agents/person#ValcarcelRiveiroCarlos
+<http://lexbib.org/agents/person#ValcarcelRiveiroCarlos> rdf:type owl:NamedIndividual ,
+                                                                  lexdo:Person ;
+                                                         foaf:firstName "Carlos" ;
+                                                         foaf:surname "Valcárcel Riveiro" .
+
+
+###  http://lexbib.org/agents/person#VasilakiKiki
+<http://lexbib.org/agents/person#VasilakiKiki> rdf:type owl:NamedIndividual ,
+                                                        lexdo:Person ;
+                                               foaf:firstName "Kiki" ;
+                                               foaf:surname "Vasilaki" .
+
+
+###  http://lexbib.org/agents/person#VavilovaZhanna
+<http://lexbib.org/agents/person#VavilovaZhanna> rdf:type owl:NamedIndividual ,
+                                                          lexdo:Person ;
+                                                 foaf:firstName "Zhanna" ;
+                                                 foaf:surname "Vavilova" .
+
+
+###  http://lexbib.org/agents/person#VeisbergsAndrejs
+<http://lexbib.org/agents/person#VeisbergsAndrejs> rdf:type owl:NamedIndividual ,
+                                                            lexdo:Person ;
+                                                   foaf:firstName "Andrejs" ;
+                                                   foaf:surname "Veisbergs" .
+
+
+###  http://lexbib.org/agents/person#VillalvaAlina
+<http://lexbib.org/agents/person#VillalvaAlina> rdf:type owl:NamedIndividual ,
+                                                         lexdo:Person ;
+                                                foaf:firstName "Alina" ;
+                                                foaf:surname "Villalva" .
+
+
+###  http://lexbib.org/agents/person#VitasDusko
+<http://lexbib.org/agents/person#VitasDusko> rdf:type owl:NamedIndividual ,
+                                                      lexdo:Person ;
+                                             foaf:firstName "Duško" ;
+                                             foaf:surname "Vitas" .
+
+
+###  http://lexbib.org/agents/person#VodrazkovaVeronika
+<http://lexbib.org/agents/person#VodrazkovaVeronika> rdf:type owl:NamedIndividual ,
+                                                              lexdo:Person ;
+                                                     foaf:firstName "Veronika" ;
+                                                     foaf:surname "Vodrážková" .
+
+
+###  http://lexbib.org/agents/person#VrbincAlenka
+<http://lexbib.org/agents/person#VrbincAlenka> rdf:type owl:NamedIndividual ,
+                                                        lexdo:Person ;
+                                               foaf:firstName "Alenka" ;
+                                               foaf:surname "Vrbinc" .
+
+
+###  http://lexbib.org/agents/person#WahlSabrina
+<http://lexbib.org/agents/person#WahlSabrina> rdf:type owl:NamedIndividual ,
+                                                       lexdo:Person ;
+                                              foaf:firstName "Sabrina" ;
+                                              foaf:surname "Wähl" .
+
+
+###  http://lexbib.org/agents/person#WiatrAleksander
+<http://lexbib.org/agents/person#WiatrAleksander> rdf:type owl:NamedIndividual ,
+                                                           lexdo:Person ;
+                                                  foaf:firstName "Aleksander" ;
+                                                  foaf:surname "Wiatr" .
+
+
+###  http://lexbib.org/agents/person#WillsTarrin
+<http://lexbib.org/agents/person#WillsTarrin> rdf:type owl:NamedIndividual ,
+                                                       lexdo:Person ;
+                                              foaf:firstName "Tarrin" ;
+                                              foaf:surname "Wills" .
+
+
+###  http://lexbib.org/agents/person#WissikTanja
+<http://lexbib.org/agents/person#WissikTanja> rdf:type owl:NamedIndividual ,
+                                                       lexdo:Person ;
+                                              foaf:firstName "Tanja" ;
+                                              foaf:surname "Wissik" .
+
+
+###  http://lexbib.org/agents/person#WolferSascha
+<http://lexbib.org/agents/person#WolferSascha> rdf:type owl:NamedIndividual ,
+                                                        lexdo:Person ;
+                                               foaf:firstName "Sascha" ;
+                                               foaf:surname "Wolfer" .
+
+
+###  http://lexbib.org/agents/person#ZmigrodzkiPiotr
+<http://lexbib.org/agents/person#ZmigrodzkiPiotr> rdf:type owl:NamedIndividual ,
+                                                           lexdo:Person ;
+                                                  foaf:firstName "Piotr" ;
+                                                  foaf:surname "Żmigrodzki" .
+                                                  
