@@ -39,7 +39,6 @@ var n = {
 	po:"http://purl.org/ontology/po/",
 	rdf:"http://www.w3.org/1999/02/22-rdf-syntax-ns#",
 	rel:"http://www.loc.gov/loc.terms/relators/",
-	res:"http://purl.org/vocab/resourcelist/schema#",
 	sc:"http://umbel.org/umbel/sc/",
 	sioct:"http://rdfs.org/sioc/types#",
 	owl:"http://www.w3.org/2002/07/owl#",
@@ -236,7 +235,7 @@ var FIELDS = {
 	"date":					[SUBCONTAINER,	n.dcterms+"date"],
 	"section":				[ITEM,			n.bibo+"section"],
 	"callNumber":			[SUBCONTAINER,	n.bibo+"lccn"],
-	"archiveLocation":		[USERITEM,		n.zotexport+"archiveLocation"],
+//	"archiveLocation":		[USERITEM,		n.zotexport+"archiveLocation"],
 	"distributor":			[SUBCONTAINER,	n.bibo+"distributor"],
 	"extra":				[ITEM,			n.zotexport+"extra"],
 	"journalAbbreviation":	[CONTAINER,		n.bibo+"shortTitle"],
@@ -283,7 +282,7 @@ var FIELDS = {
 	"version":				[ITEM,			n.doap+"revision"],
 	"system":				[ITEM, 			n.doap+"os"],
 	"conferenceName":		[ITEM,			[n.bibo+"presentedAt", [[n.rdf+"type", n.bibo+"Conference"]], n.dcterms+"title"]],
-	"language":				[USERITEM,		n.zotexport+"publicationLanguage"],
+//	"language":				[USERITEM,		n.zotexport+"publicationLanguage"],
 	"programmingLanguage":	[ITEM,			n.doap+"programming-language"],
 	"abstractNote":			[ITEM,			n.dcterms+"abstract"],
 	"type":					[ITEM,			n.dcterms+"type"],
@@ -457,8 +456,8 @@ Type.prototype._scoreNodeRelationship = function(node, definition, score) {
 Type.prototype.getItemSeriesNodes = function(nodes) {
 	const seriesDefinition = {"alwaysAdd":true, "predicate":n.dcterms+"isPartOf", "pairs":[[n.rdf+"type", n.bibo+"Series"]]};
 
-	// get user item node
-	var stmt = Zotero.RDF.getStatementsMatching(null, n.res+"resource", nodes[ITEM]);
+	// get Zotero item node
+	var stmt = Zotero.RDF.getStatementsMatching(null, n.lexdo+"bibItem", nodes[ITEM]);
 	nodes[USERITEM] = stmt ? stmt[0][0] : nodes[ITEM];
 
 	// get ITEM_SERIES node
@@ -510,7 +509,7 @@ Type.prototype.addNodeRelations = function(nodes) {
 			// find predicate
 			if (i == ITEM) {
 				var j = 1;
-				var predicate = n.res+"resource";
+				var predicate = n.lexdo+"bibItem";
 			} else if (i == SUBCONTAINER || i == CONTAINER) {
 				// don't add duplicate nodes
 				if (!this[i]) continue;
@@ -547,7 +546,7 @@ Type.prototype.addNodeRelations = function(nodes) {
 Type.prototype.createNodes = function(item) {
 	var nodes = {};
 	nodes[USERITEM] = (item.uri ? item.uri : "#item_"+item.itemID);
-// (deprecated)	nodes[USERITEM] = (item.archiveLocation);
+
 // use Zotero field archiveLocation literal content as item URI
   nodes[ITEM] = n.lexbib+(item.archiveLocation);
 
@@ -597,7 +596,7 @@ Type.prototype.createNodes = function(item) {
 	Zotero.RDF.addStatement(nodes[ITEM], RDF_TYPE, n.owl+"NamedIndividual", false);
 
 // attach item node to user item node
-	Zotero.RDF.addStatement(nodes[USERITEM], n.res+"resource", nodes[ITEM], false);
+	Zotero.RDF.addStatement(nodes[USERITEM], n.lexdo+"bibItem", nodes[ITEM], false);
 
 	// container node
 	nodes[CONTAINER] = (this[CONTAINER] ? Zotero.RDF.newResource() : nodes[ITEM]);
@@ -1211,9 +1210,9 @@ function doExport() {
 			}
 		}
 	}
-// add Zotero Groups Link
-		Zotero.RDF.addStatement(nodes[ITEM], n.zotexport+"itemUri", item.uri ? item.uri : "#item_"+item.itemID);
-
+// add Zotero Item URL to LexBib Item node
+		Zotero.RDF.addStatement(nodes[ITEM], n.lexdo+"zoteroItemUri", item.uri, false);
+		Zotero.RDF.addStatement(nodes[ITEM], n.lexdo+"zoteroItemID", (item.uri.substr(-8)), true);
 
 		type.addNodeRelations(nodes);
 		//Zotero.debug("relations added");
