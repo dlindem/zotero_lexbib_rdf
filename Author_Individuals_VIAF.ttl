@@ -1,0 +1,282 @@
+
+<http://lexbib.org/agents/person#AbelAndrea> a <http://lexbib.org/lexdo/Person>;
+  <http://www.w3.org/2002/07/owl#sameAs> <https://viaf.org/viaf/78313903>;
+  <http://www.w3.org/2008/05/skos-xl#prefLabel> "Andrea Abel";
+  <http://xmlns.com/foaf/0.1/firstName> "Andrea";
+  <http://xmlns.com/foaf/0.1/surname> "Abel" .
+
+<http://lexbib.org/agents/person#AldeaMaria> a <http://lexbib.org/lexdo/Person>;
+  <http://www.w3.org/2002/07/owl#sameAs> <https://viaf.org/viaf/63747550>;
+  <http://www.w3.org/2008/05/skos-xl#prefLabel> "Maria Aldea";
+  <http://xmlns.com/foaf/0.1/firstName> "Maria";
+  <http://xmlns.com/foaf/0.1/surname> "Aldea" .
+
+<http://lexbib.org/agents/person#AnastassiadisSymeonidisAnna> a <http://lexbib.org/lexdo/Person>;
+  <http://www.w3.org/2002/07/owl#sameAs> <https://viaf.org/viaf/66619176>;
+  <http://www.w3.org/2008/05/skos-xl#prefLabel> "Anna Anastassiadis-Symeonidis";
+  <http://xmlns.com/foaf/0.1/firstName> "Anna";
+  <http://xmlns.com/foaf/0.1/surname> "Anastassiadis-Symeonidis" .
+
+<http://lexbib.org/agents/person#ArharHoldtSpela> a <http://lexbib.org/lexdo/Person>;
+  <http://www.w3.org/2002/07/owl#sameAs> <https://viaf.org/viaf/305936089>;
+  <http://www.w3.org/2008/05/skos-xl#prefLabel> "Špela Arhar Holdt";
+  <http://xmlns.com/foaf/0.1/firstName> "Špela";
+  <http://xmlns.com/foaf/0.1/surname> "Arhar Holdt" .
+
+<http://lexbib.org/agents/person#BagoPetra> a <http://lexbib.org/lexdo/Person>;
+  <http://www.w3.org/2002/07/owl#sameAs> <https://viaf.org/viaf/305737400>;
+  <http://www.w3.org/2008/05/skos-xl#prefLabel> "Petra Bago";
+  <http://xmlns.com/foaf/0.1/firstName> "Petra";
+  <http://xmlns.com/foaf/0.1/surname> "Bago" .
+
+<http://lexbib.org/agents/person#BarbuAnaMaria> a <http://lexbib.org/lexdo/Person>;
+  <http://www.w3.org/2002/07/owl#sameAs> <https://viaf.org/viaf/103433491>;
+  <http://www.w3.org/2008/05/skos-xl#prefLabel> "Ana-Maria Barbu";
+  <http://xmlns.com/foaf/0.1/firstName> "Ana-Maria";
+  <http://xmlns.com/foaf/0.1/surname> "Barbu" .
+
+<http://lexbib.org/agents/person#BatinicDolores> a <http://lexbib.org/lexdo/Person>;
+  <http://www.w3.org/2002/07/owl#sameAs> <https://viaf.org/viaf/3816150943148126760007>;
+  <http://www.w3.org/2008/05/skos-xl#prefLabel> "Dolores Batinic";
+  <http://xmlns.com/foaf/0.1/firstName> "Dolores";
+  <http://xmlns.com/foaf/0.1/surname> "Batinic" .
+
+<http://lexbib.org/agents/person#BattistaSimonetta> a <http://lexbib.org/lexdo/Person>;
+  <http://www.w3.org/2002/07/owl#sameAs> <https://viaf.org/viaf/95149105998968490302>;
+  <http://www.w3.org/2008/05/skos-xl#prefLabel> "Simonetta Battista";
+  <http://xmlns.com/foaf/0.1/firstName> "Simonetta";
+  <http://xmlns.com/foaf/0.1/surname> "Battista" .
+
+<http://lexbib.org/agents/person#BenkoVladimir> a <http://lexbib.org/lexdo/Person>;
+  <http://www.w3.org/2002/07/owl#sameAs> <https://viaf.org/viaf/54299720>;
+  <http://www.w3.org/2008/05/skos-xl#prefLabel> "Vladimír Benko";
+  <http://xmlns.com/foaf/0.1/firstName> "Vladimír";
+  <http://xmlns.com/foaf/0.1/surname> "Benko" .
+
+<http://lexbib.org/agents/person#CiucciLuca> a <http://lexbib.org/lexdo/Person>;
+  <http://www.w3.org/2002/07/owl#sameAs> <https://viaf.org/viaf/232180958>;
+  <http://www.w3.org/2008/05/skos-xl#prefLabel> "Luca Ciucci";
+  <http://xmlns.com/foaf/0.1/firstName> "Luca";
+  <http://xmlns.com/foaf/0.1/surname> "Ciucci" .
+
+<http://lexbib.org/agents/person#ColmanLut> a <http://lexbib.org/lexdo/Person>;
+  <http://www.w3.org/2002/07/owl#sameAs> <https://viaf.org/viaf/288691772>;
+  <http://www.w3.org/2008/05/skos-xl#prefLabel> "Lut Colman";
+  <http://xmlns.com/foaf/0.1/firstName> "Lut";
+  <http://xmlns.com/foaf/0.1/surname> "Colman" .
+
+<http://lexbib.org/agents/person#CorreiaMargarita> a <http://lexbib.org/lexdo/Person>;
+  <http://www.w3.org/2002/07/owl#sameAs> <https://viaf.org/viaf/19934401>;
+  <http://www.w3.org/2008/05/skos-xl#prefLabel> "Margarita Correia";
+  <http://xmlns.com/foaf/0.1/firstName> "Margarita";
+  <http://xmlns.com/foaf/0.1/surname> "Correia" .
+
+<http://lexbib.org/agents/person#DeCesarisJanet> a <http://lexbib.org/lexdo/Person>;
+  <http://www.w3.org/2002/07/owl#sameAs> <https://viaf.org/viaf/32163364>;
+  <http://www.w3.org/2008/05/skos-xl#prefLabel> "Janet DeCesaris";
+  <http://xmlns.com/foaf/0.1/firstName> "Janet";
+  <http://xmlns.com/foaf/0.1/surname> "DeCesaris" .
+
+<http://lexbib.org/agents/person#DobrovoljcKaja> a <http://lexbib.org/lexdo/Person>;
+  <http://www.w3.org/2002/07/owl#sameAs> <https://viaf.org/viaf/65154440175035341964>;
+  <http://www.w3.org/2008/05/skos-xl#prefLabel> "Kaja Dobrovoljc";
+  <http://xmlns.com/foaf/0.1/firstName> "Kaja";
+  <http://xmlns.com/foaf/0.1/surname> "Dobrovoljc" .
+
+<http://lexbib.org/agents/person#DominguezVazquezMariaJose> a <http://lexbib.org/lexdo/Person>;
+  <http://www.w3.org/2002/07/owl#sameAs> <https://viaf.org/viaf/95240427>;
+  <http://www.w3.org/2008/05/skos-xl#prefLabel> "María José Domínguez Vázquez";
+  <http://xmlns.com/foaf/0.1/firstName> "María José";
+  <http://xmlns.com/foaf/0.1/surname> "Domínguez Vázquez" .
+
+<http://lexbib.org/agents/person#EfthimiouEleni> a <http://lexbib.org/lexdo/Person>;
+  <http://www.w3.org/2002/07/owl#sameAs> <https://viaf.org/viaf/276251806>;
+  <http://www.w3.org/2008/05/skos-xl#prefLabel> "Eleni Efthimiou";
+  <http://xmlns.com/foaf/0.1/firstName> "Eleni";
+  <http://xmlns.com/foaf/0.1/surname> "Efthimiou" .
+
+<http://lexbib.org/agents/person#FalkeStefan> a <http://lexbib.org/lexdo/Person>;
+  <http://www.w3.org/2002/07/owl#sameAs> <https://viaf.org/viaf/873151898605724190007>;
+  <http://www.w3.org/2008/05/skos-xl#prefLabel> "Stefan Falke";
+  <http://xmlns.com/foaf/0.1/firstName> "Stefan";
+  <http://xmlns.com/foaf/0.1/surname> "Falke" .
+
+<http://lexbib.org/agents/person#FliatourasAsimakis> a <http://lexbib.org/lexdo/Person>;
+  <http://www.w3.org/2002/07/owl#sameAs> <https://viaf.org/viaf/305966646>;
+  <http://www.w3.org/2008/05/skos-xl#prefLabel> "Asimakis Fliatouras";
+  <http://xmlns.com/foaf/0.1/firstName> "Asimakis";
+  <http://xmlns.com/foaf/0.1/surname> "Fliatouras" .
+
+<http://lexbib.org/agents/person#FlinzCarolina> a <http://lexbib.org/lexdo/Person>;
+  <http://www.w3.org/2002/07/owl#sameAs> <https://viaf.org/viaf/317160948>;
+  <http://www.w3.org/2008/05/skos-xl#prefLabel> "Carolina Flinz";
+  <http://xmlns.com/foaf/0.1/firstName> "Carolina";
+  <http://xmlns.com/foaf/0.1/surname> "Flinz" .
+
+<http://lexbib.org/agents/person#FrankenbergGarciaAna> a <http://lexbib.org/lexdo/Person>;
+  <http://www.w3.org/2002/07/owl#sameAs> <https://viaf.org/viaf/106767947>;
+  <http://www.w3.org/2008/05/skos-xl#prefLabel> "Ana Frankenberg-Garcia";
+  <http://xmlns.com/foaf/0.1/firstName> "Ana";
+  <http://xmlns.com/foaf/0.1/surname> "Frankenberg-Garcia" .
+
+<http://lexbib.org/agents/person#FuriassiCristiano> a <http://lexbib.org/lexdo/Person>;
+  <http://www.w3.org/2002/07/owl#sameAs> <https://viaf.org/viaf/170871827>;
+  <http://www.w3.org/2008/05/skos-xl#prefLabel> "Cristiano Furiassi";
+  <http://xmlns.com/foaf/0.1/firstName> "Cristiano";
+  <http://xmlns.com/foaf/0.1/surname> "Furiassi" .
+
+<http://lexbib.org/agents/person#GantarPolona> a <http://lexbib.org/lexdo/Person>;
+  <http://www.w3.org/2002/07/owl#sameAs> <https://viaf.org/viaf/91131332>;
+  <http://www.w3.org/2008/05/skos-xl#prefLabel> "Polona Gantar";
+  <http://xmlns.com/foaf/0.1/firstName> "Polona";
+  <http://xmlns.com/foaf/0.1/surname> "Gantar" .
+
+<http://lexbib.org/agents/person#GartigAnneKathrin> a <http://lexbib.org/lexdo/Person>;
+  <http://www.w3.org/2002/07/owl#sameAs> <https://viaf.org/viaf/167547941>;
+  <http://www.w3.org/2008/05/skos-xl#prefLabel> "Anne-Kathrin Gärtig";
+  <http://xmlns.com/foaf/0.1/firstName> "Anne-Kathrin";
+  <http://xmlns.com/foaf/0.1/surname> "Gärtig" .
+
+<http://lexbib.org/agents/person#GavriilidouZoe> a <http://lexbib.org/lexdo/Person>;
+  <http://www.w3.org/2002/07/owl#sameAs> <https://viaf.org/viaf/71617744>;
+  <http://www.w3.org/2008/05/skos-xl#prefLabel> "Zoe Gavriilidou";
+  <http://xmlns.com/foaf/0.1/firstName> "Zoe";
+  <http://xmlns.com/foaf/0.1/surname> "Gavriilidou" .
+
+<http://lexbib.org/agents/person#GiacominiLaura> a <http://lexbib.org/lexdo/Person>;
+  <http://www.w3.org/2002/07/owl#sameAs> <https://viaf.org/viaf/250180678>;
+  <http://www.w3.org/2008/05/skos-xl#prefLabel> "Laura Giacomini";
+  <http://xmlns.com/foaf/0.1/firstName> "Laura";
+  <http://xmlns.com/foaf/0.1/surname> "Giacomini" .
+
+<http://lexbib.org/agents/person#GiunchigliaFausto> a <http://lexbib.org/lexdo/Person>;
+  <http://www.w3.org/2002/07/owl#sameAs> <https://viaf.org/viaf/44550451>;
+  <http://www.w3.org/2008/05/skos-xl#prefLabel> "Fausto Giunchiglia";
+  <http://xmlns.com/foaf/0.1/firstName> "Fausto";
+  <http://xmlns.com/foaf/0.1/surname> "Giunchiglia" .
+
+<http://lexbib.org/agents/person#GizatovaGuzel> a <http://lexbib.org/lexdo/Person>;
+  <http://www.w3.org/2002/07/owl#sameAs> <https://viaf.org/viaf/233190770>;
+  <http://www.w3.org/2008/05/skos-xl#prefLabel> "Guzel Gizatova";
+  <http://xmlns.com/foaf/0.1/firstName> "Guzel";
+  <http://xmlns.com/foaf/0.1/surname> "Gizatova" .
+
+<http://lexbib.org/agents/person#GorjancVojko> a <http://lexbib.org/lexdo/Person>;
+  <http://www.w3.org/2002/07/owl#sameAs> <https://viaf.org/viaf/70862170>;
+  <http://www.w3.org/2008/05/skos-xl#prefLabel> "Vojko Gorjanc";
+  <http://xmlns.com/foaf/0.1/firstName> "Vojko";
+  <http://xmlns.com/foaf/0.1/surname> "Gorjanc" .
+
+<http://lexbib.org/agents/person#GrangerSylviane> a <http://lexbib.org/lexdo/Person>;
+  <http://www.w3.org/2002/07/owl#sameAs> <https://viaf.org/viaf/267837002>;
+  <http://www.w3.org/2008/05/skos-xl#prefLabel> "Sylviane Granger";
+  <http://xmlns.com/foaf/0.1/firstName> "Sylviane";
+  <http://xmlns.com/foaf/0.1/surname> "Granger" .
+
+<http://lexbib.org/agents/person#GrønvikOddrun> a <http://lexbib.org/lexdo/Person>;
+  <http://www.w3.org/2002/07/owl#sameAs> <https://viaf.org/viaf/40920814>;
+  <http://www.w3.org/2008/05/skos-xl#prefLabel> "Oddrun Grønvik";
+  <http://xmlns.com/foaf/0.1/firstName> "Oddrun";
+  <http://xmlns.com/foaf/0.1/surname> "Grønvik" .
+
+<http://lexbib.org/agents/person#JonsdottirHalldora> a <http://lexbib.org/lexdo/Person>;
+  <http://www.w3.org/2002/07/owl#sameAs> <https://viaf.org/viaf/19778426>;
+  <http://www.w3.org/2008/05/skos-xl#prefLabel> "Halldóra Jónsdóttir";
+  <http://xmlns.com/foaf/0.1/firstName> "Halldóra";
+  <http://xmlns.com/foaf/0.1/surname> "Jónsdóttir" .
+
+<http://lexbib.org/agents/person#KlosaAnnette> a <http://lexbib.org/lexdo/Person>;
+  <http://www.w3.org/2002/07/owl#sameAs> <https://viaf.org/viaf/59197942>;
+  <http://www.w3.org/2008/05/skos-xl#prefLabel> "Annette Klosa";
+  <http://xmlns.com/foaf/0.1/firstName> "Annette";
+  <http://xmlns.com/foaf/0.1/surname> "Klosa" .
+
+<http://lexbib.org/agents/person#KosemIztok> a <http://lexbib.org/lexdo/Person>;
+  <http://www.w3.org/2002/07/owl#sameAs> <https://viaf.org/viaf/308782031>;
+  <http://www.w3.org/2008/05/skos-xl#prefLabel> "Iztok Kosem";
+  <http://xmlns.com/foaf/0.1/firstName> "Iztok";
+  <http://xmlns.com/foaf/0.1/surname> "Kosem" .
+
+<http://lexbib.org/agents/person#KrekSimon> a <http://lexbib.org/lexdo/Person>;
+  <http://www.w3.org/2002/07/owl#sameAs> <https://viaf.org/viaf/308782046>;
+  <http://www.w3.org/2008/05/skos-xl#prefLabel> "Simon Krek";
+  <http://xmlns.com/foaf/0.1/firstName> "Simon";
+  <http://xmlns.com/foaf/0.1/surname> "Krek" .
+
+<http://lexbib.org/agents/person#KristinssonAriPall> a <http://lexbib.org/lexdo/Person>;
+  <http://www.w3.org/2002/07/owl#sameAs> <https://viaf.org/viaf/12226969>;
+  <http://www.w3.org/2008/05/skos-xl#prefLabel> "Ari Páll Kristinsson";
+  <http://xmlns.com/foaf/0.1/firstName> "Ari Páll";
+  <http://xmlns.com/foaf/0.1/surname> "Kristinsson" .
+
+<http://lexbib.org/agents/person#LangemetsMargit> a <http://lexbib.org/lexdo/Person>;
+  <http://www.w3.org/2002/07/owl#sameAs> <https://viaf.org/viaf/121304776>;
+  <http://www.w3.org/2008/05/skos-xl#prefLabel> "Margit Langemets";
+  <http://xmlns.com/foaf/0.1/firstName> "Margit";
+  <http://xmlns.com/foaf/0.1/surname> "Langemets" .
+
+<http://lexbib.org/agents/person#MeszarosTamas> a <http://lexbib.org/lexdo/Person>;
+  <http://www.w3.org/2002/07/owl#sameAs> <https://viaf.org/viaf/77856578>;
+  <http://www.w3.org/2008/05/skos-xl#prefLabel> "Tamás Mészáros";
+  <http://xmlns.com/foaf/0.1/firstName> "Tamás";
+  <http://xmlns.com/foaf/0.1/surname> "Mészáros" .
+
+<http://lexbib.org/agents/person#NimbSanni> a <http://lexbib.org/lexdo/Person>;
+  <http://www.w3.org/2002/07/owl#sameAs> <https://viaf.org/viaf/317066544>;
+  <http://www.w3.org/2008/05/skos-xl#prefLabel> "Sanni Nimb";
+  <http://xmlns.com/foaf/0.1/firstName> "Sanni";
+  <http://xmlns.com/foaf/0.1/surname> "Nimb" .
+
+<http://lexbib.org/agents/person#PedersenBoletteSandford> a <http://lexbib.org/lexdo/Person>;
+  <http://www.w3.org/2002/07/owl#sameAs> <https://viaf.org/viaf/311361872>;
+  <http://www.w3.org/2008/05/skos-xl#prefLabel> "Bolette Sandford Pedersen";
+  <http://xmlns.com/foaf/0.1/firstName> "Bolette Sandford";
+  <http://xmlns.com/foaf/0.1/surname> "Pedersen" .
+
+<http://lexbib.org/agents/person#SmithOreChristianEmil> a <http://lexbib.org/lexdo/Person>;
+  <http://www.w3.org/2002/07/owl#sameAs> <https://viaf.org/viaf/113145970160232251366>;
+  <http://www.w3.org/2008/05/skos-xl#prefLabel> "Christian-Emil Smith Ore";
+  <http://xmlns.com/foaf/0.1/firstName> "Christian-Emil";
+  <http://xmlns.com/foaf/0.1/surname> "Smith Ore" .
+
+<http://lexbib.org/agents/person#SteingrimssonSteinþor> a <http://lexbib.org/lexdo/Person>;
+  <http://www.w3.org/2002/07/owl#sameAs> <https://viaf.org/viaf/346152138586110980633>;
+  <http://www.w3.org/2008/05/skos-xl#prefLabel> "Steinþór Steingrímsson";
+  <http://xmlns.com/foaf/0.1/firstName> "Steinþór";
+  <http://xmlns.com/foaf/0.1/surname> "Steingrímsson" .
+
+<http://lexbib.org/agents/person#TavastArvi> a <http://lexbib.org/lexdo/Person>;
+  <http://www.w3.org/2002/07/owl#sameAs> <https://viaf.org/viaf/83589817>;
+  <http://www.w3.org/2008/05/skos-xl#prefLabel> "Arvi Tavast";
+  <http://xmlns.com/foaf/0.1/firstName> "Arvi";
+  <http://xmlns.com/foaf/0.1/surname> "Tavast" .
+
+<http://lexbib.org/agents/person#TroelsgardThomas> a <http://lexbib.org/lexdo/Person>;
+  <http://www.w3.org/2002/07/owl#sameAs> <https://viaf.org/viaf/72149196582374792665>;
+  <http://www.w3.org/2008/05/skos-xl#prefLabel> "Thomas Troelsgård";
+  <http://xmlns.com/foaf/0.1/firstName> "Thomas";
+  <http://xmlns.com/foaf/0.1/surname> "Troelsgård" .
+
+<http://lexbib.org/agents/person#ValcarcelRiveiroCarlos> a <http://lexbib.org/lexdo/Person>;
+  <http://www.w3.org/2002/07/owl#sameAs> <https://viaf.org/viaf/87334270>;
+  <http://www.w3.org/2008/05/skos-xl#prefLabel> "Carlos Valcárcel Riveiro";
+  <http://xmlns.com/foaf/0.1/firstName> "Carlos";
+  <http://xmlns.com/foaf/0.1/surname> "Valcárcel Riveiro" .
+
+<http://lexbib.org/agents/person#VeisbergsAndrejs> a <http://lexbib.org/lexdo/Person>;
+  <http://www.w3.org/2002/07/owl#sameAs> <https://viaf.org/viaf/42163481>;
+  <http://www.w3.org/2008/05/skos-xl#prefLabel> "Andrejs Veisbergs";
+  <http://xmlns.com/foaf/0.1/firstName> "Andrejs";
+  <http://xmlns.com/foaf/0.1/surname> "Veisbergs" .
+
+<http://lexbib.org/agents/person#VrbincAlenka> a <http://lexbib.org/lexdo/Person>;
+  <http://www.w3.org/2002/07/owl#sameAs> <https://viaf.org/viaf/473144782726104518916>;
+  <http://www.w3.org/2008/05/skos-xl#prefLabel> "Alenka Vrbinc";
+  <http://xmlns.com/foaf/0.1/firstName> "Alenka";
+  <http://xmlns.com/foaf/0.1/surname> "Vrbinc" .
+
+<http://lexbib.org/agents/person#ZmigrodzkiPiotr> a <http://lexbib.org/lexdo/Person>;
+  <http://www.w3.org/2002/07/owl#sameAs> <https://viaf.org/viaf/101892959>;
+  <http://www.w3.org/2008/05/skos-xl#prefLabel> "Piotr Zmigrodzki";
+  <http://xmlns.com/foaf/0.1/firstName> "Piotr";
+  <http://xmlns.com/foaf/0.1/surname> "Zmigrodzki" .
