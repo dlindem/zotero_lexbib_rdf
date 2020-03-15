@@ -1,0 +1,32 @@
+prefix : <http://lexbib.org/lexdo/>
+prefix lexperson: <http://lexbib.org/agents/person#>
+prefix foaf: <http://xmlns.com/foaf/0.1/>
+prefix viaf: <http://viaf.org/viaf/>
+prefix grddl: <http://www.w3.org/2003/g/data-view#>
+prefix dct: <http://purl.org/dc/terms/>
+prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+prefix owl: <http://www.w3.org/2002/07/owl#>
+prefix skosxl: <http://www.w3.org/2008/05/skos-xl#>
+prefix coda: <http://art.uniroma2.it/coda/contracts/>
+prefix xsd: <http://www.w3.org/2001/XMLSchema#>
+prefix skos: <http://www.w3.org/2004/02/skos/core#>
+prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+prefix dc: <http://purl.org/dc/elements/1.1/>
+
+rule it.uniroma2.art.Sheet2RDFAnnotation id:row {
+	nodes = {
+		subject uri col_0/value .
+		firstname literal col_1/value .
+		surname literal col_2/value .
+		fullname literal col_3/value .
+		viaf uri col_5/value .
+	}
+	graph = {
+		$subject rdf:type owl:NamedIndividual .
+		$subject rdf:type :Person .
+		$subject foaf:firstName $firstname .
+		$subject foaf:surname $surname .
+		$subject skosxl:prefLabel $fullname .
+		OPTIONAL { $subject owl:sameAs $viaf . }
+	}
+}
