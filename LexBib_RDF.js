@@ -193,7 +193,7 @@ var CONTAINER_SERIES = 7;
 	<BLANK_NODE>	<PREDICATE>				FIELD_CONTENT
 **/
 var FIELDS = {
-	"url":					[ITEM, 			n.bibo+"uri"],
+//	"url":					[ITEM, 			n.bibo+"uri"],
 	"rights":				[USERITEM,		n.dcterms+"rights"],
 	"series":				[CONTAINER_SERIES,	n.dcterms+"title"],
 	"volume":				[SUBCONTAINER,	n.bibo+"volume"],
@@ -1211,6 +1211,8 @@ function doExport() {
 			}
 		}
 	}
+	// add Zotero URL field as URI to LexBib Item node
+		if (item.url) { Zotero.RDF.addStatement(nodes[ITEM], n.lexdo+"fullTextUrl", item.url, false); }
 // add Zotero Item URL to LexBib Item node
 		Zotero.RDF.addStatement(nodes[ITEM], n.lexdo+"zoteroItemUri", item.uri, false);
 		Zotero.RDF.addStatement(nodes[ITEM], n.lexdo+"zoteroItemID", (item.uri.substr(-8)), true);
