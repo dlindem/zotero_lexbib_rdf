@@ -245,7 +245,7 @@ var FIELDS = {
 	"seriesText":			[ITEM_SERIES,	n.dcterms+"description"],
 	"seriesNumber":			[CONTAINER_SERIES,		n.bibo+"number"],
 	"code":					[CONTAINER,		n.dcterms+"title"],
-	"session":				[ITEM,			[n.bibo+"presentedAt", [[n.rdf+"type", n.bibo+"Conference"]], n.dcterms+"title"]],
+	"session":				[USERITEM,			[n.bibo+"presentedAt", [[n.rdf+"type", n.bibo+"Conference"]], n.dcterms+"title"]],
 	"legislativeBody":		[ITEM,			[n.bibo+"organizer", [[n.rdf+"type", n.sc+"LegalGovernmentOrganization"], [n.rdf+"type", n.foaf+"Organization"]], n.foaf+"name"]],
 	"history":				[ITEM,			n.zotexport+"history"],
 	"reporter":				[CONTAINER,		n.dcterms+"title"],
@@ -277,11 +277,11 @@ var FIELDS = {
 	"libraryCatalog":		[USERITEM,		n.zotexport+"repository"],
 	"archive":				[ITEM,			n.zotexport+"repository"],
 	"scale":				[ITEM,			n.zotexport+"scale"],
-	"meetingName":			[ITEM,			[n.bibo+"presentedAt", [[n.rdf+"type", n.bibo+"Conference"]], n.dcterms+"title"]],
+	"meetingName":			[USERITEM,			[n.bibo+"presentedAt", [[n.rdf+"type", n.bibo+"Conference"]], n.dcterms+"title"]],
 	"runningTime":			[ITEM,			n.po+"duration"],
 	"version":				[ITEM,			n.doap+"revision"],
 	"system":				[ITEM, 			n.doap+"os"],
-	"conferenceName":		[ITEM,			[n.bibo+"presentedAt", [[n.rdf+"type", n.bibo+"Conference"]], n.dcterms+"title"]],
+	"conferenceName":		[USERITEM,			[n.bibo+"presentedAt", [[n.rdf+"type", n.bibo+"Conference"]], n.dcterms+"title"]],
 //	"language":				[USERITEM,		n.zotexport+"publicationLanguage"],
 	"programmingLanguage":	[ITEM,			n.doap+"programming-language"],
 	"abstractNote":			[ITEM,			n.dcterms+"abstract"],
@@ -1189,8 +1189,13 @@ function doExport() {
 								}
 						}
 					}
+					// allow lexdo:container property
 					if (tagprop == "container") {
 						Zotero.RDF.addStatement(nodes[ITEM], n.lexdo+tagprop, n.lexbib+tagobj, false);
+					}
+					// allow lexdo:event property
+					if (tagprop == "event") {
+						Zotero.RDF.addStatement(nodes[ITEM], n.lexdo+tagprop, "http://lexbib.org/events/"+tagobj, false);
 					}
 				// always write statement:	Zotero.RDF.addStatement(nodes[ITEM], n.lexdo+tagprop, tagobj, false);
 			}
