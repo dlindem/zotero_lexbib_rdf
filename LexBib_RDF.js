@@ -284,7 +284,7 @@ var FIELDS = {
 	"conferenceName":		[USERITEM,			[n.bibo+"presentedAt", [[n.rdf+"type", n.bibo+"Conference"]], n.dcterms+"title"]],
 //	"language":				[USERITEM,		n.zotexport+"publicationLanguage"],
 	"programmingLanguage":	[ITEM,			n.doap+"programming-language"],
-	"abstractNote":			[ITEM,			n.dcterms+"abstract"],
+//	"abstractNote":			[ITEM,			n.dcterms+"abstract"],
 	"type":					[ITEM,			n.dcterms+"type"],
 	"medium":				[ITEM,			n.dcterms+"medium"],
 	"title":				[ITEM,			n.dcterms+"title"],
@@ -762,7 +762,7 @@ CreatorProperty.prototype.mapFromCreator = function(item, creator, nodes) {
 	} else {
 		// create camelcase version of name and output as lexbibperson uri, attached to creator node uwing owl:sameAs
 
-				var camelCreator = (creator.lastName+creator.firstName).normalize("NFD").replace(/[\u0300-\u036f\-\. ]/g, "")
+				var camelCreator = (creator.lastName+creator.firstName).normalize("NFD").replace(/[\u0300-\u036f\-\. ]/g, "");
 
 				var camelSentence = function camelSentence(camelCreator) {
 			    return  (" " + camelCreator).toLowerCase().replace(/[^a-zA-Z0-9]+(.)/g, function(match, chr)
@@ -1155,7 +1155,7 @@ function doExport() {
 					//var singlenote = item.notes[i].note ;
 				//	notes.push(item.notes[i].note);
 					singlenote = item.notes[i].note.replace(/[\r\n]/g, "") ;
-					Zotero.RDF.addStatement(nodes[USERITEM], n.zotexport+"note", singlenote , true);
+					Zotero.RDF.addStatement(nodes[USERITEM], n.zotexport+"zoteroNote", singlenote , true);
 				}
 			//  all notes in one
 			//	Zotero.RDF.addStatement(nodes[USERITEM], n.zotexport+"note", notes, true);
@@ -1231,6 +1231,12 @@ function doExport() {
 			}
 		}
 	}
+  // add Zotero abstract field (abstractNote) to LexBib item
+    if (item.abstractNote) {
+			var abstractLit = item.abstractNote.replace(/([a-zß-ü ])\-?\n([^\n])/g, "$1$2").replace(/\n\n+/g, "\n");
+			Zotero.RDF.addStatement(nodes[ITEM], n.dcterms+"abstract", abstractLit, true);
+		}
+
 	// add Zotero URL field as URI to LexBib Item node
 		if (item.url) { Zotero.RDF.addStatement(nodes[ITEM], n.lexdo+"fullTextUrl", item.url, false); }
 // add Zotero Item URL to LexBib Item node
