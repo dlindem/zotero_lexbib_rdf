@@ -1147,6 +1147,21 @@ function doExport() {
 		}
 		//Zotero.debug("creators added");
 
+		// add exportNotes
+	var exportNotes = Zotero.getOption("exportNotes");
+	if (exportNotes) {
+				var notes = [];
+				for (var i=0; i<item.notes.length; i++) {
+					//var singlenote = item.notes[i].note ;
+				//	notes.push(item.notes[i].note);
+					singlenote = item.notes[i].note.replace(/[\r\n]/g, "") ;
+					Zotero.RDF.addStatement(nodes[USERITEM], n.zotexport+"note", singlenote , true);
+				}
+			//  all notes in one
+			//	Zotero.RDF.addStatement(nodes[USERITEM], n.zotexport+"note", notes, true);
+
+			}
+
 		// add tags
 		for (var i=0; i<item.tags.length; i++) {
 			var tag = item.tags[i];
