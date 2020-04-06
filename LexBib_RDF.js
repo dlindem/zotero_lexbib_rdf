@@ -1127,6 +1127,7 @@ function doExport() {
 		// set type on item node
 		var type = new Type(item.itemType, TYPES[item.itemType]);
 		var nodes = type.createNodes(item);
+		var aLang = null;
 
 		// add fields
 		for (var field in item.uniqueFields) {
@@ -1161,8 +1162,33 @@ function doExport() {
 			//	Zotero.RDF.addStatement(nodes[USERITEM], n.zotexport+"note", notes, true);
 
 			}
+			//	add lexdo:publicationLanguage
+				var zotlangfield = null;
+				zotlangfield = item.language.toLowerCase();
+				var firstPubLangUri = null;
+				if (zotlangfield != null) {
+					var langarray = zotlangfield.split(/, ?| /g)
+					for (var i=0; i<langarray.length; i++) {
+						var lang = langarray[i];
+						if (lang.length == 2) {
+							var pLangUri = TwoDigitLang[lang];
+							Zotero.RDF.addStatement(nodes[ITEM], n.lexdo+"publicationLanguage", pLangUri, false);
+							if (i==0) {firstPubLangUri = pLangUri;}
+						} else if (lang.length == 3) {
+							var pLangUri = ThreeDigitLang[lang];
+							Zotero.RDF.addStatement(nodes[ITEM], n.lexdo+"publicationLanguage", pLangUri, false);
+							if (i==0) {firstPubLangUri = pLangUri;}
+						}
+
+					}
+				//	if (aLang != undefined) {
+				//		Zotero.RDF.addStatement(nodes[ITEM], n.lexdo+"abstractLanguage", "defined", true);
+				//	} else if (firstPubLangUri != undefined) {Zotero.RDF.addStatement(nodes[ITEM], n.lexdo+"abstractLanguage", "undefined", true);}
+				}
+
 
 		// add tags
+
 		for (var i=0; i<item.tags.length; i++) {
 			var tag = item.tags[i];
 
@@ -1182,6 +1208,7 @@ function doExport() {
 			Zotero.RDF.addStatement(nodes[USERITEM], n.ctag+"tagged", tagNode, false);
 **/
 			//LexBib/LexDo custom use of Zotero tags
+
 			var taglit = tag.tag;
 			if (taglit.startsWith(':') == false) {
 				// Zotero-Tag beginnt nicht mit ':' und wird literal im UserItem ausgegeben
@@ -1191,6 +1218,7 @@ function doExport() {
 				var taglitarray = taglit.split(" ");
 				let tagprop = taglitarray[0].substring(1);
 				let tagobj = taglitarray[1];
+
 				// lexdo:objectLanguage (in Zotero-Tag ":objectLanguage")
 				if (tagprop == "objectLanguage") {
 					var oLang = tagobj.toLowerCase();
@@ -1204,6 +1232,33 @@ function doExport() {
 								}
 						}
 					}
+
+					// allow lexdo:abstractLanguage property
+
+					if (tagprop == "abstractLanguage") {
+						//Zotero.RDF.addStatement(nodes[ITEM], n.lexdo+tagprop, n.lexbib+tagobj, true);
+
+						aLang = tagobj.toLowerCase();
+						if (aLang != undefined) {
+									if (aLang.length == 2) {
+										var aLangUri = TwoDigitLang[aLang];
+										Zotero.RDF.addStatement(nodes[ITEM], n.lexdo+tagprop, aLangUri, false);
+
+									} else if (aLang.length == 3) {
+										var aLangUri = ThreeDigitLang[aLang];
+										Zotero.RDF.addStatement(nodes[ITEM], n.lexdo+tagprop, aLangUri, false);
+
+									}
+					//		} else if (aLang === undefined && pLangUri) {//if no abstractLang defined, take publicationLanguage
+					//				aLangUri = pLangUri;
+						}
+
+
+					//		Zotero.RDF.addStatement(nodes[ITEM], n.lexdo+tagprop, aLangUri, false);
+					}
+
+
+
 					// allow lexdo:container property
 					if (tagprop == "container") {
 						Zotero.RDF.addStatement(nodes[ITEM], n.lexdo+tagprop, n.lexbib+tagobj, false);
@@ -1215,22 +1270,10 @@ function doExport() {
 				// always write statement:	Zotero.RDF.addStatement(nodes[ITEM], n.lexdo+tagprop, tagobj, false);
 			}
 		}
+		// add lexdo:abstractLanguage if not transported from Zotero as tag starting with colon
+		if (aLang === null && firstPubLangUri != null) { Zotero.RDF.addStatement(nodes[ITEM], n.lexdo+"abstractLanguage", firstPubLangUri, false); }
 
-//	add lexdo:publicationLanguage
-	var zotlangfield = item.language.toLowerCase();
-	if (zotlangfield != undefined) {
-		var langarray = zotlangfield.split(/, ?| /g)
-		for (var i=0; i<langarray.length; i++) {
-			var lang = langarray[i];
-			if (lang.length == 2) {
-				var lexvouri = TwoDigitLang[lang];// ? TwoDigitLang[lang] : "ERROR_UNKNOWN_LANGUAGE_CODE";
-				Zotero.RDF.addStatement(nodes[ITEM], n.lexdo+"publicationLanguage", lexvouri, false);
-			} else if (lang.length == 3) {
-				var lexvouri = ThreeDigitLang[lang];// ? ThreeDigitLang[lang] : "ERROR_UNKNOWN_LANGUAGE_CODE";
-				Zotero.RDF.addStatement(nodes[ITEM], n.lexdo+"publicationLanguage", lexvouri, false);
-			}
-		}
-	}
+
   // add Zotero abstract field (abstractNote) to LexBib item
     if (item.abstractNote) {
 			var abstractLit = item.abstractNote.replace(/([a-zß-ü ])\-?\n([^\n])/g, "$1$2").replace(/\n\n+/g, "\n");
@@ -1245,6 +1288,7 @@ function doExport() {
 
 		type.addNodeRelations(nodes);
 		//Zotero.debug("relations added");
+
 
 	}
 }
