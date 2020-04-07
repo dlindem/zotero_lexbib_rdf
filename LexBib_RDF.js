@@ -1148,20 +1148,8 @@ function doExport() {
 		}
 		//Zotero.debug("creators added");
 
-		// add exportNotes
-	var exportNotes = Zotero.getOption("exportNotes");
-	if (exportNotes) {
-				var notes = [];
-				for (var i=0; i<item.notes.length; i++) {
-					//var singlenote = item.notes[i].note ;
-				//	notes.push(item.notes[i].note);
-					singlenote = item.notes[i].note.replace(/[\r\n]/g, "") ;
-					Zotero.RDF.addStatement(nodes[USERITEM], n.zotexport+"zoteroNote", singlenote , true);
-				}
-			//  all notes in one
-			//	Zotero.RDF.addStatement(nodes[USERITEM], n.zotexport+"note", notes, true);
 
-			}
+
 			//	add lexdo:publicationLanguage
 				var zotlangfield = null;
 				zotlangfield = item.language.toLowerCase();
@@ -1274,11 +1262,30 @@ function doExport() {
 		if (aLang === null && firstPubLangUri != null) { Zotero.RDF.addStatement(nodes[ITEM], n.lexdo+"abstractLanguage", firstPubLangUri, false); }
 
 
-  // add Zotero abstract field (abstractNote) to LexBib item
-    if (item.abstractNote) {
+  // add Zotero abstract field (abstractNote) and exportNotes to LexBib item; if author Keywords are attached to abstract or note text, separate and add
+    var authorKeywords = null;
+	  if (item.abstractNote) {
 			var abstractLit = item.abstractNote.replace(/([a-zß-ü ])\-?\n([^\n])/g, "$1$2").replace(/\n\n+/g, "\n");
-			Zotero.RDF.addStatement(nodes[ITEM], n.dcterms+"abstract", abstractLit, true);
+			var abstractLitArray = abstractLit.split(/Keywords: ?\n*?/);
+			var abstractText = abstractLitArray[0];
+		  authorKeywords = abstractLitArray[1];
+			Zotero.RDF.addStatement(nodes[ITEM], n.dcterms+"abstract", abstractText, true);
 		}
+
+		var exportNotes = Zotero.getOption("exportNotes");
+		if (exportNotes) {
+				var notes = [];
+				for (var i=0; i<item.notes.length; i++) {
+					//var singlenote = item.notes[i].note ;
+				//	notes.push(item.notes[i].note);
+					singlenote = item.notes[i].note.replace(/(<([^>]+)>)/ig,"").replace(/[\r\n]/g, ""); // delete html tags and EOL
+					var singlenoteArray = singlenote.split(/Keywords: ?\n*?/);
+					var singlenoteText = singlenoteArray[0];
+				  authorKeywords = singlenoteArray[1];
+					Zotero.RDF.addStatement(nodes[USERITEM], n.zotexport+"zoteroNote", singlenoteText , true);
+				}
+		}
+		if (authorKeywords != null) {Zotero.RDF.addStatement(nodes[ITEM], n.lexdo+"authorKeywords", authorKeywords , true);}
 
 	// add Zotero URL field as URI to LexBib Item node
 		if (item.url) { Zotero.RDF.addStatement(nodes[ITEM], n.lexdo+"fullTextUrl", item.url, false); }
