@@ -34,6 +34,7 @@ var n = {
 	ctag:"http://commontag.org/ns#",
 	dcterms:"http://purl.org/dc/terms/",
 	doap:"http://usefulinc.com/ns/doap#",
+  doco:"http://purl.org/spar/doco/",
 	foaf:"http://xmlns.com/foaf/0.1/",
 	link:"http://purl.org/rss/1.0/modules/link/",
 	po:"http://purl.org/ontology/po/",
@@ -1128,6 +1129,8 @@ function doExport() {
 		var type = new Type(item.itemType, TYPES[item.itemType]);
 		var nodes = type.createNodes(item);
 		var aLang = null;
+		var aLangUri = null;
+		var abstractNode = null;
 
 		// add fields
 		for (var field in item.uniqueFields) {
@@ -1169,9 +1172,6 @@ function doExport() {
 						}
 
 					}
-				//	if (aLang != undefined) {
-				//		Zotero.RDF.addStatement(nodes[ITEM], n.lexdo+"abstractLanguage", "defined", true);
-				//	} else if (firstPubLangUri != undefined) {Zotero.RDF.addStatement(nodes[ITEM], n.lexdo+"abstractLanguage", "undefined", true);}
 				}
 
 
@@ -1229,12 +1229,12 @@ function doExport() {
 						aLang = tagobj.toLowerCase();
 						if (aLang != undefined) {
 									if (aLang.length == 2) {
-										var aLangUri = TwoDigitLang[aLang];
-										Zotero.RDF.addStatement(nodes[ITEM], n.lexdo+tagprop, aLangUri, false);
+										aLangUri = TwoDigitLang[aLang];
+										//Zotero.RDF.addStatement(nodes[ITEM], n.lexdo+tagprop, aLangUri, false);
 
 									} else if (aLang.length == 3) {
-										var aLangUri = ThreeDigitLang[aLang];
-										Zotero.RDF.addStatement(nodes[ITEM], n.lexdo+tagprop, aLangUri, false);
+										aLangUri = ThreeDigitLang[aLang];
+										//Zotero.RDF.addStatement(nodes[ITEM], n.lexdo+tagprop, aLangUri, false);
 
 									}
 					//		} else if (aLang === undefined && pLangUri) {//if no abstractLang defined, take publicationLanguage
@@ -1258,8 +1258,7 @@ function doExport() {
 				// always write statement:	Zotero.RDF.addStatement(nodes[ITEM], n.lexdo+tagprop, tagobj, false);
 			}
 		}
-		// add lexdo:abstractLanguage if not transported from Zotero as tag starting with colon
-		if (aLang === null && firstPubLangUri != null) { Zotero.RDF.addStatement(nodes[ITEM], n.lexdo+"abstractLanguage", firstPubLangUri, false); }
+
 
 
   // add Zotero abstract field (abstractNote) and exportNotes to LexBib item; if author Keywords are attached to abstract or note text, separate and add
@@ -1269,7 +1268,17 @@ function doExport() {
 			var abstractLitArray = abstractLit.split(/Keywords: ?\n*?/);
 			var abstractText = abstractLitArray[0];
 		  authorKeywords = abstractLitArray[1];
-			Zotero.RDF.addStatement(nodes[ITEM], n.dcterms+"abstract", abstractText, true);
+		//	Zotero.RDF.addStatement(nodes[ITEM], n.dcterms+"abstract", abstractText, true); // replaced by abstractNode
+			abstractNode = Zotero.RDF.newResource();
+			Zotero.RDF.addStatement(abstractNode, n.rdf+"type", n.doco+"Abstract", false);
+
+					// add lexdo:abstractLanguage; if not transported from Zotero as tag starting with colon, take firstPubLangUri
+					if (aLangUri != null) { Zotero.RDF.addStatement(abstractNode, n.lexdo+"abstractLanguage", aLangUri, false); }
+					if (aLang === null && firstPubLangUri != null) { Zotero.RDF.addStatement(abstractNode, n.lexdo+"abstractLanguage", firstPubLangUri, false); }
+
+			Zotero.RDF.addStatement(abstractNode, n.lexdo+"isAbstractOf", nodes[ITEM], false);
+			Zotero.RDF.addStatement(abstractNode, n.lexdo+"abstractText", abstractText, true);
+
 		}
 
 		var exportNotes = Zotero.getOption("exportNotes");
@@ -1280,12 +1289,12 @@ function doExport() {
 				//	notes.push(item.notes[i].note);
 					singlenote = item.notes[i].note.replace(/(<([^>]+)>)/ig,"").replace(/[\r\n]/g, ""); // delete html tags and EOL
 					var singlenoteArray = singlenote.split(/Keywords: ?\n*?/);
-					var singlenoteText = singlenoteArray[0];
+					// var singlenoteText = singlenoteArray[0];
 				  authorKeywords = singlenoteArray[1];
-					Zotero.RDF.addStatement(nodes[USERITEM], n.zotexport+"zoteroNote", singlenoteText , true);
+					Zotero.RDF.addStatement(nodes[USERITEM], n.zotexport+"zoteroNote", singlenote , true);
 				}
 		}
-		if (authorKeywords != null) {Zotero.RDF.addStatement(nodes[ITEM], n.lexdo+"authorKeywords", authorKeywords , true);}
+		if (authorKeywords != null && abstractNode != null) {Zotero.RDF.addStatement(abstractNode, n.lexdo+"authorKeywords", authorKeywords , true);}
 
 	// add Zotero URL field as URI to LexBib Item node
 		if (item.url) { Zotero.RDF.addStatement(nodes[ITEM], n.lexdo+"fullTextUrl", item.url, false); }
