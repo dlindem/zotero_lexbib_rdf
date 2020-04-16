@@ -285,7 +285,7 @@ var FIELDS = {
 	"conferenceName":		[USERITEM,			[n.bibo+"presentedAt", [[n.rdf+"type", n.bibo+"Conference"]], n.dcterms+"title"]],
   "language":				[USERITEM,		n.zotexport+"publicationLanguage"],
 	"programmingLanguage":	[ITEM,			n.doap+"programming-language"],
-  "abstractNote":			[ITEM,			n.dcterms+"abstract"],
+  "abstractNote":			[USERITEM,			n.zotexport+"abstract"],
 	"type":					[ITEM,			n.dcterms+"type"],
 	"medium":				[ITEM,			n.dcterms+"medium"],
 	"title":				[ITEM,			n.dcterms+"title"],
@@ -1269,9 +1269,12 @@ function doExport() {
 			var abstractText = abstractLitArray[0];
 		  authorKeywords = abstractLitArray[1];
 		//	Zotero.RDF.addStatement(nodes[ITEM], n.dcterms+"abstract", abstractText, true); // replaced by abstractNode
-			abstractNode = Zotero.RDF.newResource();
+			abstractNode = nodes[ITEM]+"_abstract";
+			Zotero.RDF.addStatement(abstractNode, n.rdf+"type", n.owl+"NamedIndividual", false);
 			Zotero.RDF.addStatement(abstractNode, n.rdf+"type", n.doco+"Abstract", false);
 
+					// add abstract node to item node
+			Zotero.RDF.addStatement(nodes[ITEM], n.lexdo+"abstract", abstractNode, false);
 					// add lexdo:abstractLanguage; if not transported from Zotero as tag starting with colon, take firstPubLangUri
 					if (aLangUri != null) { Zotero.RDF.addStatement(abstractNode, n.lexdo+"abstractLanguage", aLangUri, false); }
 					if (aLang === null && firstPubLangUri != null) { Zotero.RDF.addStatement(abstractNode, n.lexdo+"abstractLanguage", firstPubLangUri, false); }
