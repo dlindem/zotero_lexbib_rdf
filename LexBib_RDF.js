@@ -546,11 +546,21 @@ Type.prototype.addNodeRelations = function(nodes) {
  */
 Type.prototype.createNodes = function(item) {
 	var nodes = {};
+
+// "useritem" (zoteroitem), uri = item uri at zotero.org
 	nodes[USERITEM] = (item.uri ? item.uri : "#item_"+item.itemID);
 
-// use Zotero field archiveLocation literal content as item URI
-  nodes[ITEM] = n.lexbib+(item.archiveLocation);
+// use Zotero field archiveLocation literal content, if such, as item URI. This overrides the following options
+  if (item.archiveLocation) nodes[ITEM] = n.lexbib+(item.archiveLocation);
 
+	if (!nodes[ITEM] && item.itemType === "book") {
+		// try the ISBN as URI
+		if (item.ISBN) {
+			var isbn = item.ISBN.split(/, ?| /g)[0];
+			nodes[ITEM] = "urn:isbn:"+encodeURI(isbn);
+			if (usedURIs[nodes[ITEM]]) nodes[ITEM] = null;
+		}
+	}
 	// no suitable item URI; fall back to a blank node
 	if (!nodes[ITEM]) nodes[ITEM] = Zotero.RDF.newResource();
   // list in usedURIs
