@@ -752,6 +752,7 @@ CreatorProperty.prototype.mapToCreators = function(node, zoteroType) {
 CreatorProperty.prototype.mapFromCreator = function(item, creator, nodes) {
 	var creatorsForType = Zotero.Utilities.getCreatorsForType(item.itemType);
 	var isPrimary = creatorsForType[0] == this.field;
+  var creatorCount = 0;
 	if (this.mapping) {
 		var mapping = this.mapping;
 	} else {
@@ -773,17 +774,15 @@ CreatorProperty.prototype.mapFromCreator = function(item, creator, nodes) {
 	} else {
 		// create camelcase version of name and output as lexbibperson uri, attached to creator node uwing owl:sameAs
 
-				var camelCreator = (creator.lastName+creator.firstName).normalize("NFD").replace(/[\u0300-\u036f\-\. ]/g, "");
+		var camelCreator = (creator.lastName+creator.firstName).normalize("NFD").replace(/[\u0300-\u036f\-\. ]/g, "");
 
-				var camelSentence = function camelSentence(camelCreator) {
-			    return  (" " + camelCreator).toLowerCase().replace(/[^a-zA-Z0-9]+(.)/g, function(match, chr)
-			    {
-			        return chr.toUpperCase();
-			    });
-					}
-					var creatorNode = n.lexperson+camelCreator;
-					//var creatorNode = Zotero.RDF.newResource(); //this creatorNode will be a blank node
-
+		var camelSentence = function camelSentence(camelCreator) {
+	    return  (" " + camelCreator).toLowerCase().replace(/[^a-zA-Z0-9]+(.)/g, function(match, chr)
+	    {
+	        return chr.toUpperCase();
+	    });
+			}
+			var creatorNode = n.lexperson+encodeURI(camelCreator);
 
 		// if this camelCreator has not appeared before, write data to creatorNode
 		if (usedURIs[Zotero.RDF.getResourceURI(creatorNode)] != true) {
@@ -806,7 +805,7 @@ CreatorProperty.prototype.mapFromCreator = function(item, creator, nodes) {
 		var relation = mapping[2];
 	} else {
 		var relation = mapping[2][2];
-		var attachTo = getBlankNode(attachTo, mapping[2][0], mapping[2][1], true);
+		var attachTo = getBlankNode(attachTo, mapping[2][0], mapping[2][1], false);
 	}
 	Zotero.RDF.addStatement(attachTo, relation, creatorNode, false);
 
@@ -818,15 +817,24 @@ CreatorProperty.prototype.mapFromCreator = function(item, creator, nodes) {
 	}
 
 	// add to creator list
+
 	var creatorList = Zotero.RDF.getStatementsMatching(nodes[mapping[0]], CREATOR_LISTS[list], null);
 	if (creatorList) {
 		var creatorList = creatorList[0][2];
+		creatorCount = creatorCount + 1;
 	} else {
 		var creatorList = Zotero.RDF.newResource();
-		Zotero.RDF.newContainer("seq", creatorList);
+		creatorCount = 1;
+	//	var creatorList = nodes[ITEM]+"_CreatorList"; // alternative
+   Zotero.RDF.addStatement(creatorList, n.rdf+"type", n.rdf+"Seq", false);
+
+
+		//Zotero.RDF.newContainer("seq", creatorList);
 		Zotero.RDF.addStatement(nodes[mapping[0]], CREATOR_LISTS[list], creatorList, false);
 	}
-	Zotero.RDF.addContainerElement(creatorList, creatorNode, false);
+  Zotero.RDF.addStatement(creatorList, n.rdf+"_"+creatorCount.toString(), creatorNode, false);
+
+//	Zotero.RDF.addContainerElement(creatorList, creatorNode, false);
 }
 
 /** IMPORT FUNCTIONS **/
