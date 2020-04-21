@@ -233,7 +233,7 @@ var FIELDS = {
 	}],
 	"publicationTitle":		[CONTAINER,		n.dcterms+"title"],
 	"ISSN":					[CONTAINER,		n.bibo+"issn"],
-	"date":					[SUBCONTAINER,	n.dcterms+"date"],
+	"date":					[ITEM,	n.dcterms+"date"],
 	"section":				[USERITEM,			n.bibo+"section"],
 	"callNumber":			[SUBCONTAINER,	n.bibo+"lccn"],
 	"archiveLocation":		[USERITEM,		n.zotexport+"archiveLocation"],
