@@ -11,7 +11,8 @@
 		"dataMode": "rdf/xml"
 	},
 	"displayOptions": {
-		"exportNotes": true
+		"exportNotes": true,
+		"exportFileData": false
 	},
 	"inRepository": false,
 	"translatorType": 3,
@@ -194,7 +195,7 @@ var CONTAINER_SERIES = 7;
 	<BLANK_NODE>	<PREDICATE>				FIELD_CONTENT
 **/
 var FIELDS = {
-	"url":					[USERITEM, 			n.zotexport+"url"],
+  "url":					[USERITEM, 			n.zotexport+"url"],
 	"rights":				[USERITEM,		n.dcterms+"rights"],
 	"series":				[CONTAINER_SERIES,	n.dcterms+"title"],
 	"volume":				[SUBCONTAINER,	n.bibo+"volume"],
@@ -1319,15 +1320,47 @@ function doExport() {
 
 	// add Zotero URL field as URI to LexBib Item node
 		if (item.url) { Zotero.RDF.addStatement(nodes[ITEM], n.lexdo+"fullTextUrl", item.url, false); }
-// add Zotero Item URL to LexBib Item node
+  // add Zotero Item URL to LexBib Item node
 		Zotero.RDF.addStatement(nodes[ITEM], n.lexdo+"zoteroItemUri", item.uri, false);
 		Zotero.RDF.addStatement(nodes[ITEM], n.lexdo+"zoteroItemID", (item.uri.substr(-8)), true);
+
+
+		// child attachments, from "Zotero RDF.js" translator
+		if (item.attachments) {
+//Zotero.RDF.addStatement(nodes[USERITEM], n.zotexport+"attachment", item.attachments, true);
+			for (var i=0; i<item.attachments.length; i++) {
+	//			var attachment = item.attachments[i];
+  //      Zotero.RDF.addStatement(nodes[USERITEM], n.zotexport+"attachment", "halloattachment", true);
+	//			Zotero.RDF.addStatement(nodes[USERITEM], n.zotexport+"attachment", attachment, true);
+
+
+				var attachmentobject = item.attachments[i]; // gets first attachment object
+
+				// attachmentobject debug
+		//		var attachmentoutput = '';
+		//		for (var property in attachmentobject) {
+		//		  attachmentoutput += property + ': ' + attachmentobject[property]+'; ';
+		//		}
+		//		Zotero.RDF.addStatement(nodes[USERITEM], n.zotexport+"attachmentobject", attachmentoutput, true)
+				Zotero.RDF.addStatement(nodes[USERITEM], n.zotexport+"localFileUrl", attachmentobject.localPath, true);
+		//		Zotero.RDF.addStatement(nodes[USERITEM], n.zotexport+"exportFolderID", attachmentobject.itemID, true);
+				Zotero.RDF.addStatement(nodes[USERITEM], n.zotexport+"exportDefaultPath", attachmentobject.defaultPath, true);
+			}
+
+
+
+			}
+//
+
+
 
 		type.addNodeRelations(nodes);
 		//Zotero.debug("relations added");
 
 
+		//end of item loop
 	}
+	//end of import function
 }
 
 // lexvo mapping table http://www.lexvo.org/resources/lexvo-iso639-1.tsv
