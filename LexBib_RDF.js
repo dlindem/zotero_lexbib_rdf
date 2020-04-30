@@ -552,27 +552,26 @@ Type.prototype.createNodes = function(item) {
 	nodes[USERITEM] = (item.uri ? item.uri : "#item_"+item.itemID);
 
 // use Zotero field archiveLocation literal content, if such, as item URI. This overrides the following options
-  if (item.archiveLocation) nodes[ITEM] = n.lexbib+(item.archiveLocation);
+  if (item.archiveLocation) {
+		if (item.archiveLocation.indexOf("http") !=0) {
+			nodes[ITEM] = n.lexbib+encodeURI(item.archiveLocation); //this in case archiveLocation does not start with http
+		} else {
+			nodes[ITEM] = encodeUri(item.archiveLocation);
+		}
 
-	if (!nodes[ITEM] && item.itemType === "book") {
-		// try the ISBN as URI
+		nodes[ITEM] = n.lexbib+(item.archiveLocation);
+		if (usedURIs[nodes[ITEM]]) nodes[ITEM] = null;
+  }
+	// for book or thesis, try Zotero ISBN field content URI, take the first ISBN in Zotero ISBN field
+	if (!nodes[ITEM] && (item.itemType === "book" || item.itemType ==="thesis")) {
 		if (item.ISBN) {
 			var isbn = item.ISBN.split(/, ?| /g)[0];
 			nodes[ITEM] = "urn:isbn:"+encodeURI(isbn);
 			if (usedURIs[nodes[ITEM]]) nodes[ITEM] = null;
 		}
 	}
-	// no suitable item URI; fall back to a blank node
-	if (!nodes[ITEM]) nodes[ITEM] = Zotero.RDF.newResource();
-  // list in usedURIs
-	usedURIs[Zotero.RDF.getResourceURI(nodes[ITEM])] = true;
-
-	/** original item node set-uri-snippet
-
-	// come up with an item node URI
-	nodes[ITEM] = null;
-		// try the DOI as URI
-	if (item.DOI) {
+  // try Zotero DOI field content as URI
+	if (!nodes[ITEM] && item.DOI) {
 		var doi = item.DOI;
 		if (doi.substr(0, 4) == "doi:") {
 			doi = doi.substr(4);
@@ -582,32 +581,27 @@ Type.prototype.createNodes = function(item) {
 			doi = doi.substr(9);
 		} else if (doi.substr(0, 18) == "http://dx.doi.org/") {
 			doi = doi.substr(18);
+		} else if (doi.substr(0, 15) == "http://doi.org/") {
+			doi = doi.substr(15);
 		}
-		nodes[ITEM] = "info:doi/"+encodeURI(doi);
+		nodes[ITEM] = "http://doi.org/"+encodeURI(doi);
 		if (usedURIs[nodes[ITEM]]) nodes[ITEM] = null;
 	}
-	// try the ISBN as URI
-	if (!nodes[ITEM] && item.ISBN) {
-		var isbn = item.ISBN.split(/, ?| /g)[0];
-		nodes[ITEM] = "urn:isbn:"+encodeURI(isbn);
-		if (usedURIs[nodes[ITEM]]) nodes[ITEM] = null;
-	}
-	// try the URL as URI
+	// try Zotero URL field content as URI
 	if (!nodes[ITEM] && item.url) {
 		nodes[ITEM] = encodeURI(item.url);
 		if (usedURIs[nodes[ITEM]]) nodes[ITEM] = null;
 	}
-		// no suitable item URI; fall back to a blank node
+	// no suitable item URI; fall back to a blank node
 	if (!nodes[ITEM]) nodes[ITEM] = Zotero.RDF.newResource();
+	// list in usedURIs
 	usedURIs[Zotero.RDF.getResourceURI(nodes[ITEM])] = true;
-**/
-
 	// set useritem and item node rdf:type
 	Zotero.RDF.addStatement(nodes[USERITEM], RDF_TYPE, n.owl+"NamedIndividual", false);
 	Zotero.RDF.addStatement(nodes[USERITEM], RDF_TYPE, n.zotexport+"Item", false);
 	Zotero.RDF.addStatement(nodes[ITEM], RDF_TYPE, n.owl+"NamedIndividual", false);
 	Zotero.RDF.addStatement(nodes[ITEM], RDF_TYPE, n.lexdo+"BibItem", false);
-// attach item node to user item node
+  // attach item node to user item node
 	Zotero.RDF.addStatement(nodes[USERITEM], n.lexdo+"bibItem", nodes[ITEM], false);
 
 	// container node
