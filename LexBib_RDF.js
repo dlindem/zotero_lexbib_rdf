@@ -47,8 +47,9 @@ var n = {
 	zotexport:"http://www.zotero.org/namespaces/export#",
 	lexbib:"http://lexbib.org/lexbib/item#",
 	lexdo:"http://lexbib.org/lexdo/",
-	lexperson:"http://lexbib.org/agents/person#",
-	lexorg:"http://lexbib.org/agents/organization#"
+	lexperson:"http://lexbib.org/agents/person/",
+	lexorg:"http://lexbib.org/agents/organization/",
+	lexevent:"http://lexbib.org/events/"
 };
 
 
@@ -553,13 +554,12 @@ Type.prototype.createNodes = function(item) {
 
 // use Zotero field archiveLocation literal content, if such, as item URI. This overrides the following options
   if (item.archiveLocation) {
-		if (item.archiveLocation.indexOf("http") !=0) {
+		if (item.archiveLocation.startsWith("http") != true) {
 			nodes[ITEM] = n.lexbib+encodeURI(item.archiveLocation); //this in case archiveLocation does not start with http
 		} else {
-			nodes[ITEM] = encodeUri(item.archiveLocation);
+			nodes[ITEM] = item.archiveLocation;
 		}
 
-		nodes[ITEM] = n.lexbib+(item.archiveLocation);
 		if (usedURIs[nodes[ITEM]]) nodes[ITEM] = null;
   }
 	// for book or thesis, try Zotero ISBN field content URI, take the first ISBN in Zotero ISBN field
@@ -1233,6 +1233,10 @@ function doExport() {
 								}
 						}
 					}
+					// allow rdf:type
+					if (tagprop == "type") {
+						Zotero.RDF.addStatement(nodes[ITEM], n.rdf+"type", n.lexdo+tagobj, false);
+					}
 
 					// allow lexdo:abstractLanguage property
 
@@ -1258,16 +1262,26 @@ function doExport() {
 					//		Zotero.RDF.addStatement(nodes[ITEM], n.lexdo+tagprop, aLangUri, false);
 					}
 
+					// for other properties, check if object is a full URI or lexdo namespace URI
 
 
 					// allow lexdo:container property
 					if (tagprop == "container") {
-						Zotero.RDF.addStatement(nodes[ITEM], n.lexdo+tagprop, n.lexbib+tagobj, false);
+						if (tagobj.startsWith('http') != true) tagobj = n.lexbib+tagobj;
+						Zotero.RDF.addStatement(nodes[ITEM], n.lexdo+tagprop, tagobj, false);
 					}
 					// allow lexdo:event property
 					if (tagprop == "event") {
-						Zotero.RDF.addStatement(nodes[ITEM], n.lexdo+tagprop, "http://lexbib.org/events/"+tagobj, false);
+						if (tagobj.startsWith('http') != true) tagobj = n.lexevent+tagobj;
+						Zotero.RDF.addStatement(nodes[ITEM], n.lexdo+tagprop, tagobj, false);
 					}
+					// allow lexdo:publisher property
+					if (tagprop == "publisher") {
+						if (tagobj.startsWith('http') != true) tagobj = n.lexorg+tagobj;
+						Zotero.RDF.addStatement(nodes[ITEM], n.lexdo+tagprop, tagobj, false);
+					}
+
+
 				// always write statement:	Zotero.RDF.addStatement(nodes[ITEM], n.lexdo+tagprop, tagobj, false);
 			}
 		}
