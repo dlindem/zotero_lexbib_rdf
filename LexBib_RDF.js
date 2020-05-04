@@ -1320,15 +1320,15 @@ function doExport() {
 
 
 		// child attachments, from "Zotero RDF.js" translator
-		if (item.attachments) {
+	if (item.attachments) {
 //Zotero.RDF.addStatement(nodes[USERITEM], n.zotexport+"attachment", item.attachments, true);
-			for (var i=0; i<item.attachments.length; i++) {
+		for (var i=0; i<item.attachments.length; i++) {
 	//			var attachment = item.attachments[i];
   //      Zotero.RDF.addStatement(nodes[USERITEM], n.zotexport+"attachment", "halloattachment", true);
 	//			Zotero.RDF.addStatement(nodes[USERITEM], n.zotexport+"attachment", attachment, true);
 
 
-				var attachmentobject = item.attachments[i]; // gets first attachment object
+				var attachmentobject = item.attachments[i]; // gets single attachment object
 
 				// attachmentobject debug
 		//		var attachmentoutput = '';
@@ -1336,14 +1336,22 @@ function doExport() {
 		//		  attachmentoutput += property + ': ' + attachmentobject[property]+'; ';
 		//		}
 		//		Zotero.RDF.addStatement(nodes[USERITEM], n.zotexport+"attachmentobject", attachmentoutput, true)
+			if (attachmentobject.localPath) {
 				Zotero.RDF.addStatement(nodes[USERITEM], n.zotexport+"localFileUrl", attachmentobject.localPath, true);
+				if (attachmentobject.localPath.endsWith(".pdf") === true) {
+					Zotero.RDF.addStatement(nodes[USERITEM], n.zotexport+"pdfLocalFolder", attachmentobject.localPath.match(/\\storage\\([A-Z0-9]+)\\/)[1], true);
+					Zotero.RDF.addStatement(nodes[USERITEM], n.zotexport+"pdfFileName", attachmentobject.localPath.match(/\\storage\\[A-Z0-9]+\\(.*)/)[1], true);
+				}
+
+
 		//		Zotero.RDF.addStatement(nodes[USERITEM], n.zotexport+"exportFolderID", attachmentobject.itemID, true);
 				Zotero.RDF.addStatement(nodes[USERITEM], n.zotexport+"exportDefaultPath", attachmentobject.defaultPath, true);
 			}
+		}
 
 
 
-			}
+	}
 //
 
 
