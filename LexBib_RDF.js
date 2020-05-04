@@ -1170,17 +1170,17 @@ function doExport() {
 				var zotlangfield = null;
 				zotlangfield = item.language.toLowerCase();
 				var firstPubLangUri = null;
-				if (zotlangfield != null) {
+				if (zotlangfield.length > 1) {
 					var langarray = zotlangfield.split(/, ?| /g)
 					for (var i=0; i<langarray.length; i++) {
 						var lang = langarray[i];
 						if (lang.length == 2) {
 							var pLangUri = TwoDigitLang[lang];
-							Zotero.RDF.addStatement(nodes[ITEM], n.lexdo+"publicationLanguage", pLangUri, false);
+							if (pLangUri.length > 1) Zotero.RDF.addStatement(nodes[ITEM], n.lexdo+"publicationLanguage", pLangUri, false);
 							if (i==0) {firstPubLangUri = pLangUri;}
 						} else if (lang.length == 3) {
 							var pLangUri = ThreeDigitLang[lang];
-							Zotero.RDF.addStatement(nodes[ITEM], n.lexdo+"publicationLanguage", pLangUri, false);
+							if (pLangUri.length > 1) Zotero.RDF.addStatement(nodes[ITEM], n.lexdo+"publicationLanguage", pLangUri, false);
 							if (i==0) {firstPubLangUri = pLangUri;}
 						}
 
@@ -1269,16 +1269,34 @@ function doExport() {
 					if (tagprop == "container") {
 						if (tagobj.startsWith('http') != true) tagobj = n.lexbib+tagobj;
 						Zotero.RDF.addStatement(nodes[ITEM], n.lexdo+tagprop, tagobj, false);
+						if (usedURIs[Zotero.RDF.getResourceURI(tagobj)] != true) {
+							Zotero.RDF.addStatement(tagobj, n.rdf+"type", n.owl+"NamedIndividual", false);
+							Zotero.RDF.addStatement(tagobj, n.rdf+"type", n.lexdo+"BibCollection", false);
+							// list in usedURIs
+							usedURIs[Zotero.RDF.getResourceURI(tagobj)] = true;
+						}
 					}
-					// allow lexdo:event property
+					// allow lexdo:event property. At the moment, only Conference subclass of Event
 					if (tagprop == "event") {
 						if (tagobj.startsWith('http') != true) tagobj = n.lexevent+tagobj;
 						Zotero.RDF.addStatement(nodes[ITEM], n.lexdo+tagprop, tagobj, false);
+						if (usedURIs[Zotero.RDF.getResourceURI(tagobj)] != true) {
+							Zotero.RDF.addStatement(tagobj, n.rdf+"type", n.owl+"NamedIndividual", false);
+							Zotero.RDF.addStatement(tagobj, n.rdf+"type", n.lexdo+"Conference", false);
+							// list in usedURIs
+							usedURIs[Zotero.RDF.getResourceURI(tagobj)] = true;
+						}
 					}
 					// allow lexdo:publisher property
 					if (tagprop == "publisher") {
 						if (tagobj.startsWith('http') != true) tagobj = n.lexorg+tagobj;
 						Zotero.RDF.addStatement(nodes[ITEM], n.lexdo+tagprop, tagobj, false);
+						if (usedURIs[Zotero.RDF.getResourceURI(tagobj)] != true) {
+							Zotero.RDF.addStatement(tagobj, n.rdf+"type", n.owl+"NamedIndividual", false);
+							Zotero.RDF.addStatement(tagobj, n.rdf+"type", n.lexdo+"Organization", false);
+							// list in usedURIs
+							usedURIs[Zotero.RDF.getResourceURI(tagobj)] = true;
+						}
 					}
 
 
@@ -1326,8 +1344,8 @@ function doExport() {
 		}
 		if (authorKeywords != null && abstractNode != null) {Zotero.RDF.addStatement(abstractNode, n.lexdo+"authorKeywords", authorKeywords , true);}
 
-	// add Zotero URL field as URI to LexBib Item node
-		if (item.url) { Zotero.RDF.addStatement(nodes[ITEM], n.lexdo+"fullTextUrl", item.url, false); }
+	// add Zotero URL field as Literal to LexBib Item node (as URI crashes if link is invalid URI)
+		if (item.url) { Zotero.RDF.addStatement(nodes[ITEM], n.lexdo+"fullTextUrl", item.url, true); }
   // add Zotero Item URL to LexBib Item node
 		Zotero.RDF.addStatement(nodes[ITEM], n.lexdo+"zoteroItemUri", item.uri, false);
 		Zotero.RDF.addStatement(nodes[ITEM], n.lexdo+"zoteroItemID", (item.uri.substr(-8)), true);
