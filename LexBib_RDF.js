@@ -1309,7 +1309,7 @@ function doExport() {
   // add Zotero abstract field (abstractNote) and exportNotes to LexBib item; if author Keywords are attached to abstract or note text, separate and add
     var authorKeywords = null;
 	  if (item.abstractNote) {
-			var abstractLit = item.abstractNote.replace(/([a-zß-ü ])\-?\n([^\n])/g, "$1$2").replace(/\n\n+/g, "\n");
+			var abstractLit = item.abstractNote.replace(/([a-zß-ü ])\-?\n([^\n])/g, "$1 $2").replace(/\n\n+/g, "\n");
 			var abstractLitArray = abstractLit.split(/Keywords: ?\n*?/);
 			var abstractText = abstractLitArray[0];
 		  authorKeywords = abstractLitArray[1];
