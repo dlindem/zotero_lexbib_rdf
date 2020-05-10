@@ -57,7 +57,12 @@ for item in bindings:
 	for word in sp(bodytext):
 		bodylem+=("%s " % word.lemma_)
 	item['bodylem'] = bodylem
-		
+	# delete unwanted data
+	del item['abstractlang']
+	del item['publang']
+	del item['abstracttext']
+	del item['pdftxt']
+	
 
 
 with open('D:/Lab_LexDo/100520/processed.json', 'w') as json_file:
