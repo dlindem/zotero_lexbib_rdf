@@ -1168,19 +1168,19 @@ function doExport() {
 
 			//	add lexdo:publicationLanguage
 				var zotlangfield = null;
-				zotlangfield = item.language.toLowerCase();
+				if (item.language) zotlangfield = item.language.toLowerCase();
 				var firstPubLangUri = null;
-				if (zotlangfield.length > 1) {
+				if (zotlangfield != null) {
 					var langarray = zotlangfield.split(/, ?| /g)
 					for (var i=0; i<langarray.length; i++) {
 						var lang = langarray[i];
 						if (lang.length == 2) {
 							var pLangUri = TwoDigitLang[lang];
-							if (pLangUri.length > 1) Zotero.RDF.addStatement(nodes[ITEM], n.lexdo+"publicationLanguage", pLangUri, false);
+							Zotero.RDF.addStatement(nodes[ITEM], n.lexdo+"publicationLanguage", pLangUri, false);
 							if (i==0) {firstPubLangUri = pLangUri;}
 						} else if (lang.length == 3) {
 							var pLangUri = ThreeDigitLang[lang];
-							if (pLangUri.length > 1) Zotero.RDF.addStatement(nodes[ITEM], n.lexdo+"publicationLanguage", pLangUri, false);
+							Zotero.RDF.addStatement(nodes[ITEM], n.lexdo+"publicationLanguage", pLangUri, false);
 							if (i==0) {firstPubLangUri = pLangUri;}
 						}
 
