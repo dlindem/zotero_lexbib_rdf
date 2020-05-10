@@ -554,8 +554,8 @@ Type.prototype.createNodes = function(item) {
 
 // use Zotero field archiveLocation literal content, if such, as item URI. This overrides the following options
   if (item.archiveLocation) {
-		if (item.archiveLocation.startsWith("http") != true) {
-			nodes[ITEM] = n.lexbib+encodeURI(item.archiveLocation); //this in case archiveLocation does not start with http
+		if (/^http:|^urn:|^info:/.test(item.archiveLocation) != true) {
+			nodes[ITEM] = n.lexbib+encodeURI(item.archiveLocation); //this in case archiveLocation does not start with http or urn/info namespace
 		} else {
 			nodes[ITEM] = item.archiveLocation;
 		}
@@ -1267,7 +1267,7 @@ function doExport() {
 
 					// allow lexdo:container property
 					if (tagprop == "container") {
-						if (tagobj.startsWith('http') != true) tagobj = n.lexbib+tagobj;
+						if (/^http:|^urn:|^info:/.test(tagobj) != true) tagobj = n.lexbib+tagobj; //if tagobj does not start with http or urn/info namespace, add lexdo namespace
 						Zotero.RDF.addStatement(nodes[ITEM], n.lexdo+tagprop, tagobj, false);
 						if (usedURIs[Zotero.RDF.getResourceURI(tagobj)] != true) {
 							Zotero.RDF.addStatement(tagobj, n.rdf+"type", n.owl+"NamedIndividual", false);
@@ -1369,15 +1369,16 @@ function doExport() {
 		//		}
 		//		Zotero.RDF.addStatement(nodes[USERITEM], n.zotexport+"attachmentobject", attachmentoutput, true)
 			if (attachmentobject.localPath) {
-				Zotero.RDF.addStatement(nodes[USERITEM], n.zotexport+"localFileUrl", attachmentobject.localPath, true);
+				Zotero.RDF.addStatement(nodes[USERITEM], n.zotexport+"localFolder", attachmentobject.localPath.match(/\\storage\\([A-Z0-9]+)\\/)[1], true);
+				Zotero.RDF.addStatement(nodes[USERITEM], n.zotexport+"localFile", attachmentobject.localPath.match(/\\storage\\[A-Z0-9]+\\(.*)/)[1], true);
 				if (attachmentobject.localPath.endsWith(".pdf") === true) {
-					Zotero.RDF.addStatement(nodes[USERITEM], n.zotexport+"pdfLocalFolder", attachmentobject.localPath.match(/\\storage\\([A-Z0-9]+)\\/)[1], true);
-					Zotero.RDF.addStatement(nodes[USERITEM], n.zotexport+"pdfFileName", attachmentobject.localPath.match(/\\storage\\[A-Z0-9]+\\(.*)/)[1], true);
+					Zotero.RDF.addStatement(nodes[USERITEM], n.zotexport+"pdfTxt", attachmentobject.localPath.match(/(.*\\storage\\[A-Z0-9]+\\)/)[1].replace(/\\/g,"/")+".zotero-ft-cache", true);
+					Zotero.RDF.addStatement(nodes[USERITEM], n.zotexport+"pdfFile", attachmentobject.localPath.match(/(.*\\storage\\[A-Z0-9]+\\.*)/)[1].replace(/\\/g,"/"), true);
 				}
 
 
 		//		Zotero.RDF.addStatement(nodes[USERITEM], n.zotexport+"exportFolderID", attachmentobject.itemID, true);
-				Zotero.RDF.addStatement(nodes[USERITEM], n.zotexport+"exportDefaultPath", attachmentobject.defaultPath, true);
+	//	Zotero.RDF.addStatement(nodes[USERITEM], n.zotexport+"exportDefaultPath", attachmentobject.defaultPath, true);
 			}
 		}
 
