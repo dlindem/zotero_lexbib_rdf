@@ -11,6 +11,9 @@ with open('E:\lexvo-iso639-3_english_labels.csv', encoding="utf-8") as infile:
 #feed language table to flashtext
 keyword_processor.add_keywords_from_dict(langdict)
 
+#get vocbench csv
+
+
 #extract keywordset from text, in order of frequence, sub-order appeareance
 text = 'Hello, I speak English, Spanish, and Basque, and I have some notion of German. Do I know German? Yes, I know some German...'
 keywords = keyword_processor.extract_keywords(text)
