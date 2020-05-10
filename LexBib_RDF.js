@@ -554,7 +554,7 @@ Type.prototype.createNodes = function(item) {
 
 // use Zotero field archiveLocation literal content, if such, as item URI. This overrides the following options
   if (item.archiveLocation) {
-		if (/^http:|^urn:|^info:/.test(item.archiveLocation) != true) {
+		if (/^https?:|^urn:|^info:/.test(item.archiveLocation) != true) {
 			nodes[ITEM] = n.lexbib+encodeURI(item.archiveLocation); //this in case archiveLocation does not start with http or urn/info namespace
 		} else {
 			nodes[ITEM] = item.archiveLocation;
@@ -1267,7 +1267,7 @@ function doExport() {
 
 					// allow lexdo:container property
 					if (tagprop == "container") {
-						if (/^http:|^urn:|^info:/.test(tagobj) != true) tagobj = n.lexbib+tagobj; //if tagobj does not start with http or urn/info namespace, add lexdo namespace
+						if (/^https?:|^urn:|^info:/.test(tagobj) != true) tagobj = n.lexbib+tagobj; //if tagobj does not start with http or urn/info namespace, add lexdo namespace
 						Zotero.RDF.addStatement(nodes[ITEM], n.lexdo+tagprop, tagobj, false);
 						if (usedURIs[Zotero.RDF.getResourceURI(tagobj)] != true) {
 							Zotero.RDF.addStatement(tagobj, n.rdf+"type", n.owl+"NamedIndividual", false);
