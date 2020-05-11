@@ -36,6 +36,7 @@ var n = {
 	dcterms:"http://purl.org/dc/terms/",
 	doap:"http://usefulinc.com/ns/doap#",
   doco:"http://purl.org/spar/doco/",
+	opus:"http://lsdis.cs.uga.edu/projects/semdis/opus#",
 	foaf:"http://xmlns.com/foaf/0.1/",
 	link:"http://purl.org/rss/1.0/modules/link/",
 	po:"http://purl.org/ontology/po/",
@@ -91,7 +92,7 @@ var TYPES = {
 	"case":					[[[n.rdf+"type", n.bibo+"LegalCaseDocument"]],		null,								[false, n.dcterms+"isPartOf", [[n.rdf+"type", n.bibo+"CourtReporter"]]]],
 	"computerProgram":		[[[n.rdf+"type", n.sc+"ComputerProgram_CW"],
 							  [n.rdf+"type", n.bibo+"Document"]], 				null,								null],
-	"conferencePaper":		[[[n.rdf+"type", n.bibo+"Article"]],				null,								[true, n.dcterms+"isPartOf", [[n.rdf+"type", n.bibo+"Proceedings"]]]],
+	"conferencePaper":		[[[n.rdf+"type", n.opus+"Article_in_Proceedings"]],				null,								[true, n.dcterms+"isPartOf", [[n.rdf+"type", n.bibo+"Proceedings"]]]],
 	"dictionaryEntry":		[[[n.rdf+"type", n.bibo+"Article"]], 				null,								[true, n.dcterms+"isPartOf", [[n.rdf+"type", n.sc+"Dictionary"],
 																													[n.rdf+"type", n.bibo+"ReferenceSource"]]]],
 	"document":				[[[n.rdf+"type", n.bibo+"Document"]],				null,								null],
@@ -106,14 +107,12 @@ var TYPES = {
 	"instantMessage":		[[[n.rdf+"type", n.sioct+"InstantMessage"],
 							  [n.rdf+"type", n.bibo+"PersonalCommunication"]], 	null,								null],
 	"interview":			[[[n.rdf+"type", n.bibo+"Interview"]],				null,								null],
-	"journalArticle":		[[[n.rdf+"type", n.bibo+"AcademicArticle"]], 		null, 	[true, n.dcterms+"isPartOf", [[n.rdf+"type", n.bibo+"Journal"]]]],
+	"journalArticle":		[[[n.rdf+"type", n.bibo+"AcademicArticle"]], 		null, 	[true, n.dcterms+"isPartOf", [[n.rdf+"type", n.bibo+"Issue"]]]],
 	"letter":				[[[n.rdf+"type", n.bibo+"Letter"]],					null,								null],
-	"magazineArticle":		[[[n.rdf+"type", n.bibo+"Article"]], 				[true, n.dcterms+"isPartOf",
-																				[[n.rdf+"type", n.bibo+"Issue"]]], 	[true, n.dcterms+"isPartOf", [[n.rdf+"type", n.bibo+"Magazine"]]]],
+	"magazineArticle":		[[[n.rdf+"type", n.opus+"Article"]], 				null, 	[true, n.dcterms+"isPartOf", [[n.rdf+"type", n.bibo+"Issue"]]]],
 	"manuscript":			[[[n.rdf+"type", n.bibo+"Manuscript"]],				null,								null],
 	"map":					[[[n.rdf+"type", n.bibo+"Map"]],					null,								null],
-	"newspaperArticle":		[[[n.rdf+"type", n.bibo+"Article"]], 				[true, n.dcterms+"isPartOf",
-																				[[n.rdf+"type", n.bibo+"Issue"]]], 	[true, n.dcterms+"isPartOf", [[n.rdf+"type", n.bibo+"Newspaper"]]]],
+	"newspaperArticle":		[[[n.rdf+"type", n.bibo+"Article"]], 				null, 	[true, n.dcterms+"isPartOf", [[n.rdf+"type", n.bibo+"Issue"]]]],
 	"note":					[[[n.rdf+"type", n.bibo+"Note"]],					null,								null],
 	"patent":				[[[n.rdf+"type", n.bibo+"Patent"]],					null,								null],
 	"podcast":				[[[n.rdf+"type", n.zotexport+"Podcast"],
@@ -198,10 +197,10 @@ var FIELDS = {
   "url":					[USERITEM, 			n.zotexport+"url"],
 	"rights":				[USERITEM,		n.dcterms+"rights"],
 	"series":				[CONTAINER_SERIES,	n.dcterms+"title"],
-	"volume":				[CONTAINER,	n.bibo+"volume"],
-	"issue":				[CONTAINER,	n.bibo+"issue"],
-	"edition":				[SUBCONTAINER,	n.bibo+"edition"],
-	"place":				[CONTAINER,		[n.dcterms+"publisher", [[n.rdf+"type", n.foaf+"Organization"]], n.address+"localityName"]],
+	"volume":				[ITEM,	n.lexdo+"containerVolumeNr"],
+	"issue":				[ITEM,	n.lexdo+"containerIssueNr"],
+	"edition":				[CONTAINER,	n.bibo+"edition"],
+	"place":				[ITEM,		n.lexdo+"publishingPlace"],
 	"country":				[CONTAINER,		[n.dcterms+"publisher", [[n.rdf+"type", n.foaf+"Organization"]], n.address+"countryName"]],
 	"publisher":			[CONTAINER,		[n.dcterms+"publisher", [[n.rdf+"type", n.foaf+"Organization"]], n.foaf+"name"]],
 	"pages":				[ITEM,			n.bibo+"pages"],
@@ -232,15 +231,15 @@ var FIELDS = {
 		if (!isbns.length) return false;
 		return isbns.join(", ");
 	}],
-	"publicationTitle":		[CONTAINER,		n.dcterms+"title"],
-	"ISSN":					[CONTAINER,		n.bibo+"issn"],
-	"date":					[ITEM,	n.dcterms+"date"],
+	"publicationTitle":		[ITEM,		n.lexdo+"containerTitle"],
+	"ISSN":					[ITEM,		n.bibo+"issn"],
+	"date":					[USERITEM,	n.zotexport+"date"],
 	"section":				[USERITEM,			n.bibo+"section"],
 	"callNumber":			[SUBCONTAINER,	n.bibo+"lccn"],
 	"archiveLocation":		[USERITEM,		n.zotexport+"archiveLocation"],
 	"distributor":			[SUBCONTAINER,	n.bibo+"distributor"],
 	"extra":				[USERITEM,			n.zotexport+"extra"],
-	"journalAbbreviation":	[CONTAINER,		n.bibo+"shortTitle"],
+	"journalAbbreviation":	[USERITEM,		n.bibo+"shortTitle"],
 	"DOI":					[ITEM,			n.bibo+"doi"],
 	"accessDate":			[USERITEM,		n.zotexport+"accessDate"],
 	"seriesTitle":			[ITEM_SERIES,	n.dcterms+"title"],
@@ -279,11 +278,11 @@ var FIELDS = {
 	"libraryCatalog":		[USERITEM,		n.zotexport+"repository"],
 	"archive":				[ITEM,			n.zotexport+"repository"],
 	"scale":				[ITEM,			n.zotexport+"scale"],
-	"meetingName":			[USERITEM,			[n.bibo+"presentedAt", [[n.rdf+"type", n.bibo+"Conference"]], n.dcterms+"title"]],
+	"meetingName":			[ITEM,			n.lexdo+"eventName"],
 	"runningTime":			[ITEM,			n.po+"duration"],
 	"version":				[ITEM,			n.doap+"revision"],
 	"system":				[ITEM, 			n.doap+"os"],
-	"conferenceName":		[USERITEM,			[n.bibo+"presentedAt", [[n.rdf+"type", n.bibo+"Conference"]], n.dcterms+"title"]],
+	"conferenceName":		[ITEM,			n.lexdo+"eventName"],
   "language":				[USERITEM,		n.zotexport+"publicationLanguage"],
 	"programmingLanguage":	[ITEM,			n.doap+"programming-language"],
   "abstractNote":			[USERITEM,			n.zotexport+"abstract"],
@@ -327,7 +326,7 @@ var CREATORS = {
 	"reviewedAuthor":	[ITEM,			CONTRIBUTOR_LIST,	[n.bibo+"reviewOf", [], n.lexdo+"creator"]],
 	"scriptwriter":		[ITEM,			CONTRIBUTOR_LIST,	n.rel+"AUS"],
 	"seriesEditor":		[CONTAINER_SERIES,		EDITOR_LIST,		n.bibo+"editor"],
-	"translator":		[SUBCONTAINER,	CONTRIBUTOR_LIST,	n.bibo+"translator"],
+	"translator":		[ITEM,	CONTRIBUTOR_LIST,	n.bibo+"translator"],
 	"wordsBy":			[ITEM,			CONTRIBUTOR_LIST,	n.rel+"LYR"]
 };
 
@@ -1163,7 +1162,11 @@ function doExport() {
 		}
 		//Zotero.debug("creators added");
 
-
+		// add date
+		if (item.date) {
+			var year = item.date.match(/([0-9]{4})/)[1];
+			Zotero.RDF.addStatement(nodes[ITEM], n.dcterms+"date", year, true);
+		}
 
 			//	add lexdo:publicationLanguage
 				var zotlangfield = null;
