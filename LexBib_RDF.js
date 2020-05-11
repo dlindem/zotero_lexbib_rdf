@@ -196,13 +196,13 @@ var CONTAINER_SERIES = 7;
 var FIELDS = {
   "url":					[USERITEM, 			n.zotexport+"url"],
 	"rights":				[USERITEM,		n.dcterms+"rights"],
-	"series":				[CONTAINER_SERIES,	n.dcterms+"title"],
+	"series":				[USERITEM,	n.zotexport+"series"],
 	"volume":				[ITEM,	n.lexdo+"containerVolumeNr"],
 	"issue":				[ITEM,	n.lexdo+"containerIssueNr"],
 	"edition":				[CONTAINER,	n.bibo+"edition"],
 	"place":				[ITEM,		n.lexdo+"publishingPlace"],
-	"country":				[CONTAINER,		[n.dcterms+"publisher", [[n.rdf+"type", n.foaf+"Organization"]], n.address+"countryName"]],
-	"publisher":			[CONTAINER,		[n.dcterms+"publisher", [[n.rdf+"type", n.foaf+"Organization"]], n.foaf+"name"]],
+	"country":				[USERITEM,		n.zotexport+"country"],
+	"publisher":			[ITEM,		n.lexdo+"publisherName"],
 	"pages":				[ITEM,			n.bibo+"pages"],
 	"firstPage":			[ITEM,			n.bibo+"pageStart"],
 	"ISBN":					[function(item) {
@@ -211,9 +211,9 @@ var FIELDS = {
 		for (var i=0; i<isbns.length; i++) {
 			var isbn = isbns[i];
 			if (isbn.length == 10) {
-				triples.push([CONTAINER, n.bibo+"isbn10", isbn, true]);
+				triples.push([ITEM, n.bibo+"isbn10", isbn, true]);
 			} else {
-				triples.push([CONTAINER, n.bibo+"isbn13", isbn, true]);
+				triples.push([ITEM, n.bibo+"isbn13", isbn, true]);
 			}
 		}
 		return triples;
@@ -242,16 +242,16 @@ var FIELDS = {
 	"journalAbbreviation":	[USERITEM,		n.bibo+"shortTitle"],
 	"DOI":					[ITEM,			n.bibo+"doi"],
 	"accessDate":			[USERITEM,		n.zotexport+"accessDate"],
-	"seriesTitle":			[ITEM_SERIES,	n.dcterms+"title"],
-	"seriesText":			[ITEM_SERIES,	n.dcterms+"description"],
-	"seriesNumber":			[CONTAINER_SERIES,		n.bibo+"number"],
-	"code":					[CONTAINER,		n.dcterms+"title"],
+	"seriesTitle":			[USERITEM,	n.zotexport+"seriesTitle"],
+	"seriesText":			[USERITEM,	n.zotexport+"seriesText"],
+	"seriesNumber":			[USERITEM,	n.zotexport+"seriesNumber"],
+	"code":					[USERITEM,	n.zotexport+"code"],
 	"session":				[USERITEM,			[n.bibo+"presentedAt", [[n.rdf+"type", n.bibo+"Conference"]], n.dcterms+"title"]],
 	"legislativeBody":		[ITEM,			[n.bibo+"organizer", [[n.rdf+"type", n.sc+"LegalGovernmentOrganization"], [n.rdf+"type", n.foaf+"Organization"]], n.foaf+"name"]],
 	"history":				[ITEM,			n.zotexport+"history"],
 	"reporter":				[CONTAINER,		n.dcterms+"title"],
 	"court":				[CONTAINER,		n.bibo+"court"],
-	"numberOfVolumes":		[CONTAINER_SERIES,		n.bibo+"numberOfVolumes"],
+	"numberOfVolumes":		[USERITEM,		n.zotexport+"numberOfVolumes"],
 	"committee":			[ITEM,			[n.bibo+"organizer", [[n.rdf+"type", n.sc+"Committee_Organization"], [n.rdf+"type", n.foaf+"Organization"]], n.foaf+"name"]],
 	"assignee":				[ITEM, 			n.zotexport+"assignee"],			// TODO
 	"priorityNumbers": 		[function(item) {							// TODO
@@ -316,7 +316,7 @@ var CREATORS = {
 	"cosponsor":		[ITEM,			CONTRIBUTOR_LIST,	n.rel+"SPN"],
 	"counsel":			[ITEM,			CONTRIBUTOR_LIST,	n.zotexport+"counsel"],
 	"director":			[ITEM,			CONTRIBUTOR_LIST,	n.bibo+"director"],
-	"editor":			[CONTAINER,	EDITOR_LIST,		n.lexdo+"editor"],
+	"editor":			[ITEM,	EDITOR_LIST,		n.lexdo+"editor"],
 	"guest":			[ITEM,			CONTRIBUTOR_LIST,	n.po+"participant"],
 	"interviewer":		[ITEM,			CONTRIBUTOR_LIST,	n.bibo+"interviewer"],
 	"interviewee":		[ITEM,			CONTRIBUTOR_LIST,	n.bibo+"interviewee"],
@@ -325,7 +325,7 @@ var CREATORS = {
 	"recipient":		[ITEM,			CONTRIBUTOR_LIST,	n.bibo+"recipient"],
 	"reviewedAuthor":	[ITEM,			CONTRIBUTOR_LIST,	[n.bibo+"reviewOf", [], n.lexdo+"creator"]],
 	"scriptwriter":		[ITEM,			CONTRIBUTOR_LIST,	n.rel+"AUS"],
-	"seriesEditor":		[CONTAINER_SERIES,		EDITOR_LIST,		n.bibo+"editor"],
+	"seriesEditor":		[USERITEM,		EDITOR_LIST,		n.zotexport+"seriesEditor"],
 	"translator":		[ITEM,	CONTRIBUTOR_LIST,	n.bibo+"translator"],
 	"wordsBy":			[ITEM,			CONTRIBUTOR_LIST,	n.rel+"LYR"]
 };
