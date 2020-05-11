@@ -10,7 +10,7 @@ with open('lexvo-iso639-3_english_labels.csv', encoding="utf-8") as infile:
 	reader = csv.reader(infile)
 	langdict = {}
 	for rows in reader:
-		if (len(str(rows[1]))>4):
+		if (len(str(rows[1]))>3):
 			langdict[rows[0]] = [rows[1]]
 print(langdict)
 # feed language table to KeywordProcessor
