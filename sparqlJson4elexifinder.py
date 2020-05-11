@@ -8,14 +8,18 @@ keyword_processor = KeywordProcessor()
 import csv
 with open('lexvo-iso639-3_english_labels.csv', encoding="utf-8") as infile:
 	reader = csv.reader(infile)
-	langdict = dict((rows[0],[rows[1]]) for rows in reader)
+	langdict = {}
+	for rows in reader:
+		if (len(str(rows[1]))>4):
+			langdict[rows[0]] = [rows[1]]
 print(langdict)
 # feed language table to KeywordProcessor
 keyword_processor.add_keywords_from_dict(langdict)
 # import stopword processor
 from nltk.corpus import stopwords
 from nltk.tokenize import word_tokenize
-stopWords = set(stopwords.words('english'))
+stopWords = set(stopwords.words('english')) #adds standard English stopwords
+stopWords.update({'undetermined'}) #add extra stopwords here
 print(stopWords)
 
 with open("D:/Lab_LexDo/100520/result.json", encoding="utf-8") as f:
@@ -76,13 +80,14 @@ for item in bindings:
 	item['bodylem'] = bodylem
 	# remove stop worsa
 	lemtokens = word_tokenize(bodylem)
+	print(lemtokens)
 	cleantokens = []
 	stopchars = re.compile('[0-9\/_\.]')
 	for w in lemtokens:
-	   if (len(str(w)) >= 5 and str(w).lower() not in stopWords and stopchars.search(str(w)) == None):
+	   if str(w).lower() not in stopWords and stopchars.search(str(w)) == None):
 		   #print(w)
 		   cleantokens.append(w)
-	#print (cleantokens)
+	print (cleantokens)
 	#find language names in english text
 	#extract keywordset from text, in order of frequence, sub-order appeareance
 	cleantext = ' '.join([str(x) for x in cleantokens])
