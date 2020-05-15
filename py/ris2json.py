@@ -16,7 +16,10 @@ for risobject in risobjects:
             splitline = risline.split('  - ',1)
             riskey = splitline[0]
             risvalue = splitline[1]
-            risdict[riskey]=risvalue
+            if riskey in risdict:
+                risdict[riskey].append(risvalue)
+            else:
+                risdict[riskey] = [risvalue]
         except IndexError:
             pass
         #risdict['ER']=''
@@ -26,5 +29,5 @@ for risobject in risobjects:
     risjson.append(risdict)
 print(risjson)
 
-with open('D:/EuralexMerge/convertedris.json', 'w') as json_file:
-	json.dump(risjson, json_file, indent=2)
+with open('D:/EuralexMerge/convertedris.json', 'w', encoding="utf-8") as json_file:
+	json.dump(risjson, json_file, ensure_ascii=False, indent=2)
