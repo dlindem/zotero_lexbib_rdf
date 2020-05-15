@@ -1357,12 +1357,7 @@ function doExport() {
 	if (item.attachments) {
 //Zotero.RDF.addStatement(nodes[USERITEM], n.zotexport+"attachment", item.attachments, true);
 		for (var i=0; i<item.attachments.length; i++) {
-	//			var attachment = item.attachments[i];
-  //      Zotero.RDF.addStatement(nodes[USERITEM], n.zotexport+"attachment", "halloattachment", true);
-	//			Zotero.RDF.addStatement(nodes[USERITEM], n.zotexport+"attachment", attachment, true);
-
-
-				var attachmentobject = item.attachments[i]; // gets single attachment object
+			var attachmentobject = item.attachments[i]; // gets single attachment object
 
 				// attachmentobject debug
 		//		var attachmentoutput = '';
@@ -1377,6 +1372,9 @@ function doExport() {
 					Zotero.RDF.addStatement(nodes[USERITEM], n.zotexport+"pdfTxt", attachmentobject.localPath.match(/(.*\\storage\\[A-Z0-9]+\\)/)[1].replace(/\\/g,"/")+".zotero-ft-cache", true);
 					Zotero.RDF.addStatement(nodes[USERITEM], n.zotexport+"pdfFile", attachmentobject.localPath.match(/(.*\\storage\\[A-Z0-9]+\\.*)/)[1].replace(/\\/g,"/"), true);
 				}
+				if (attachmentobject.localPath.endsWith(".txt") === true) {
+					Zotero.RDF.addStatement(nodes[USERITEM], n.zotexport+"txtFile", attachmentobject.localPath.match(/(.*\\storage\\[A-Z0-9]+\\.*)/)[1].replace(/\\/g,"/"), true);
+				}
 
 
 		//		Zotero.RDF.addStatement(nodes[USERITEM], n.zotexport+"exportFolderID", attachmentobject.itemID, true);
@@ -1387,8 +1385,18 @@ function doExport() {
 
 
 	}
-//
+// extra field (RIS M2): we use it for 1st author location and article location (place of presentation for CONF items, place of publication for others).
+// format: literal or English Wikipedia title page URL as location URI (as needed for EventRegistry). One value for each location: <authorloc>|<articleLoc>. If URL, without brackets or quotes.
 
+	if (item.extra) {
+		var locs = item.extra.replace(/(\r\n|\n|\r)/gm,"").split(";")
+		if (locs[0]) {
+			Zotero.RDF.addStatement(nodes[ITEM], n.lexdo+"firstAuLoc", locs[0].trim(), true);
+		}
+		if (locs[1]) {
+			Zotero.RDF.addStatement(nodes[ITEM], n.lexdo+"articleLoc", locs[1].trim(), true);
+		}
+	}
 
 
 		type.addNodeRelations(nodes);
@@ -1397,7 +1405,7 @@ function doExport() {
 
 		//end of item loop
 	}
-	//end of import function
+	//end of export function
 }
 
 // lexvo mapping table http://www.lexvo.org/resources/lexvo-iso639-1.tsv
