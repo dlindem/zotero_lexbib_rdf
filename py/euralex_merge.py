@@ -1,11 +1,10 @@
-#finds PDF download link on euralex.org item page and adds it to rdf uri
-import requests
+#merges extra csv column to json file (for a special case of data import), by dlindem
 import csv
 import re
 from collections import OrderedDict
 import json
 import os
-import urllib3
+
 #import pandas as pd
 
 
@@ -21,7 +20,11 @@ with open("D:/EuralexMerge/Euralex-extra-categories.json", encoding="utf-8") as 
 	#extrastr = json.loads(extradata)
 
 
-#print(extradata)
+print(extradata)
+
+for item in extradata:
+	for key in item:
+		item[key] = [item[key]]
 
 for pdfurl in uridict:
 	#path = urllib3.unquote(path)
@@ -30,11 +33,11 @@ for pdfurl in uridict:
 	#print("\n"+pdfurl+" IST "+uri)
 	for extraitem in extradata:
 		if file in str(extraitem):
-			print('\nfound match: '+uri.rstrip())
-			extraitem['AN'] = uri.rstrip()
+		#	print('\nfound match: '+uri.rstrip())
+			extraitem['AN'] = [uri.rstrip()]
 
-with open('D:/EuralexMerge/result.json', 'w') as json_file:
-	json.dump(extradata, json_file, indent=2)
+with open('D:/EuralexMerge/result.json', 'w', encoding="utf-8") as json_file:
+	json.dump(extradata, json_file, ensure_ascii=False, indent=2)
 
 #result = OrderedDict()
 #for d in (uridict, extradict):
