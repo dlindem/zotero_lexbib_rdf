@@ -10,9 +10,18 @@ for origitem in original:
 	#print(origitem)
 	#print(origitem['AN'])
 	for newitem in newcomer:
-		if 'AN' in newitem and 'AN' in origitem and origitem['AN'] == newitem['AN']:
+		if 'AN' in newitem and 'AN' in origitem and str(origitem['AN']) == str(newitem['AN']):
 			print('found merge candidate')
-			origitem.update(newitem)
+			for key, value in origitem.items():
+				try:
+					origitem[key].extend(newitem[key])
+				except KeyError:
+					pass
+			for key, value in newitem.items():
+				if origitem.get(key) == None:
+					origitem[key] = newitem[key]
+
+
 
 with open('D:/EuralexMerge/mergedris.json', 'w', encoding="utf-8") as json_file:
 	json.dump(original, json_file, ensure_ascii=False, indent=2)
