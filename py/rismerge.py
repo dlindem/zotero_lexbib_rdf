@@ -13,10 +13,11 @@ for origitem in original:
 		if 'AN' in newitem and 'AN' in origitem and str(origitem['AN']) == str(newitem['AN']):
 			print('found merge candidate')
 			for key, value in origitem.items():
-				try:
-					origitem[key].extend(newitem[key])
-				except KeyError:
-					pass
+				if key != 'AN':
+					try:
+						origitem[key].extend(newitem[key])
+					except KeyError:
+						pass
 			for key, value in newitem.items():
 				if origitem.get(key) == None:
 					origitem[key] = newitem[key]
