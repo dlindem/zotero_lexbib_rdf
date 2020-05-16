@@ -4,6 +4,7 @@ import re
 from collections import OrderedDict
 import json
 import os
+import re
 
 #import pandas as pd
 
@@ -28,12 +29,14 @@ for item in extradata:
 
 for pdfurl in uridict:
 	#path = urllib3.unquote(path)
-	file = os.path.splitext(os.path.basename(pdfurl))[0]
+	file = re.sub('[^A-Za-z0-9]','',os.path.splitext(os.path.basename(pdfurl))[0])
 	uri = uridict.get(pdfurl)
-	#print("\n"+pdfurl+" IST "+uri)
+	#print("\n"+file+" IST "+uri)
 	for extraitem in extradata:
-		if file in str(extraitem):
-		#	print('\nfound match: '+uri.rstrip())
+		teststr = re.sub('[^A-Za-z0-9]','',str(extraitem))
+		#print(teststr)
+		if file in teststr:
+			print('\nfound match: '+uri.rstrip())
 			extraitem['AN'] = [uri.rstrip()]
 
 with open('D:/EuralexMerge/result.json', 'w', encoding="utf-8") as json_file:
