@@ -1,88 +1,157 @@
-        expected json format:
+// json keys for elexifinder eventregistry: datatype // mapping to LexBib RDF, format
+
+    {
+
+        "version": int  // version for the format. For internal use only. Can be 1 and updated according to the updates in our database.
+
+        "uri": str,     // MANDATORY. LexBib bibitem URI (members of class lexdo:BibItem). literal string, containing http URI (in Zotero, field "AN" (archive Location)"; if empty, DOI, ISBN, or URL encoded as URI)
+
+        "lang": str,    // MANDATORY. LexBib publication language (value of lexdo:publicationLanguage). literal, three-letter ISO639-3 codes, e.g. "eng" for English, "deu" for German, "fra" for French.
+
+        "url": str,     // MANDATORY. lexdo:url (Content LexBib Zotero Item's "URL" field). literal. can be same as bibitem uri, or link to direct PDF access.
+
+        "alternativeUrls": [str, ...],  // nothing.
+
+        "type": "news" | "blog" | "pr" | "video"  // MANDATORY. LexBib bibitem type (rdf:type property). In conversion script, default is "news", if type=VIDEO, value is "video"
+
+        "articleTm": str("YYYY-MM-DDTHH:MM:SS.XX"),    // MANDATORY. dcterms:date (Date of publication)
+
+        "pubTm": str("YYYY-MM-DDTHH:MM:SS.XX"),         // OPTIONAL. zotexport:modified (content of Zotero Item's "date modified" field)
+
+        "crawlTm": str("YYYY-MM-DDTHH:MM:SS.XX"),       // OPTIONAL. zotexport:created (content of Zotero Item's "date added" field)
+
+        "title": str,               // MANDATORY. dcterms:title
+
+        "body": str,                // MANDATORY. In the order of priority, (1) cleaned full text, or (2) full text pdf2text, or (3) abstract.
+
+        "sourceUri": str,           // MANDATORY. lexdo:container property value. literal string, containing http URI of the container bibitem.
+
+        "sourceTitle": str,         // MANDATORY. literal. Zotero Item's "short title" field content.
+
+        "sourceType": str,          // nothing.
+
+        "sourceLocP": bool,         // optional - use if we wish to set source location. At the moment not used, set to "false".
+
+        "sourceLoc": [ float(lat), float(long)],  // planned (at the moment, computed by eventregistry)
+
+        "sourceCity": str,			// planned (at the moment, computed by eventregistry)
+
+        "sourceCountry": str,		// planned (at the moment, computed by eventregistry)
+
+        "sentiment": float(-1,1)|null   // nothing.
+
+        "skipClustering": bool,     // if true, the clustering process will skip the article. For Elexifinder, it was always set to "false".
+
+        "keywords": [str, str, ..] // optional
+
+        "images": [str, str, ...],	// planned (URL to the logo of the conference/journal, which is displayed next to the publication listed.)
+
+    "authors": [
+
             {
-                "version": int  // version for the format. For internal use only. Can be 1 and updated according to the updates in our database.
 
-                "uri": str,     // MANDATORY. URI of the article - newsfeed id - can be determined by us, but MUST be unique
-                "lang": str,    // MANDATORY. Language of the article.
-                "url": str,     // MANDATORY. web url of the article or video. Can be empty string
-                "alternativeUrls": [str, ...],  // list of alternative urls for the article - used only for checking for possible duplicates
+                "uri": str,         // LexBib person URI (value of lexdo:creator)	literal string, containing http URI, e.g. http://lexbib.org/agents/person/HanksPatrick
 
-                "type": "news" | "blog" | "pr" | "video"  // MANDATORY. "news" used for articles, "video" for video presentations.
+                "name": str         // [person URI] foaf:firstname foaf:surname (literal: foaf:firstName+" "+foaf:surname)
 
-                "articleTm": str("YYYY-MM-DDTHH:MM:SS.XX"),    // MANDATORY. the date, if exists, will be used as the article date in ER.
-                "pubTm": str("YYYY-MM-DDTHH:MM:SS.XX"),         // OPTIONAL. date that was provided in the rss news source. This can be the date of last article update in the database so we can detect if updating in Elexifinder is needed.
-                "crawlTm": str("YYYY-MM-DDTHH:MM:SS.XX"),       // OPTIONAL. date when we crawled the article.
-                "title": str,               // MANDATORY. Title of the paper or presentation.
-                "body": str,                // MANDATORY. Full text or abstract. If lemmatised version is available, it can be added, but in the same field, after the original version.
-
-                "sourceUri": str,           // MANDATORY. Uri of the publication or conference, e.g. conference website or journal (issue) website.
-                "sourceTitle": str,         // MANDATORY. Title of the source. Can be Proceedings of etc. but so far we used short code names for easier recognition (also, long titles may have a problem in display), e.g. EURALEX 1983 or Lexikos 22 (2012).
-                "sourceType": str,
-                "sourceLocP": bool,         // optional - use if you wish to set source location. At the moment not used, set to "false".
-                "sourceLoc": [ float(lat), float(long)],
-                "sourceCity": str,			// location of the conference/journal, string needs to be entered, e.g. Exeter
-                "sourceCountry": str,		// country of the conference/journal, e.g. United Kingdom
-
-                "sentiment": float(-1,1)|null
-
-                "skipClustering": bool,     // if true, the clustering process will skip the article. For Elexifinder, it was always set to "false".
-
-                "keywords": [str, str, ..] // optional
-                "images": [str, str, ...],	// URL to the logo of the conference/journal, which is displayed next to the publication listed.
-
-            "authors": [
-                    {
-                        "uri": str,         // author URI (something like "mark_johnson@nytimes.com <mailto:mark_johnson@nytimes.com>") - unique uri can be used, determined by us
-                                            // if URI is not provided in the article we compute it on the fly
-                        "name": str         // pretty name (e.g. "Mark Johnson"). Name as displayed in Elexifinder.
-                    }
-                ],
-                "concepts": [
-                    {   "uri": str,         // concept uri. These values are left empty, they are added in processing. One option is to add keywords as concepts, but all fields need to be completed then.
-                        "label": str,       // concept label
-                        "type": str,        // type - person, loc, org, wiki
-                        "desc": str,        // optional
-                        "wgt": float(0-1)   // relevance of the concept
-                    },
-                    ...
-                ],
-                "categories": [
-                    {
-                        "uri": str,             // i.e. "dmoz/Business/Blah_Blah" Here we can use own categories.
-                        "label": str,           // i.e. "Business/Blah Blah". Here we can use our own cateogires.
-                        "wgt": float(0-1)
-                    },
-                    ...
-                ],
-                "links": [  // not used
-                    {
-                        "uri": str
-                        "label": str
-                    }
-                ],
-                "videos": [
-                    {
-                        "uri": str // not used (these are videos linked to the items rather than the actual video presentation links).
-                        "label": str
-                    }
-                ],
-                "simArts": [
-                    {
-                        "id": str(uri),
-                        "lang": str,
-                        "wgt": int(0-100)
-                    },
-                    ...
-                ],
-            "locationUri": str | null,      // uri of the location, where the event described in the article occured (based on the dateline). Must be Wikipedia URL, found from http://eventregistry.org/documentation?tab=suggLocations. Https addresses can also be used, normalisation done in the backend.
-                "dates": [
-                    {   "date": str,            // date
-                        "dateEnd": str,         // optional - if date range
-                        "textStart": int,       // starting index in text
-                        "textEnd": int,         // ending index in text
-                        "freq": int,            // number of time it's mentioned
-                        "amb": bool             // is ambiguous?
-                    },
-                    ...
-                ]
             }
+
+        ],
+
+        "concepts": [
+
+            {   "uri": str,         // nothing. (concept uri. These values are left empty, they are added in processing. One option is to add keywords as concepts, but all fields need to be completed then.)
+
+                "label": str,       // nothing. (concept label)
+
+                "type": str,        // nothing. (type - person, loc, org, wiki)
+
+                "desc": str,        // nothing. (optional)
+
+                "wgt": float(0-1)   // nothing. (relevance of the concept)
+
+            },
+
+            ...
+
+        ],
+
+        "categories": [
+
+            {
+
+                "uri": str,             // planned
+
+                "label": str,           // planned
+
+                "wgt": float(0-1)
+
+            },
+
+            ...
+
+        ],
+
+        "links": [  // not used
+
+            {
+
+                "uri": str
+
+                "label": str
+
+            }
+
+        ],
+
+        "videos": [  // not used (these are videos linked to the items rather than the actual video presentation links).
+
+            {
+
+                "uri": str
+
+                "label": str
+
+            }
+
+        ],
+
+        "simArts": [   // not used
+
+            {
+
+                "id": str(uri),
+
+                "lang": str,
+
+                "wgt": int(0-100)
+
+            },
+
+            ...
+
+        ],
+
+    "locationUri": str | null,      // zotexport:articleLoc (in Zotero, annotated in "extra" field) (for eventregistry: uri of the location, where the event described in the article occured (based on the dateline). Must be Wikipedia URL, found from http://eventregistry.org/documentation?tab=suggLocations. Https addresses can also be used, normalisation done in the backend.)
+
+        "dates": [  // not used
+
+            {   "date": str,            // date
+
+                "dateEnd": str,         // optional - if date range
+
+                "textStart": int,       // starting index in text
+
+                "textEnd": int,         // ending index in text
+
+                "freq": int,            // number of time it's mentioned
+
+                "amb": bool             // is ambiguous?
+
+            },
+
+            ...
+
+        ]
+
+    }
