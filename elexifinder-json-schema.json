@@ -28,7 +28,7 @@
 
         "sourceTitle": str,         // MANDATORY. Zotero Item's "short title" field content.
 
-        "sourceType": str,          // nothing.
+        "sourceType": str,          // no mapping.
 
         "sourceLocP": bool,         // optional - use if we wish to set source location. At the moment not used, set to "false".
 
