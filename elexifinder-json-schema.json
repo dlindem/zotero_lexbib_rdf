@@ -10,7 +10,7 @@
 
         "url": str,     // MANDATORY. lexdo:url (Content LexBib Zotero Item's "URL" field). literal. can be same as bibitem uri, or link to direct PDF access.
 
-        "alternativeUrls": [str, ...],  // nothing.
+        "alternativeUrls": [str, ...],  // no mapping.
 
         "type": "news" | "blog" | "pr" | "video"  // MANDATORY. LexBib bibitem type (rdf:type property). In conversion script, default is "news", if type=VIDEO, value is "video"
 
@@ -26,23 +26,23 @@
 
         "sourceUri": str,           // MANDATORY. lexdo:container property value. literal string, containing http URI of the container bibitem.
 
-        "sourceTitle": str,         // MANDATORY. literal. Zotero Item's "short title" field content.
+        "sourceTitle": str,         // MANDATORY. Zotero Item's "short title" field content.
 
         "sourceType": str,          // nothing.
 
         "sourceLocP": bool,         // optional - use if we wish to set source location. At the moment not used, set to "false".
 
-        "sourceLoc": [ float(lat), float(long)],  // planned (at the moment, computed by eventregistry)
+        "sourceLoc": [ float(lat), float(long)],  // planned for LexBib (at the moment, computed by eventregistry using locationUri)
 
-        "sourceCity": str,			// planned (at the moment, computed by eventregistry)
+        "sourceCity": str,			// planned for LexBib (at the moment, computed by eventregistry using locationUri)
 
-        "sourceCountry": str,		// planned (at the moment, computed by eventregistry)
+        "sourceCountry": str,		// planned for LexBib (at the moment, computed by eventregistry using locationUri)
 
-        "sentiment": float(-1,1)|null   // nothing.
+        "sentiment": float(-1,1)|null   // no mapping.
 
-        "skipClustering": bool,     // if true, the clustering process will skip the article. For Elexifinder, it was always set to "false".
+        "skipClustering": bool,     // (if true, the clustering process will skip the article. For Elexifinder, it was always set to "false".)
 
-        "keywords": [str, str, ..] // optional
+        "keywords": [str, str, ..] // optional // no mapping planned.
 
         "images": [str, str, ...],	// planned (URL to the logo of the conference/journal, which is displayed next to the publication listed.)
 
@@ -60,15 +60,15 @@
 
         "concepts": [
 
-            {   "uri": str,         // nothing. (concept uri. These values are left empty, they are added in processing. One option is to add keywords as concepts, but all fields need to be completed then.)
+            {   "uri": str,         // TODO (concept uri. These values are left empty, they are added in processing. One option is to add keywords as concepts, but all fields need to be completed then.)
 
-                "label": str,       // nothing. (concept label)
+                "label": str,       // TODO (concept label)
 
-                "type": str,        // nothing. (type - person, loc, org, wiki)
+                "type": str,        // TODO (type - person, loc, org, wiki)
 
-                "desc": str,        // nothing. (optional)
+                "desc": str,        // TODO (optional)
 
-                "wgt": float(0-1)   // nothing. (relevance of the concept)
+                "wgt": float(0-1)   // TODO (relevance of the concept)
 
             },
 
@@ -80,9 +80,9 @@
 
             {
 
-                "uri": str,             // planned
+                "uri": str,             // TODO
 
-                "label": str,           // planned
+                "label": str,           // TODO
 
                 "wgt": float(0-1)
 
