@@ -16,9 +16,9 @@
 
         "articleTm": str("YYYY-MM-DDTHH:MM:SS.XX"),    // MANDATORY. dcterms:date (Date of publication)
 
-        "pubTm": str("YYYY-MM-DDTHH:MM:SS.XX"),         // OPTIONAL. zotexport:modified (content of Zotero Item's "date modified" field)
+        "pubTm": str("YYYY-MM-DDTHH:MM:SS.XX"),         // OPTIONAL. zotexport:modified (content of Zotero Item's "date modified" field) // export fails, created a ticket https://forums.zotero.org/discussion/83222/dateadded-datemodified-rdf-export-fails
 
-        "crawlTm": str("YYYY-MM-DDTHH:MM:SS.XX"),       // OPTIONAL. zotexport:created (content of Zotero Item's "date added" field)
+        "crawlTm": str("YYYY-MM-DDTHH:MM:SS.XX"),       // OPTIONAL. zotexport:created (content of Zotero Item's "date added" field) // export fails, created a ticket https://forums.zotero.org/discussion/83222/dateadded-datemodified-rdf-export-fails
 
         "title": str,               // MANDATORY. dcterms:title
 
