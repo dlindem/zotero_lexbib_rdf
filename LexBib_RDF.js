@@ -1168,6 +1168,11 @@ function doExport() {
 		}
 		//Zotero.debug("creators added");
 
+// try item.dateModified
+		if(item.dateModified) {
+			Zotero.RDF.addStatement(nodes[USERITEM], n.zotexport+"dateModified", item.dateModified, true);
+		}
+
 		// add date
 		if (item.date) {
 			//	var year = item.date.match(/([0-9]{4})/)[1];
