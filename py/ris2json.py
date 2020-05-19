@@ -3,7 +3,7 @@ import re
 import json
 
 
-with open('D:/EuralexMerge/EuralexMerge.ris', 'r', encoding="utf-8") as risfile:
+with open('D:/LexikosMerge/Lexikos.ris', 'r', encoding="utf-8") as risfile:
     ris = risfile.read()
 
 risjson = []
@@ -29,5 +29,5 @@ for risobject in risobjects:
     risjson.append(risdict)
 print(risjson)
 
-with open('D:/EuralexMerge/convertedris.json', 'w', encoding="utf-8") as json_file:
+with open('D:/LexikosMerge/convertedris.json', 'w', encoding="utf-8") as json_file:
 	json.dump(risjson, json_file, ensure_ascii=False, indent=2)
