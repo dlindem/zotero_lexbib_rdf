@@ -234,6 +234,7 @@ var FIELDS = {
 	"publicationTitle":		[ITEM,		n.lexdo+"containerTitle"],
 	"ISSN":					[ITEM,		n.bibo+"issn"],
 	"date":					[USERITEM,	n.zotexport+"date"],
+	"dateModified":			[USERITEM, n.zotexport+"dateModified"], //doesn't work
 	"section":				[USERITEM,			n.bibo+"section"],
 	"callNumber":			[SUBCONTAINER,	n.bibo+"lccn"],
 	"archiveLocation":		[USERITEM,		n.zotexport+"archiveLocation"],
@@ -289,7 +290,7 @@ var FIELDS = {
 	"type":					[ITEM,			n.dcterms+"type"],
 	"medium":				[ITEM,			n.dcterms+"medium"],
 	"title":				[ITEM,			n.dcterms+"title"],
-	"shortTitle":			[ITEM,			n.bibo+"shortTitle"],
+	"shortTitle":			[ITEM,			n.lexdo+"containerShortTitle"],
 	"numPages":				[ITEM,			n.bibo+"numPages"],
 	"applicationNumber":	[ITEM,			n.zotexport+"applicationNumber"],
 	"issuingAuthority":		[ITEM,			[n.bibo+"issuer", [[n.rdf+"type", n.foaf+"Organization"]], n.foaf+"name"]],
@@ -555,7 +556,7 @@ Type.prototype.createNodes = function(item) {
 		if (/^https?:|^urn:|^info:/.test(item.archiveLocation) != true) {
 			nodes[ITEM] = n.lexbib+encodeURI(item.archiveLocation); //this in case archiveLocation does not start with http or urn/info namespace
 		} else {
-			nodes[ITEM] = item.archiveLocation;
+			nodes[ITEM] = item.archiveLocation.replace(/\/+$/, ''); //use archiveLocation field content, removing any slashes at the end
 		}
 
 		if (usedURIs[nodes[ITEM]]) nodes[ITEM] = null;
@@ -587,7 +588,7 @@ Type.prototype.createNodes = function(item) {
 	}
 	// try Zotero URL field content as URI
 	if (!nodes[ITEM] && item.url) {
-		nodes[ITEM] = encodeURI(item.url);
+		nodes[ITEM] = encodeURI(item.url).replace(/\/+$/, ''); // use URL field content removing any slashes at the end
 		if (usedURIs[nodes[ITEM]]) nodes[ITEM] = null;
 	}
 	// no suitable item URI; fall back to a blank node
@@ -816,7 +817,10 @@ CreatorProperty.prototype.mapFromCreator = function(item, creator, nodes) {
 		var creatorList = creatorList[0][2];
 		creatorCount = creatorCount + 1;
 	} else {
-		var creatorList = Zotero.RDF.newResource();
+		//var creatorList = Zotero.RDF.newResource(); //this created a blank node for creator list
+		var creatorListType = CREATOR_LISTS[list].slice(CREATOR_LISTS[list].lastIndexOf('/') + 1) // list-type-label (from list's rdf:type)
+		var creatorList = encodeURI(nodes[ITEM]+"_"+creatorListType); //itemnode and list-type-label concatenation
+		Zotero.RDF.addStatement(creatorList, n.rdf+"type", n.owl+"NamedIndividual", false);
 		creatorCount = 1;
 	//	var creatorList = nodes[ITEM]+"_CreatorList"; // alternative
    Zotero.RDF.addStatement(creatorList, n.rdf+"type", n.rdf+"Seq", false);
@@ -826,6 +830,8 @@ CreatorProperty.prototype.mapFromCreator = function(item, creator, nodes) {
 		Zotero.RDF.addStatement(nodes[mapping[0]], CREATOR_LISTS[list], creatorList, false);
 	}
   Zotero.RDF.addStatement(creatorList, n.rdf+"_"+creatorCount.toString(), creatorNode, false);
+
+
 
 //	Zotero.RDF.addContainerElement(creatorList, creatorNode, false);
 }
@@ -1164,8 +1170,12 @@ function doExport() {
 
 		// add date
 		if (item.date) {
-			var year = item.date.match(/([0-9]{4})/)[1];
-			Zotero.RDF.addStatement(nodes[ITEM], n.dcterms+"date", year, true);
+			//	var year = item.date.match(/([0-9]{4})/)[1];
+			//	Zotero.RDF.addStatement(nodes[ITEM], n.dcterms+"date", year, true);
+			var date = new Date(item.date); // js takes just any format here, but thinks this is a CET date (local system time zone)
+			date.setHours(date.getHours() + 1); // add one hour (CET vs GMT-UTC)
+			var isodate = date.toISOString();
+			Zotero.RDF.addStatement(nodes[ITEM], n.dcterms+"date", isodate, true);
 		}
 
 			//	add lexdo:publicationLanguage
@@ -1366,10 +1376,10 @@ function doExport() {
 		//		}
 		//		Zotero.RDF.addStatement(nodes[USERITEM], n.zotexport+"attachmentobject", attachmentoutput, true)
 			if (attachmentobject.localPath) {
-				Zotero.RDF.addStatement(nodes[USERITEM], n.zotexport+"localFolder", attachmentobject.localPath.match(/\\storage\\([A-Z0-9]+)\\/)[1], true);
-				Zotero.RDF.addStatement(nodes[USERITEM], n.zotexport+"localFile", attachmentobject.localPath.match(/\\storage\\[A-Z0-9]+\\(.*)/)[1], true);
+			//	Zotero.RDF.addStatement(nodes[USERITEM], n.zotexport+"localFolder", attachmentobject.localPath.match(/\\storage\\([A-Z0-9]+)\\/)[1], true);
+			//	Zotero.RDF.addStatement(nodes[USERITEM], n.zotexport+"localFile", attachmentobject.localPath.match(/\\storage\\[A-Z0-9]+\\(.*)/)[1], true);
 				if (attachmentobject.localPath.endsWith(".pdf") === true) {
-					Zotero.RDF.addStatement(nodes[USERITEM], n.zotexport+"pdfTxt", attachmentobject.localPath.match(/(.*\\storage\\[A-Z0-9]+\\)/)[1].replace(/\\/g,"/")+".zotero-ft-cache", true);
+					Zotero.RDF.addStatement(nodes[USERITEM], n.zotexport+"pdf2txt", attachmentobject.localPath.match(/(.*\\storage\\[A-Z0-9]+\\)/)[1].replace(/\\/g,"/")+".zotero-ft-cache", true);
 					Zotero.RDF.addStatement(nodes[USERITEM], n.zotexport+"pdfFile", attachmentobject.localPath.match(/(.*\\storage\\[A-Z0-9]+\\.*)/)[1].replace(/\\/g,"/"), true);
 				}
 				if (attachmentobject.localPath.endsWith(".txt") === true) {
