@@ -2,10 +2,14 @@
 import json
 
 pk = 'AN' # pivot key is AN
+risjson_file_orig_items = 'D:/LexikosMerge/Rest/convertedlexikosscrape.json'
+risjson_file_new_items = 'D:/LexikosMerge/Rest/convertednewcomers.json'
+new_items_not_found_in_orig ='D:/LexikosMerge/Rest/newcomernotmerged.json'
+merged_result = 'D:/LexikosMerge/Rest/mergedris.json'
 
-with open("D:/LexikosMerge/convertedris.json", encoding="utf-8") as f:
+with open(risjson_file_orig_items, encoding="utf-8") as f:
 	original =  json.load(f, encoding="utf-8")
-with open("D:/LexikosMerge/csv2json.json", encoding="utf-8") as f:
+with open(risjson_file_new_items, encoding="utf-8") as f:
 	newcomer =  json.load(f, encoding="utf-8")
 
 for origitem in original:
@@ -27,7 +31,7 @@ for origitem in original:
 
 
 
-with open('D:/LexikosMerge/mergedris.json', 'w', encoding="utf-8") as json_file:
+with open(merged_result, 'w', encoding="utf-8") as json_file:
 	json.dump(original, json_file, ensure_ascii=False, indent=2)
-with open('D:/LexikosMerge/newcomernotmerged.json', 'w', encoding="utf-8") as json_file:
+with open(new_items_not_found_in_orig, 'w', encoding="utf-8") as json_file:
 	json.dump(newcomer, json_file, ensure_ascii=False, indent=2)

@@ -2,8 +2,10 @@
 import re
 import json
 
+ris_input_file = 'D:/LexikosMerge/Rest/newcomers/newcomers.ris'
+json_output_file = 'D:/LexikosMerge/Rest/convertedris.json'
 
-with open('D:/LexikosMerge/Lexikos.ris', 'r', encoding="utf-8") as risfile:
+with open(ris_input_file, 'r', encoding="utf-8") as risfile:
     ris = risfile.read()
 
 risjson = []
@@ -29,5 +31,5 @@ for risobject in risobjects:
     risjson.append(risdict)
 print(risjson)
 
-with open('D:/LexikosMerge/convertedris.json', 'w', encoding="utf-8") as json_file:
+with open(json_output_file, 'w', encoding="utf-8") as json_file:
 	json.dump(risjson, json_file, ensure_ascii=False, indent=2)
