@@ -1,55 +1,54 @@
 // json keys for elexifinder eventregistry: datatype // mapping to LexBib RDF, format
 
-    {
+{
 
-        "version": int  // version for the format. For internal use only. Can be 1 and updated according to the updates in our database.
+    "version": int  // version for the format. For internal use only. Can be 1 and updated according to the updates in our database.
 
-        "uri": str,     // MANDATORY. LexBib bibitem URI (members of class lexdo:BibItem). literal string, containing http URI (in Zotero, field "AN" (archive Location)"; if empty, DOI, ISBN, or URL encoded as URI)
+    "uri": str,     // MANDATORY. LexBib bibitem URI (members of class lexdo:BibItem). literal string, containing http URI (in Zotero, field "AN" (archive Location)"; if empty, DOI, ISBN, or URL encoded as URI)
 
-        "lang": str,    // MANDATORY. LexBib publication language (value of lexdo:publicationLanguage). literal, three-letter ISO639-3 codes, e.g. "eng" for English, "deu" for German, "fra" for French.
+    "lang": str,    // MANDATORY. LexBib publication language (value of lexdo:publicationLanguage). literal, three-letter ISO639-3 codes, e.g. "eng" for English, "deu" for German, "fra" for French.
 
-        "url": str,     // MANDATORY. lexdo:url (Content LexBib Zotero Item's "URL" field). literal. can be same as bibitem uri, or link to direct PDF access.
+    "url": str,     // MANDATORY. lexdo:url (Content LexBib Zotero Item's "URL" field). literal. can be same as bibitem uri, or link to direct PDF access.
 
-        "alternativeUrls": [str, ...],  // no mapping.
+    "alternativeUrls": [str, ...],  // no mapping.
 
-        "type": "news" | "blog" | "pr" | "video"  // MANDATORY. LexBib bibitem type (rdf:type property). In conversion script, default is "news", if type=VIDEO, value is "video"
+    "type": "news" | "blog" | "pr" | "video"  // MANDATORY. LexBib bibitem type (rdf:type property). In conversion script, default is "news", if type=VIDEO, value is "video"
 
-        "articleTm": str("YYYY-MM-DDTHH:MM:SS.XX"),    // MANDATORY. dcterms:date (Date of publication)
+    "articleTm": str("YYYY-MM-DDTHH:MM:SS.XX"),    // MANDATORY. dcterms:date (Date of publication)
 
-        "pubTm": str("YYYY-MM-DDTHH:MM:SS.XX"),         // OPTIONAL. zotexport:modified (content of Zotero Item's "date modified" field) // export fails, created a ticket https://forums.zotero.org/discussion/83222/dateadded-datemodified-rdf-export-fails
+    "pubTm": str("YYYY-MM-DDTHH:MM:SS.XX"),         // OPTIONAL. zotexport:modified (content of Zotero Item's "date modified" field) // export fails, created a ticket https://forums.zotero.org/discussion/83222/dateadded-datemodified-rdf-export-fails
 
-        "crawlTm": str("YYYY-MM-DDTHH:MM:SS.XX"),       // OPTIONAL. zotexport:created (content of Zotero Item's "date added" field) // export fails, created a ticket https://forums.zotero.org/discussion/83222/dateadded-datemodified-rdf-export-fails
+    "crawlTm": str("YYYY-MM-DDTHH:MM:SS.XX"),       // OPTIONAL. zotexport:created (content of Zotero Item's "date added" field) // export fails, created a ticket https://forums.zotero.org/discussion/83222/dateadded-datemodified-rdf-export-fails
 
-        "title": str,               // MANDATORY. dcterms:title
+    "title": str,               // MANDATORY. dcterms:title
 
-        "body": str,                // MANDATORY. In the order of priority, (1) cleaned full text, or (2) full text pdf2text, or (3) abstract.
+    "body": str,                // MANDATORY. In the order of priority, (1) cleaned full text, or (2) full text pdf2text, or (3) abstract.
 
-        "sourceUri": str,           // MANDATORY. lexdo:container property value. literal string, containing http URI of the container bibitem.
+    "sourceUri": str,           // MANDATORY. lexdo:container property value. literal string, containing http URI of the container bibitem.
 
-        "sourceTitle": str,         // MANDATORY. Zotero Item's "short title" field content.
+    "sourceTitle": str,         // MANDATORY. Zotero Item's "short title" field content. (That field in Zotero is meant for item short title, we use it for container short title.)
 
-        "sourceType": str,          // no mapping.
+    "sourceType": str,          // no mapping.
 
-        "sourceLocP": bool,         // optional - use if we wish to set source location. At the moment not used, set to "false".
+    "sourceLocP": bool,         // optional - use if we wish to set source location. At the moment not used, set to "false".
 
-        "sourceLoc": [ float(lat), float(long)],  // planned for LexBib (at the moment, computed by eventregistry using locationUri)
+    "sourceLoc": [ float(lat), float(long)],  // planned for LexBib (at the moment, computed by eventregistry using locationUri)
 
-        "sourceCity": str,			// planned for LexBib (at the moment, computed by eventregistry using locationUri)
+    "sourceCity": str,			// planned for LexBib (at the moment, computed by eventregistry using locationUri)
 
-        "sourceCountry": str,		// planned for LexBib (at the moment, computed by eventregistry using locationUri)
+    "sourceCountry": str,		// planned for LexBib (at the moment, computed by eventregistry using locationUri)
 
-        "sentiment": float(-1,1)|null   // no mapping.
+    "sentiment": float(-1,1)|null   // no mapping.
 
-        "skipClustering": bool,     // (if true, the clustering process will skip the article. For Elexifinder, it was always set to "false".)
+    "skipClustering": bool,     // (if true, the clustering process will skip the article. For Elexifinder, it was always set to "false".)
 
-        "keywords": [str, str, ..] // optional // no mapping planned.
+    "keywords": [str, str, ..] // optional // no mapping planned.
 
-        "images": [str, str, ...],	// planned (URL to the logo of the conference/journal, which is displayed next to the publication listed.)
+    "images": [str, str, ...],	// planned (URL to the logo of the conference/journal, which is displayed next to the publication listed.)
 
-    "authors": [
-
+    "authors": // list
+        [
             {
-
                 "uri": str,         // LexBib person URI (value of lexdo:creator)	literal string, containing http URI, e.g. http://lexbib.org/agents/person/HanksPatrick
 
                 "name": str         // [person URI] foaf:firstname foaf:surname (literal: foaf:firstName+" "+foaf:surname)
@@ -58,100 +57,103 @@
 
         ],
 
-        "concepts": [
+    "concepts": [
 
-            {   "uri": str,         // TODO (concept uri. These values are left empty, they are added in processing. One option is to add keywords as concepts, but all fields need to be completed then.)
+        {   "uri": str,         // TODO (concept uri. These values are left empty, they are added in processing. One option is to add keywords as concepts, but all fields need to be completed then.)
 
-                "label": str,       // TODO (concept label)
+            "label": str,       // TODO (concept label)
 
-                "type": str,        // TODO (type - person, loc, org, wiki)
+            "type": str,        // TODO (type - person, loc, org, wiki)
 
-                "desc": str,        // TODO (optional)
+            "desc": str,        // TODO (optional)
 
-                "wgt": float(0-1)   // TODO (relevance of the concept)
+            "wgt": float(0-1)   // TODO (relevance of the concept)
 
-            },
+        },
 
-            ...
+        ...
 
-        ],
+    ],
 
-        "categories": [
+    "categories": [   // TODO. Is this the category a concept belongs to? In a SKOS Thesaurus, its hyponymy path?
+                      // (example: 'LexicalResource/Dictionary/' could be hyponymy path for the concept 'BilingualDictionary')
 
-            {
+        {
 
-                "uri": str,             // TODO
+            "uri": str,             // TODO
 
-                "label": str,           // TODO
+            "label": str,           // TODO
 
-                "wgt": float(0-1)
+            "wgt": float(0-1)
 
-            },
+        },
 
-            ...
+        ...
 
-        ],
+    ],
 
-        "links": [  // not used
+    "links": // list
+      [  // not used
 
-            {
+        {
 
-                "uri": str
+            "uri": str
 
-                "label": str
+            "label": str
 
-            }
+        }
 
-        ],
+      ],
 
-        "videos": [  // not used (these are videos linked to the items rather than the actual video presentation links).
+    "videos": //list
+      [  // not used (these are videos linked to the items rather than the actual video presentation links).
 
-            {
+        {
 
-                "uri": str
+            "uri": str
 
-                "label": str
+            "label": str
 
-            }
+        }
 
-        ],
+    ],
 
-        "simArts": [   // not used
+    "simArts": // list
+      [   // not used
 
-            {
+        {
 
-                "id": str(uri),
+            "id": str(uri),
 
-                "lang": str,
+            "lang": str,
 
-                "wgt": int(0-100)
+            "wgt": int(0-100)
 
-            },
+        },
 
-            ...
+        ...
 
-        ],
+      ],
 
     "locationUri": str | null,      // zotexport:articleLoc (in Zotero, annotated in "extra" field) (for eventregistry: uri of the location, where the event described in the article occured (based on the dateline). Must be Wikipedia URL, found from http://eventregistry.org/documentation?tab=suggLocations. Https addresses can also be used, normalisation done in the backend.)
 
-        "dates": [  // not used
+    "dates": // list
+      [  // not used
 
-            {   "date": str,            // date
+        {   "date": str,            // date
 
-                "dateEnd": str,         // optional - if date range
+            "dateEnd": str,         // optional - if date range
 
-                "textStart": int,       // starting index in text
+            "textStart": int,       // starting index in text
 
-                "textEnd": int,         // ending index in text
+            "textEnd": int,         // ending index in text
 
-                "freq": int,            // number of time it's mentioned
+            "freq": int,            // number of time it's mentioned
 
-                "amb": bool             // is ambiguous?
+            "amb": bool             // is ambiguous?
 
-            },
+        }
 
-            ...
+      ]
 
-        ]
-
-    }
+}
