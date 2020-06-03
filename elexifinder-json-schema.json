@@ -32,7 +32,9 @@
 
     "sourceLocP": bool,         // optional - use if we wish to set source location. At the moment not used, set to "false".
 
-    "sourceLoc": [ float(lat), float(long)],  // planned for LexBib (at the moment, computed by eventregistry using locationUri)
+    "sourceLoc": [ float(lat), float(long)],  // numeric values: coordinates
+
+    "sourceLocUri"          // (planned): lexdo:articleLoc (in Zotero, annotated in "extra" field after the semicolon). Must be English Wikipedia URL.
 
     "sourceCity": str,			// planned for LexBib (at the moment, computed by eventregistry using locationUri)
 
@@ -135,7 +137,7 @@
 
       ],
 
-    "locationUri": str | null,      // zotexport:articleLoc (in Zotero, annotated in "extra" field) (for eventregistry: uri of the location, where the event described in the article occured (based on the dateline). Must be Wikipedia URL, found from http://eventregistry.org/documentation?tab=suggLocations. Https addresses can also be used, normalisation done in the backend.)
+    "locationUri": str | null,      // lexdo:firstAuLoc (in Zotero, annotated in "extra" field before the semicolon). Must be English Wikipedia URL, found from http://eventregistry.org/documentation?tab=suggLocations. Https addresses can also be used, normalisation done in the backend.)
 
     "dates": // list
       [  // not used
