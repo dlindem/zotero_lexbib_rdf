@@ -8,12 +8,14 @@ import sys
 ignore_object_uri = [ # object uri to ignore for import in wikibase
 "http://www.w3.org/2002/07/owl#NamedIndividual",
 "http://www.w3.org/2002/07/owl#Class",
-"http://www.w3.org/2002/07/owl#Thing"
+"http://www.w3.org/2002/07/owl#Thing",
+"http://lexbib.org/lexdo/LexdoRootClass"
 ]
 
 label_properties = { # rdfs and skos labels to QS v1 mapping
+"http://www.w3.org/2000/01/rdf-schema#Label":"Len",
 "http://www.w3.org/2004/02/skos/core#prefLabel":"Len",
-"http://www.w3.org/2004/02/skos/core#altLabel":"Aen",
+"http://www.w3.org/2004/02/skos/core#altLabel":"Aen"
 
 }
 
@@ -83,7 +85,7 @@ print('\nDid not find any new items. Will not write QS item creation file.\nWill
 with open(sparql_csv, 'r', encoding="utf-8") as csvfile:
     csvdict = csv.DictReader(csvfile)
     qscsv = ""
-    
+
     for triple in csvdict:
         #print(triple)
         if triple['s'] in ill.values() and triple['o'] not in ignore_object_uri:
