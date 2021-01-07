@@ -8,7 +8,7 @@ with open('D:/LexBib/wikibase/lwd_labels.json', encoding="utf-8") as f:
 #print(labels)
 
 with open('D:/LexBib/wikibase/pwd.txt', 'r', encoding='utf-8') as pwdfile:
-    pwd = pwdfile.read()
+	pwd = pwdfile.read()
 
 login = site.login(username='DavidL', password=pwd)
 #print(login)
@@ -17,15 +17,17 @@ csrfquery = site.api('query', meta='tokens')
 token=csrfquery['query']['tokens']['csrftoken']
 
 for label in labels:
-    value=labels[label]['Len']
+	if 'updated' not in labels[label]:
 
-    results = site.api('wbsetlabel', id=label, language='en', value=value, token=token)
+		value=labels[label]['Len']
 
-    for result in results:
+		results = site.api('wbsetlabel', id=label, language='en', value=value, token=token)
 
-        if "success" in result:
-            print('Wbsetlabel for '+label+' ('+value+'):'+result)
-            labels[label]['updated'] = datetime.now()
+		for result in results:
+
+			if "success" in result:
+				print('Wbsetlabel for '+label+' ('+value+'):'+result)
+				labels[label]['update'] = str(datetime.now())
 
 
 with open('D:/LexBib/wikibase/lwd_labels.json', 'w', encoding="utf-8") as json_file:
