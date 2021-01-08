@@ -3,8 +3,11 @@ import json
 
 with open('D:/LexBib/languages/langdict.json', encoding="utf-8") as f:
 	langdict =  json.load(f)
+with open('D:/LexBib/wikibase/lwd_labels.json', encoding="utf-8") as f:
+	labels =  json.load(f)
 
 qs = ""
+
 for lang in langdict:
     qs += "CREATE\n"
     qs += "LAST\tP3\t\""+lang+'\"\n'
