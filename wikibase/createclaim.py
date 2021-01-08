@@ -18,16 +18,18 @@ with open('D:/LexBib/wikibase/new_statements.json', encoding="utf-8") as f:
 for triple in triples:
 	qid=triple['subjectqid']
 	prop=triple['property']
-
-	if triple['object']['type'] == "literal":
-		object='"'+triple['object']['value']+'"'
-		#print('Triple: '+qid+' ('+prop+') '+object)
-		#results = site.api('wbeditentity', token=token, id=qid, data={"claims":[{"mainsnak":{"snaktype":"value","property":prop,"datavalue":{"value":object,"type":"string"}},"type":"statement","rank":"normal"}]})
-		results = site.post('wbcreateclaim', token=token, entity=qid, property=prop, snaktype="value", value=object)
-	elif triple['object']['type'] == "item":
-		pass
-		results = site.post('wbcreateclaim', token=token, entity=qid, property=prop, snaktype="value", value='{"entity-type":"item","numeric-id":'+object.replace("Q","")+'}')
-	if results['success'] == 1:
-		print('Wbsetclaim for '+qid+' ('+prop+') '+object+': success.')
-	else:
-		print('Wbsetclaim for '+qid+' ('+prop+') '+object+': ERROR.')
+	try:
+		if triple['object']['type'] == "literal":
+			object='"'+triple['object']['value']+'"'
+			#print('Triple: '+qid+' ('+prop+') '+object)
+			#results = site.api('wbeditentity', token=token, id=qid, data={"claims":[{"mainsnak":{"snaktype":"value","property":prop,"datavalue":{"value":object,"type":"string"}},"type":"statement","rank":"normal"}]})
+			results = site.post('wbcreateclaim', token=token, entity=qid, property=prop, snaktype="value", value=object)
+		elif triple['object']['type'] == "item":
+			pass
+			results = site.post('wbcreateclaim', token=token, entity=qid, property=prop, snaktype="value", value='{"entity-type":"item","numeric-id":'+object.replace("Q","")+'}')
+		if results['success'] == 1:
+			print('Wbsetclaim for '+qid+' ('+prop+') '+object+': success.')
+		else:
+			print('Wbsetclaim for '+qid+' ('+prop+') '+object+': ERROR.')
+	except Exception as ex:
+		print(str(ex))
