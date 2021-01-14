@@ -1,0 +1,17 @@
+
+
+
+SELECT DISTINCT ?lwbProp ?lwbPropName ?valueconstraint ?type ?lexdoProp
+
+WHERE
+
+{ ?lwbProp rdf:type <http://wikiba.se/ontology#Property> .
+OPTIONAL {?lwbProp rdfs:label ?lwbPropName .
+        }
+OPTIONAL{  ?lwbProp <http://wikiba.se/ontology#propertyType> ?type.
+        }
+OPTIONAL{?lwbProp <http://lexbib.wiki.opencura.com/prop/direct/P1> ?lexdoProp .
+        }
+OPTIONAL{?lwbProp <http://lexbib.wiki.opencura.com/prop/direct/P42>  ?valueconstraint .
+        }
+}
