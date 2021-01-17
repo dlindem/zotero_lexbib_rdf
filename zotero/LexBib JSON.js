@@ -111,20 +111,20 @@ function importNext(data, resolve, reject) {
 function doExport() {
 	var item, data = [];
 	while (item = Z.nextItem()) {
-		var lexbibItem = ZU.itemToCSLJSON(item);
+		var exportitem = ZU.itemToCSLJSON(item);
 		if (item.extra) {
-			lexbibItem.extra = item.extra;
+			exportitem.extra = item.extra;
 		}
 		if (item.attachments) {
-			lexbibItem.attachments = item.attachments;
+			exportitem.attachments = item.attachments;
 		}
 		if (item.tags) {
-			lexbibItem.tags = item.tags;
+			exportitem.tags = item.tags;
 		}
 		if (item.notes) {
-			lexbibItem.notes = item.notes;
+			exportitem.notes = item.notes;
 		}
-		data.push(lexbibItem);
+		data.push(exportitem);
 	}
 	Z.write(JSON.stringify(data, null, "\t"));
 }
