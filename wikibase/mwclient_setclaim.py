@@ -13,12 +13,13 @@ csrfquery = site.api('query', meta='tokens')
 token=csrfquery['query']['tokens']['csrftoken']
 
 
-qid="Q109"
-prop="P5"
-object="Q8"
+qid="P4"
+prop="P29"
+time="2018-01-01T02:00:00.000Z"
+#{"snaktype":"value","property":"P813","datavalue":{"value":{"time":"+2017-09-05T00:00:00Z","timezone":0,"before":0,"after":0,"precision":11,"calendarmodel":"http://www.wikidata.org/entity/Q1985727"},"type":"time"},"datatype":"time"}
 
-results = site.post('wbcreateclaim', token=token, entity=qid, property=prop, snaktype="value", value='{"entity-type":"item","numeric-id":'+object.replace("Q","")+'}')
+results = site.post('wbcreateclaim', token=token, entity=qid, property=prop, snaktype="value", datatype="time", value='{"type":"time", "time":"+2018-01-01T02:00:00.000Z","timezone":0,"before":0,"after":0,"precision":9, "calendarmodel":"http://www.wikidata.org/entity/Q1985727"}')
 if results['success'] == 1:
-	print('Wbsetclaim for '+qid+' ('+prop+') '+object+': success.')
+	print('Wbcreateclaim for '+qid+' ('+prop+') '+time+': success.')
 else:
-	print('Wbsetclaim for '+qid+' ('+prop+') '+object+': ERROR.')
+	print('Wbsetclaim for '+qid+' ('+prop+') '+time+': ERROR.')

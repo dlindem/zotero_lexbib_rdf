@@ -13,8 +13,10 @@ mapg = Graph()
 
 wd = Namespace ('http://www.wikidata.org/entity/')
 lexdo = Namespace('http://lexbib.org/lexdo/')
+lwb = Namespace ('http://lexbib.wiki.opencura.com/entity/')
 mapg.bind("wd", wd)
 mapg.bind("lexdo", lexdo)
+mapg.bind("lwb", lwb)
 
 lwbcount = 0
 wdcount = 0
@@ -25,7 +27,9 @@ for item in items_lwb_lexdo:
     lwbcount +=1
     if item['lwbItem']['value'] in ilw:
         wditem = URIRef(ilw[item['lwbItem']['value']])
+        wdqid = Literal(ilw[item['lwbItem']['value']].replace("http://www.wikidata.org/entity/",""))
         mapg.add((lexdoitem, lexdo.wdItem, wditem))
+        mapg.add((lexdoitem, lexdo.wdQid, wdqid))
         wdcount += 1
 
 mapg.serialize(destination='D:/LexBib/wikibase/lwb_lexdo_mapping.ttl', format="turtle")

@@ -1,4 +1,5 @@
-
+# this produces output to be stored in 'D:/LexBib/wikibase/properties_lwb_lexdo_type.json'
+# For unknown reasons this query does not work via SPARQLWrapper
 
 
 SELECT DISTINCT ?lwbProp ?lwbPropName ?valueconstraint ?type ?lexdoProp
@@ -14,4 +15,4 @@ OPTIONAL{?lwbProp <http://lexbib.wiki.opencura.com/prop/direct/P1> ?lexdoProp .
         }
 OPTIONAL{?lwbProp <http://lexbib.wiki.opencura.com/prop/direct/P42>  ?valueconstraint .
         }
-}
+} order by ?lwbProp

@@ -1,2 +1,7 @@
 PREFIX lwb: <http://lexbib.wiki.opencura.com/entity/>
 PREFIX ldp: <http://lexbib.wiki.opencura.com/prop/direct/>
+
+select ?s ?p ?o where
+{
+
+  }

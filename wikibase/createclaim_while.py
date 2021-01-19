@@ -148,7 +148,7 @@ with open(sparql_csv, 'r', encoding="utf-8") as csvfile:
 						print('Found label property '+triple['p'])
 						label = label_properties[triple['p']]
 						language = re.sub(r'^L|A','',label)
-						value = triple['o'].replace('"', '\\"').replace("'", '\\"')
+						value = triple['o'].replace('"', '\\"').replace("'", '\\"')[0:250]
 						if label[0] == "L":
 							results = site.post('wbsetlabel', id=qid, language=language, value=value, token=token)
 						elif label[0] == "A":

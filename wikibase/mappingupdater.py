@@ -4,16 +4,21 @@ import sys
 
 sparql = SPARQLWrapper("https://lexbib.wiki.opencura.com/query/sparql", agent='LexBib (lexbib.org)')
 
-# # LWB - LexDo Properties mappings
+# # LWB - LexDo Properties mappings (SPARQL query for unknown reasons does not work from inside the script...)
+# with open('propmapping.rq', 'r') as file:
+#     propmapping = file.read()
+#     print(propmapping)
 #
-# sparql.setQuery('SELECT ?lwbProp ?lwbPropName ?valueconstraint ?type ?lexdoProp  WHERE {  ?lwbProp ?directClaimP ?lexdoProp . ?p wikibase:directClaim ?directClaimP . FILTER (STRENDS(str(?p), "P1")) OPTIONAL{?lwbProp rdfs:label ?lwbPropName .} OPTIONAL{?lwbProp <http://lexbib.wiki.opencura.com/prop/direct/P42>  ?valueconstraint .} OPTIONAL {?lwbProp ?directClaimP2 ?lexdoProp . ?p2 wikibase:directClaim ?directClaimP2 . FILTER (STRENDS(str(?p2), "P42"))}}')
+# propmapping = 'SELECT DISTINCT ?lwbProp ?lwbPropName ?valueconstraint ?type ?lexdoProp    WHERE    { ?lwbProp rdf:type <http://wikiba.se/ontology#Property> .  OPTIONAL {?lwbProp rdfs:label ?lwbPropName .          }  OPTIONAL{  ?lwbProp <http://wikiba.se/ontology#propertyType> ?type.          }  OPTIONAL{?lwbProp <http://lexbib.wiki.opencura.com/prop/direct/P1> ?lexdoProp .          }  OPTIONAL{?lwbProp <http://lexbib.wiki.opencura.com/prop/direct/P42>  ?valueconstraint .          }  }  '
+#
+# sparql.setQuery(propmapping)
 # sparql.setReturnFormat(JSON)
 #
 # try:
 #     #time.sleep(1.5)
 #     sparqldict = sparql.query().convert()
 #     datalist = sparqldict['results']['bindings']
-#     #print(datalist)
+#     print(datalist)
 # except Exception as ex:
 #     print(str(ex))
 #     pass

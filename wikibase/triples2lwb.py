@@ -1,3 +1,9 @@
+# script for uploading triples to LexBib Wikibase (LWB)
+# needed input:
+	# File containing the triples (chosen with file open dialog)
+	# 'D:/LexBib/wikibase/properties_lwb_lexdo_type.json' (produced with 'valueconstraint.rq')
+	# mappingupdater.py run before (produces 'D:/LexBib/wikibase/items_lwb_lexdo.json' and 'D:/LexBib/wikibase/items_lwb_wikidata.json')
+
 import mwclient
 import time
 import json
@@ -81,7 +87,7 @@ if choice == 1:
 				print('*** Found new item (appended to create command list): '+triple['s'])
 			elif triple['s'] in ill.values():
 				if triple['s'] != seen:
-					print('Found '+triple['s']+', will not propose to create new wikibase item')
+					# print('Found '+triple['s']+', will not propose to create new wikibase item')
 					seen = triple['s']
 	if len(created) > 0:
 		with open('D:/LexBib/wikibase/qsv1_create_commands.txt', 'w', encoding='utf-8') as qsfile:
@@ -131,61 +137,114 @@ with open(sparql_csv, 'r', encoding="utf-8") as csvfile:
 		edits = 0
 		rep = 0
 		while index < totalrows:
-			if rep > 5:
-				print ('\n...this script has entered in an endless loop... Abort.')
-				sys.exit()
-			print('Finished processing line '+str(index)+'. '+str(totalrows-index)+' lines left.')
-			#time.sleep(1)
-			rep += 1
-			try:
-				triple = triples[index]
-				print('\nLine '+str(index+1)+': Triple to process will be: '+str(triple))
-				vmax = 0
-				if triple['s'] in ill.values() and triple['o'] not in ignore_classes:
-					qid = get_key(ill, triple['s']).replace("http://lexbib.wiki.opencura.com/entity/", "") # replaces with wikibase item Qid
-					print('Found known subject '+qid+'.')
-					if triple['p'] in label_properties: # checks if property is known label property
-						print('Found label property '+triple['p'])
-						label = label_properties[triple['p']]
-						language = re.sub(r'^L|A','',label)
-						value = triple['o'].replace('"', '\\"').replace("'", '\\"')[0:250]
-						if label[0] == "L":
-							results = site.post('wbsetlabel', id=qid, language=language, value=value, token=token)
-						elif label[0] == "A":
-							results = site.post('wbsetaliases', id=qid, language=language, add=value, token=token)
-						for result in results:
-							if "success" in result:
-								print('Wbsetlabel/alias (Type '+label[0]+') for '+qid+' ('+value+'):'+result)
-								#labels[qid][label]['update'] = str(datetime.now())
-								index += 1
-								rep = 0
-					elif triple['p'] in propdict: # checks in property is known in wikibase
-						print('Found known property '+triple['p']+'.')
-						proptype = propdict[triple['p']]['type'].replace("http://wikiba.se/ontology#", "") # replaces with wikibase property datatype
-						print('Found proptype '+proptype+'.')
-						property = propdict[triple['p']]['lwb_p'].replace("http://lexbib.wiki.opencura.com/entity/", "") # replaces with wikibase property Pid
-						print('Property will be '+property+'.')
-						if 'valueconstraint' in propdict[triple['p']]:
-							if 'MAX 1' in propdict[triple['p']]['valueconstraint']:
-								vmax = 1
-							else:
-								vmax = 0
-						if proptype == "WikibaseItem":
+			if rep < 6: # break while loop after 5 time trying to resolve the same job
+				print('Line '+str(index)+' processed. '+str(totalrows-index)+' lines left.')
+				#time.sleep(1)
+				rep += 1
+				try:
+					triple = triples[index]
+					print('\nLine '+str(index+1)+': Triple to process will be: '+str(triple))
+					vmax = 0
+					if triple['s'] in ill.values() and triple['o'] not in ignore_classes:
+						qid = get_key(ill, triple['s']).replace("http://lexbib.wiki.opencura.com/entity/", "") # replaces with wikibase item Qid
+						print('Found known subject '+qid+'.')
+						if triple['p'] in label_properties: # checks if property is known label property
+							print('Found label property '+triple['p'])
+							label = label_properties[triple['p']]
+							language = re.sub(r'^L|A','',label)
+							value = triple['o'].replace('"', '\\"').replace("'", '\\"')[0:250]
+							if label[0] == "L":
+								results = site.post('wbsetlabel', id=qid, language=language, value=value, token=token)
+							elif label[0] == "A":
+								results = site.post('wbsetaliases', id=qid, language=language, add=value, token=token)
+							for result in results:
+								if "success" in result:
+									print('Wbsetlabel/alias (Type '+label[0]+') for '+qid+' ('+value+'):'+result)
+									#labels[qid][label]['update'] = str(datetime.now())
+									index += 1
+									rep = 0
+						elif triple['p'] in propdict: # checks in property is known in wikibase
+							print('Found known property '+triple['p']+'.')
+							proptype = propdict[triple['p']]['type'].replace("http://wikiba.se/ontology#", "") # replaces with wikibase property datatype
+							print('Found proptype '+proptype+'.')
+							property = propdict[triple['p']]['lwb_p'].replace("http://lexbib.wiki.opencura.com/entity/", "") # replaces with wikibase property Pid
+							print('Property will be '+property+'.')
+							if 'valueconstraint' in propdict[triple['p']]:
+								if 'MAX 1' in propdict[triple['p']]['valueconstraint']:
+									vmax = 1
+								else:
+									vmax = 0
+							if proptype == "WikibaseItem":
 
-							if triple['o'].rstrip("/") in ill.values(): # if object is a known wikibase item...
+								if triple['o'].rstrip("/") in ill.values(): # if object is a known wikibase item...
 
-								object = get_key(ill, triple['o'].rstrip("/")).replace("http://lexbib.wiki.opencura.com/entity/", "") # replace with its Qid
-								print('Found known QID '+object+' for object.')
+									object = get_key(ill, triple['o'].rstrip("/")).replace("http://lexbib.wiki.opencura.com/entity/", "") # replace with its Qid
+									print('Found known QID '+object+' for object.')
 
+									results = site.api('wbgetclaims', entity=qid, property=property)
+									#print(str(results))
+									redundant = 0
+									foundobj = None
+									if 'claims' in results and property in results['claims']:
+										for result in results['claims'][property]:
+											foundobj = result['mainsnak']['datavalue']['value']['id']
+											guid = result['id']
+											##print(foundobj+', GUID '+guid)
+											if object == foundobj:
+												redundant += 1
+												print('Found redundant Object: '+object+'. Will not write new statement.')
+												if redundant == 2:
+													# todo: delete accidentally created redundancies
+													results = site.post('wbremoveclaims', claim=guid, token=token)
+													if results['success'] == 1:
+														print('Wb remove duplicate claim for '+qid+' ('+property+') '+object+': success.')
+														edits += 1
+														time.sleep(1)
+														redundant = 1
+													else:
+														print('*** *** Wb remove duplicate claim for '+qid+' ('+property+'): *** Unknown error not raised to exception.')
+														errorlog.write('*** Wb remove duplicate claim Error at input line '+str(index)+' for '+qid+' ('+property+'): *** Unknown error not raised to exception.')
+									if redundant == 0:
+										numqidobject = object.replace("Q", "") # replace with its Qid numeric
+										if foundobj == None or vmax == 0:
+											results = site.post('wbcreateclaim', token=token, entity=qid, property=property, snaktype="value", value='{"entity-type":"item","numeric-id":'+numqidobject+'}')
+											if results['success'] == 1:
+												print('Wb create claim for '+qid+' ('+property+') '+object+': success.')
+												edits += 1
+												time.sleep(1)
+											else:
+												print('*** *** Wbcreateclaim for '+qid+' ('+property+'): *** Unknown error not raised to exception.')
+												errorlog.write('*** Wbcreateclaim Error at input line '+str(index)+' for '+qid+' ('+property+'): *** Unknown error not raised to exception.')
+										elif vmax == 1:
+											results = site.post('wbsetclaimvalue', token=token, claim=guid, snaktype="value", value='{"entity-type":"item","numeric-id":'+numqidobject+'}')
+											if results['success'] == 1:
+												edits += 1
+												time.sleep(1)
+												print('Wb update claim value for '+qid+' ('+property+') '+object+': success.')
+											else:
+												print('*** *** Wb update claim value for '+qid+' ('+property+'): *** Unknown error not raised to exception.')
+												errorlog.write('\n*** Wb update claim Error at input line '+str(index)+' for '+qid+' ('+property+'): *** Unknown error not raised to exception.')
+
+									index += 1
+									rep = 0
+								else:
+									print('Error: '+triple['o']+' was supposed to correspond to an LWB item but it is not.')
+									errorlog.write('\n\nError at line '+str(index)+', '+qid+' ('+property+'): '+triple['o']+' (was supposed to be an LWB item but it is not).')
+									index += 1
+									rep = 0
+
+							elif proptype == "Time":
+								property = "P45" # workaround until real implementation of datatype time (P45 takes string)
+								object = '"'+triple['o'][0:4]+'"'
 								results = site.api('wbgetclaims', entity=qid, property=property)
-								#print(str(results))
+								#print('Wbgetclaims:\n'+str(results['claims']))
 								redundant = 0
 								foundobj = None
 								if 'claims' in results and property in results['claims']:
 									for result in results['claims'][property]:
-										foundobj = result['mainsnak']['datavalue']['value']['id']
+										foundobj = result['mainsnak']['datavalue']['value']
 										guid = result['id']
-										##print(foundobj+', GUID '+guid)
+										#print(str(foundobj)+', GUID '+str(guid))
 										if object == foundobj:
 											redundant += 1
 											print('Found redundant Object: '+object+'. Will not write new statement.')
@@ -200,156 +259,107 @@ with open(sparql_csv, 'r', encoding="utf-8") as csvfile:
 												else:
 													print('*** *** Wb remove duplicate claim for '+qid+' ('+property+'): *** Unknown error not raised to exception.')
 													errorlog.write('*** Wb remove duplicate claim Error at input line '+str(index)+' for '+qid+' ('+property+'): *** Unknown error not raised to exception.')
+
 								if redundant == 0:
-									numqidobject = object.replace("Q", "") # replace with its Qid numeric
 									if foundobj == None or vmax == 0:
-										results = site.post('wbcreateclaim', token=token, entity=qid, property=property, snaktype="value", value='{"entity-type":"item","numeric-id":'+numqidobject+'}')
+										results = site.post('wbcreateclaim', token=token, entity=qid, property=property, snaktype="value", value=object)
 										if results['success'] == 1:
-											print('Wb create claim for '+qid+' ('+property+') '+object+': success.')
 											edits += 1
 											time.sleep(1)
+											print('Wbcreateclaim for '+qid+' ('+property+') '+object+': success.')
 										else:
 											print('*** *** Wbcreateclaim for '+qid+' ('+property+'): *** Unknown error not raised to exception.')
 											errorlog.write('*** Wbcreateclaim Error at input line '+str(index)+' for '+qid+' ('+property+'): *** Unknown error not raised to exception.')
 									elif vmax == 1:
-										results = site.post('wbsetclaimvalue', token=token, claim=guid, snaktype="value", value='{"entity-type":"item","numeric-id":'+numqidobject+'}')
+										results = site.post('wbsetclaimvalue', token=token, claim=guid, snaktype="value", value=object)
 										if results['success'] == 1:
 											edits += 1
 											time.sleep(1)
-											print('Wb update claim value for '+qid+' ('+property+') '+object+': success.')
+											print('wbsetclaimvalue for '+qid+' ('+property+')'+guid+' > '+object+': success.')
 										else:
 											print('*** *** Wb update claim value for '+qid+' ('+property+'): *** Unknown error not raised to exception.')
 											errorlog.write('\n*** Wb update claim Error at input line '+str(index)+' for '+qid+' ('+property+'): *** Unknown error not raised to exception.')
-
 								index += 1
 								rep = 0
+
+
+							elif proptype == "ExternalId" or proptype == "String" or proptype == "Url":
+								if proptype == "ExternalId" or proptype == "String":
+									object = '"'+triple['o'].replace('"', '\\"').replace("'", '\\"')+'"'
+								elif proptype == "Url":
+									object = '"'+triple['o'].replace('"', '\\"')+'"'
+								results = site.api('wbgetclaims', entity=qid, property=property)
+								#print('Wbgetclaims:\n'+str(results['claims']))
+								redundant = 0
+								foundobj = None
+								if 'claims' in results and property in results['claims']:
+									for result in results['claims'][property]:
+										foundobj = result['mainsnak']['datavalue']['value']
+										guid = result['id']
+										#print(str(foundobj)+', GUID '+str(guid))
+										if triple['o'] == foundobj:
+											redundant += 1
+											print('Found redundant Object: '+object+'. Will not write new statement.')
+											if redundant == 2:
+												# todo: delete accidentally created redundancies
+												results = site.post('wbremoveclaims', claim=guid, token=token)
+												if results['success'] == 1:
+													print('Wb remove duplicate claim for '+qid+' ('+property+') '+object+': success.')
+													edits += 1
+													time.sleep(1)
+													redundant = 1
+												else:
+													print('*** *** Wb remove duplicate claim for '+qid+' ('+property+'): *** Unknown error not raised to exception.')
+													errorlog.write('*** Wb remove duplicate claim Error at input line '+str(index)+' for '+qid+' ('+property+'): *** Unknown error not raised to exception.')
+
+								if redundant == 0:
+									if foundobj == None or vmax == 0:
+										results = site.post('wbcreateclaim', token=token, entity=qid, property=property, snaktype="value", value=object)
+										if results['success'] == 1:
+											edits += 1
+											time.sleep(1)
+											print('Wbcreateclaim for '+qid+' ('+property+') '+object+': success.')
+										else:
+											print('*** *** Wbcreateclaim for '+qid+' ('+property+'): *** Unknown error not raised to exception.')
+											errorlog.write('*** Wbcreateclaim Error at input line '+str(index)+' for '+qid+' ('+property+'): *** Unknown error not raised to exception.')
+									elif vmax == 1:
+										results = site.post('wbsetclaimvalue', token=token, claim=guid, snaktype="value", value=object)
+										if results['success'] == 1:
+											edits += 1
+											time.sleep(1)
+											print('wbsetclaimvalue for '+qid+' ('+property+')'+guid+' > '+object+': success.')
+										else:
+											print('*** *** Wb update claim value for '+qid+' ('+property+'): *** Unknown error not raised to exception.')
+											errorlog.write('\n*** Wb update claim Error at input line '+str(index)+' for '+qid+' ('+property+'): *** Unknown error not raised to exception.')
+								index += 1
+								rep = 0
+
 							else:
-								print('Error: '+triple['o']+' was supposed to correspond to an LWB item but it is not.')
-								errorlog.write('\n\nError at line '+str(index)+', '+qid+' ('+property+'): '+triple['o']+' (was supposed to be an LWB item but it is not).')
+								print('Found datatype \"' +proptype+'\", not implemented yet. Skipped.')
 								index += 1
 								rep = 0
-
-						elif proptype == "Time":
-							property = "P45" # workaround until real implementation of datatype time (P45 takes string)
-							object = '"'+triple['o'][0:4]+'"'
-							results = site.api('wbgetclaims', entity=qid, property=property)
-							#print('Wbgetclaims:\n'+str(results['claims']))
-							redundant = 0
-							foundobj = None
-							if 'claims' in results and property in results['claims']:
-								for result in results['claims'][property]:
-									foundobj = result['mainsnak']['datavalue']['value']
-									guid = result['id']
-									#print(str(foundobj)+', GUID '+str(guid))
-									if triple['o'] == foundobj:
-										redundant += 1
-										print('Found redundant Object: '+object+'. Will not write new statement.')
-										if redundant == 2:
-											# todo: delete accidentally created redundancies
-											results = site.post('wbremoveclaims', claim=guid, token=token)
-											if results['success'] == 1:
-												print('Wb remove duplicate claim for '+qid+' ('+property+') '+object+': success.')
-												edits += 1
-												time.sleep(1)
-												redundant = 1
-											else:
-												print('*** *** Wb remove duplicate claim for '+qid+' ('+property+'): *** Unknown error not raised to exception.')
-												errorlog.write('*** Wb remove duplicate claim Error at input line '+str(index)+' for '+qid+' ('+property+'): *** Unknown error not raised to exception.')
-
-							if redundant == 0:
-								if foundobj == None or vmax == 0:
-									results = site.post('wbcreateclaim', token=token, entity=qid, property=property, snaktype="value", value=object)
-									if results['success'] == 1:
-										edits += 1
-										time.sleep(1)
-										print('Wbcreateclaim for '+qid+' ('+property+') '+object+': success.')
-									else:
-										print('*** *** Wbcreateclaim for '+qid+' ('+property+'): *** Unknown error not raised to exception.')
-										errorlog.write('*** Wbcreateclaim Error at input line '+str(index)+' for '+qid+' ('+property+'): *** Unknown error not raised to exception.')
-								elif vmax == 1:
-									results = site.post('wbsetclaimvalue', token=token, claim=guid, snaktype="value", value=object)
-									if results['success'] == 1:
-										edits += 1
-										time.sleep(1)
-										print('wbsetclaimvalue for '+qid+' ('+property+')'+guid+' > '+object+': success.')
-									else:
-										print('*** *** Wb update claim value for '+qid+' ('+property+'): *** Unknown error not raised to exception.')
-										errorlog.write('\n*** Wb update claim Error at input line '+str(index)+' for '+qid+' ('+property+'): *** Unknown error not raised to exception.')
-							index += 1
-							rep = 0
-
-
-						elif proptype == "ExternalId" or proptype == "String" or proptype == "Url":
-							object = '"'+triple['o'].replace('"', '\\"').replace("'", '\\"')+'"'
-							results = site.api('wbgetclaims', entity=qid, property=property)
-							#print('Wbgetclaims:\n'+str(results['claims']))
-							redundant = 0
-							foundobj = None
-							if 'claims' in results and property in results['claims']:
-								for result in results['claims'][property]:
-									foundobj = result['mainsnak']['datavalue']['value']
-									guid = result['id']
-									#print(str(foundobj)+', GUID '+str(guid))
-									if triple['o'] == foundobj:
-										redundant += 1
-										print('Found redundant Object: '+object+'. Will not write new statement.')
-										if redundant == 2:
-											# todo: delete accidentally created redundancies
-											results = site.post('wbremoveclaims', claim=guid, token=token)
-											if results['success'] == 1:
-												print('Wb remove duplicate claim for '+qid+' ('+property+') '+object+': success.')
-												edits += 1
-												time.sleep(1)
-												redundant = 1
-											else:
-												print('*** *** Wb remove duplicate claim for '+qid+' ('+property+'): *** Unknown error not raised to exception.')
-												errorlog.write('*** Wb remove duplicate claim Error at input line '+str(index)+' for '+qid+' ('+property+'): *** Unknown error not raised to exception.')
-
-							if redundant == 0:
-								if foundobj == None or vmax == 0:
-									results = site.post('wbcreateclaim', token=token, entity=qid, property=property, snaktype="value", value=object)
-									if results['success'] == 1:
-										edits += 1
-										time.sleep(1)
-										print('Wbcreateclaim for '+qid+' ('+property+') '+object+': success.')
-									else:
-										print('*** *** Wbcreateclaim for '+qid+' ('+property+'): *** Unknown error not raised to exception.')
-										errorlog.write('*** Wbcreateclaim Error at input line '+str(index)+' for '+qid+' ('+property+'): *** Unknown error not raised to exception.')
-								elif vmax == 1:
-									results = site.post('wbsetclaimvalue', token=token, claim=guid, snaktype="value", value=object)
-									if results['success'] == 1:
-										edits += 1
-										time.sleep(1)
-										print('wbsetclaimvalue for '+qid+' ('+property+')'+guid+' > '+object+': success.')
-									else:
-										print('*** *** Wb update claim value for '+qid+' ('+property+'): *** Unknown error not raised to exception.')
-										errorlog.write('\n*** Wb update claim Error at input line '+str(index)+' for '+qid+' ('+property+'): *** Unknown error not raised to exception.')
-							index += 1
-							rep = 0
-
 						else:
-							print('Found datatype \"' +proptype+'\", not implemented yet. Skipped.')
+							print('Found property '+triple['p']+', unknown in lexbib wikibase. Skipped.')
 							index += 1
 							rep = 0
 					else:
-						print('Found property '+triple['p']+', unknown in lexbib wikibase. Skipped.')
+						if triple['s'] not in ill.values() and triple['o'] in ignore_classes:
+							print ('There shouldn\'t be unknown subjects. Run this script again in 1 mode.')
+							errorlog.write('There shouldn\'t be unknown subjects. Run this script again in 1 mode.')
+						elif triple['o'] in ignore_classes:
+							print('This rdf:Class is on the ignore list. Skipped.')
+						else:
+							print('Skipped. Don\'t ask me why.')
 						index += 1
 						rep = 0
-				else:
-					if triple['s'] not in ill.values() and triple['o'] in ignore_classes:
-						print ('There shouldn\'t be unknown subjects. Run this script again in 1 mode.')
-						errorlog.write('There shouldn\'t be unknown subjects. Run this script again in 1 mode.')
-					elif triple['o'] in ignore_classes:
-						print('This rdf:Class is on the ignore list. Skipped.')
-					else:
-						print('Skipped. Don\'t ask me why.')
-					index += 1
-					rep = 0
-			except Exception as ex:
-				traceback.print_exc()
-				if 'Invalid CSRF token.' in str(ex):
-					print('Wait a sec. Must get a new CSRF token...')
-					token = get_token()
-				errorlog.write('\n\nError at input line '+str(index)+', qid (prop): '+qid+' ('+property+'): \n'+str(ex))
+				except Exception as ex:
+					traceback.print_exc()
+					if 'Invalid CSRF token.' in str(ex):
+						print('Wait a sec. Must get a new CSRF token...')
+						token = get_token()
+					errorlog.write('\n\nError at input line '+str(index)+', qid (prop): '+qid+' ('+property+'): \n'+str(ex))
+			else:
+				print ('\n...this script has entered in an endless loop... Abort.')
+				break
 
 print ('Finished processing '+str(index)+' lines, '+str(edits)+' edits made.')

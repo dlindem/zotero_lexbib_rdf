@@ -21,7 +21,7 @@ token=csrfquery['query']['tokens']['csrftoken']
 
 for qid in labels:
 	#print(qid)
-	print(labels[qid])
+	#print(labels[qid])
 	for label in labels[qid]:
 		#print (label)
 		if 'update' not in labels[qid][label]:

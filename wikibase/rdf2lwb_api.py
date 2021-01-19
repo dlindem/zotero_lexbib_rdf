@@ -9,11 +9,16 @@ ignore_object_uri = [ # object uri to ignore for import in wikibase
 "http://www.w3.org/2002/07/owl#NamedIndividual",
 "http://www.w3.org/2002/07/owl#Class",
 "http://www.w3.org/2002/07/owl#Thing",
-"http://lexbib.org/lexdo/LexdoRootClass"
+"http://purl.org/ontology/bibo/Document",
+"http://purl.org/ontology/bibo/document",
+"http://purl.org/ontology/bibo/Article",
+"http://lexbib.org/lexdo/BibliographicalResource",
+"http://lexbib.org/lexdo-top/Resource",
+"http://xmlns.com/foaf/0.1/Document"
 ]
 
 label_properties = { # rdfs and skos labels to QS v1 mapping
-"http://www.w3.org/2000/01/rdf-schema#Label":"Len",
+"http://www.w3.org/2000/01/rdf-schema#label":"Len",
 "http://www.w3.org/2004/02/skos/core#prefLabel":"Len",
 "http://www.w3.org/2004/02/skos/core#altLabel":"Aen"
 
@@ -63,6 +68,7 @@ with open(sparql_csv, 'r', encoding="utf-8") as csvfile:
     csvdict = csv.DictReader(csvfile)
     qscsv = ""
     created = []
+    seen = ""
     for triple in csvdict:
         #print (str(len(created)))
         if triple['s'] not in ill.values() and triple['s'] not in created: # look for rdf items without Qid
@@ -70,8 +76,9 @@ with open(sparql_csv, 'r', encoding="utf-8") as csvfile:
             qscsv += "CREATE\nLAST\tP3\t\""+triple['s']+"\"\n"
             created.append(triple['s'])
         elif triple['s'] in ill.values():
-            print('did find '+triple['s']+', will not propose to create new wikibase item')
-
+            if triple['s'] != seen:
+                print('did find '+triple['s']+', will not propose to create new wikibase item')
+                seen = triple['s']
 if len(created) > 0:
     with open('D:/LexBib/wikibase/qsv1_create_commands.txt', 'w', encoding='utf-8') as qsfile:
         qsfile.write(qscsv)
@@ -90,7 +97,7 @@ with open(sparql_csv, 'r', encoding="utf-8") as csvfile:
         #print(triple)
         if triple['s'] in ill.values() and triple['o'] not in ignore_object_uri:
             subject = get_key(ill, triple['s']).replace("http://lexbib.wiki.opencura.com/entity/", "") # replaces with wikibase item Qid
-            print('Found known subject '+subject)
+            #print('Found known subject '+subject)
             if triple['p'] in pll.values(): # checks in property is known in wikibase
                 property = get_key(pll, triple['p']).replace("http://lexbib.wiki.opencura.com/entity/", "") # replaces with wikibase property
                 #qscsv += subject+"\t"+property+"\t"
