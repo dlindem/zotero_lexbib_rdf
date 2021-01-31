@@ -62,7 +62,8 @@ print ('\nMapping JSON files loaded.\n')
 #get CSV file to import, first row must be: '?s,?p,?o\n'
 Tk().withdraw()
 sparql_csv = askopenfilename()
-print('File to process is '+sparql_csv)
+filename = re.search(r'\/([^\.\/]+)\.csv' )
+print('File to process is '+filename)
 
 print('\nDo you want to find new subjects and create them in lwb?\nYes = 1, No = 0 \n')
 try:
@@ -132,7 +133,7 @@ with open(sparql_csv, 'r', encoding="utf-8") as csvfile:
 		totalrows += 1
 	print('This will be '+str(totalrows)+' rows to process.')
 
-	with open('D:/LexBib/wikibase/logs/errorlog_'+time.strftime("%Y%m%d-%H%M%S")+'.log', 'w') as errorlog:
+	with open('D:/LexBib/wikibase/logs/errorlog_'+filename+'_'+time.strftime("%Y%m%d-%H%M%S")+'.log', 'w') as errorlog:
 		index = 0
 		edits = 0
 		rep = 0
@@ -347,9 +348,10 @@ with open(sparql_csv, 'r', encoding="utf-8") as csvfile:
 							print ('There shouldn\'t be unknown subjects. Run this script again in 1 mode.')
 							errorlog.write('There shouldn\'t be unknown subjects. Run this script again in 1 mode.')
 						elif triple['o'] in ignore_classes:
-							print('This rdf:Class is on the ignore list. Skipped.')
+							print('rdf:type: This Class is on the ignore list. Skipped.')
 						else:
 							print('Skipped. Don\'t ask me why.')
+							errorlog.write('\n\nError at input line '+str(index)+', skipped for unknown reason.')
 						index += 1
 						rep = 0
 				except Exception as ex:
