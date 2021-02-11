@@ -75,7 +75,7 @@ with open('D:/LexBib/wikibase/logs/errorlog_'+infilename+'_'+time.strftime("%Y%m
 								results = site.post('wbcreateclaim', token=token, entity=qid, property=prop['property'], snaktype="value", bot=True, value=json.dumps(value))
 								if createclaim['success'] == 1:
 									done = True
-									print('Claim creation for'+prop['property']+': success.')
+									print('Claim creation for '+prop['property']+': success.')
 									claimid = createclaim['claim']['id']
 								else:
 									print('Claim creation failed, will try again...')
@@ -99,7 +99,7 @@ with open('D:/LexBib/wikibase/logs/errorlog_'+infilename+'_'+time.strftime("%Y%m
 				if 'Invalid CSRF token.' in str(ex):
 					print('Wait a sec. Must get a new CSRF token...')
 					token = get_token()
-				errorlog.write('\n\nError at input line ['+str(index+1)+'] "'+item['lexbibUri']+'" ('+qid+'): \n'+str(ex))
+				errorlog.write('\n\nError at input line ['+str(index+1)+'] '+item['lexbibUri']+' ('+qid+'): \n'+str(ex))
 				continue
 			index += 1
 			rep = 0
