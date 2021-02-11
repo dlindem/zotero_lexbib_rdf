@@ -24,10 +24,15 @@ except Exception as ex:
 	print (str(ex))
 	knownqid = {}
 
+def save_knownqid(qid):
+	with open('D:/LexBib/wikibase/knownqid.json', 'w', encoding="utf-8") as json_file:
+		json.dump(knownqid, json_file, indent=2)
+
 
 def getqid(lwbclass, lexbibItem):
 
 	if lexbibItem in knownqid:
+		print('This is a known bibitem: Qid '+knownqid[lexbibItem])
 		return knownqid[lexbibItem]
 	else:
 		lexbibItemSafe = urllib.parse.quote(lexbibItem, safe='~', encoding="utf-8", errors="strict")
@@ -68,8 +73,7 @@ def getqid(lwbclass, lexbibItem):
 					done = True
 					print('Claim creation for '+lexbibItem+': success. Class = '+lwbclass)
 					knownqid[lexbibItem] = qid
-					with open('D:/LexBib/wikibase/knownqid.json', 'w', encoding="utf-8") as json_file:
-						json.dump(knownqid, json_file, indent=2)
+					save_knownqid(qid)
 					return qid
 				else:
 					print('Claim creation failed, will try again...')
@@ -78,12 +82,10 @@ def getqid(lwbclass, lexbibItem):
 			print('*** Error: Found more than one Wikibase item for one LexBib URI that should be unique... will take the first result.')
 			qid = results[0]['lwbItem']['value'].replace("http://data.lexbib.org/entity/","")
 			knownqid[lexbibItem] = qid
-			with open('D:/LexBib/wikibase/knownqid.json', 'w', encoding="utf-8") as json_file:
-				json.dump(knownqid, json_file, indent=2)
+			save_knownqid(qid)
 			return qid
 		elif len(results) == 1:
 			qid = results[0]['lwbItem']['value'].replace("http://data.lexbib.org/entity/","")
 			knownqid[lexbibItem] = qid
-			with open('D:/LexBib/wikibase/knownqid.json', 'w', encoding="utf-8") as json_file:
-				json.dump(knownqid, json_file, indent=2)
+			save_knownqid(qid)
 			return qid
