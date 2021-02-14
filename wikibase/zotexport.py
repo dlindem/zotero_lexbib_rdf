@@ -5,119 +5,14 @@ import sys
 import json
 import re
 import unidecode
-import requests
-import urllib.parse
-import mwclient
+#import requests
+#import urllib.parse
+
 import lexvomapping
-
-# LexBib wikibase OAuth
-site = mwclient.Site('data.lexbib.org')
-with open('D:/LexBib/wikibase/data_lexbib_org_pwd.txt', 'r', encoding='utf-8') as pwdfile:
-	pwd = pwdfile.read()
-def get_token():
-	login = site.login(username='DavidL', password=pwd)
-	csrfquery = site.api('query', meta='tokens')
-	token=csrfquery['query']['tokens']['csrftoken']
-	print("Got fresh CSRF token.")
-	return token
-token = get_token()
-
-# Load known qid-lexbibUri mappings
-knownqid = {}
-try:
-	with open('D:/LexBib/wikibase/knownqid.jsonl', encoding="utf-8") as f:
-		mappings = f.readlines()
-		for mapping in mappings:
-			try:
-				mapping = mapping.json()
-				knownqid[mapping['lexbibItem']] = mapping['qid']
-			except:
-				pass
-
-except Exception as ex:
-	print ('Error: knownqid file does not exist. Will start a new one.')
-	print (str(ex))
-
-def save_knownqid(mapping):
-	with open('D:/LexBib/wikibase/knownqid.jsonl', 'a', encoding="utf-8") as jsonl_file:
-		jsonl_file.write(json.dumps(mapping)+'\n')
-
-# function for item creation (after check if it is known)
-def getqid(lwbclass, lexbibItem, token):
-
-	if lexbibItem in knownqid:
-		print(lexbibItem+' is a known wikibase item: Qid '+knownqid[lexbibItem]+', no need to create it.')
-		return knownqid[lexbibItem]
-	else:
-		lexbibItemSafe = urllib.parse.quote(lexbibItem, safe='~', encoding="utf-8", errors="strict")
-		url = "https://data.lexbib.org/query/sparql?format=json&query=SELECT%20%3FlwbItem%20%0AWHERE%20%0A%7B%20%20%3FlwbItem%20%3Chttp%3A%2F%2Fdata.lexbib.org%2Fprop%2Fdirect%2FP5%3E%20%3Chttp%3A%2F%2Fdata.lexbib.org%2Fentity%2F"+lwbclass+"%3E.%20%0A%0A%20%20%20%3FlwbItem%20%3Chttp%3A%2F%2Fdata.lexbib.org%2Fprop%2Fdirect%2FP3%3E%20%3C"+lexbibItemSafe+"%3E%20.%0A%7D"
-		done = False
-		while (not done):
-			try:
-				r = requests.get(url)
-				results = r.json()['results']['bindings']
-			except Exception as ex:
-				print('Error: SPARQL request failed.')
-				time.sleep(2)
-				continue
-			done = True
-		if len(results) == 0:
-			print('*** Found no Qid for LexBib URI '+lexbibItem+', will create it.')
-			claim = {"claims":[
-			#{"mainsnak":{"snaktype":"value","property":"P5","datavalue":{"value":lwbclass,"type":"WikibaseItem"}},"type":"statement","rank":"normal"},
-			{"mainsnak":{"snaktype":"value","property":"P3","datavalue":{"value":lexbibItem,"type":"string"}},"type":"statement","rank":"normal"}
-			]}
-			#token = get_token()
-			done = False
-			while (not done):
-				try:
-					itemcreation = site.post('wbeditentity', token=token, new="item", bot=True, data=json.dumps(claim))
-				except Exception as ex:
-					print(str(ex))
-					if 'Invalid CSRF token.' in str(ex) or 'referenced before assignment' in str(ex):
-						print('Wait a sec. Must get a new CSRF token...')
-						token = get_token()
-					else:
-						time.sleep(4)
-					continue
-				#print(str(itemcreation))
-				if itemcreation['success'] == 1:
-					done = True
-					qid = itemcreation['entity']['id']
-					print('Item creation for '+lexbibItem+': success. QID = '+qid)
-				else:
-					print('Item creation failed, will try again...')
-					time.sleep(2)
-			done = False
-			while (not done):
-				claim = {"entity-type":"item","numeric-id":int(lwbclass.replace("Q",""))}
-				classclaim = site.post('wbcreateclaim', token=token, entity=qid, property="P5", snaktype="value", value=json.dumps(claim))
-				if classclaim['success'] == 1:
-					done = True
-					print('Claim creation for '+lexbibItem+': success. Class = '+lwbclass)
-					knownqid[lexbibItem] = qid
-					save_knownqid({"lexbibItem:":lexbibItem,"qid":qid})
-					return qid
-				else:
-					print('Claim creation failed, will try again...')
-					time.sleep(2)
-		elif len(results) > 1:
-			print('*** Error: Found more than one Wikibase item for one LexBib URI that should be unique... will take the first result.')
-			qid = results[0]['lwbItem']['value'].replace("http://data.lexbib.org/entity/","")
-			knownqid[lexbibItem] = qid
-			save_knownqid({"lexbibItem:":lexbibItem,"qid":qid})
-			return qid
-		elif len(results) == 1:
-			qid = results[0]['lwbItem']['value'].replace("http://data.lexbib.org/entity/","")
-			knownqid[lexbibItem] = qid
-			print('Found '+lexbibItem+' not in knownqid file but on data.lexbib: Qid '+qid+'; no need to create it, will add to knownqid file.')
-			save_knownqid({"lexbibItem:":lexbibItem,"qid":qid})
-			return qid
-
+import lwb_functions
 
 # open and load input file
 print('Please select Zotero export JSON to be processed.')
-#time.sleep(2)
 Tk().withdraw()
 infile = askopenfilename()
 print('This file will be processed: '+infile)
@@ -129,8 +24,11 @@ except Exception as ex:
 	print (str(ex))
 	sys.exit()
 
+# process Zotero export JSON
+token = lwb_functions.get_token()
+knownqid=lwb_functions.load_knownqid()
 lwb_data = []
-item_updates = []
+#item_updates = []
 itemcount = 0
 for item in data:
 	itemcount += 1
@@ -189,7 +87,7 @@ for item in data:
 
 		if zp == "type":
 
-			# props with item value
+			# props with item value.
 
 			if val == "paper-conference":
 				propvals.append({"property":"P5","qid":"Q19"})
@@ -206,11 +104,15 @@ for item in data:
 			elif val == "thesis":
 				propvals.append({"property":"P5","qid":"Q57"})
 
+		# lexbib zotero tags can contain statements. if item in value does not exist, it is created.
 		elif zp == "tags":
 			for tag in val:
 				if tag["tag"].startswith(':event ') == True:
-					event = tag["tag"].replace(":event ","http://lexbib.org/events#")
-					qid = getqid("Q6", event, token)
+					event = tag["tag"].replace(":event ","")
+					if event.startswith('http'): # event uri is from outside lexbib
+						qid = lwb_functions.getqid("Q6", event)
+					else: # convert to event uri in lexbib events namespace
+						qid = lwb_functions.getqid("Q6", 'http://lexbib.org/events#'+event)
 					propvals.append({"property":"P36","qid":qid})
 				if tag["tag"].startswith(':container ') == True:
 					container = tag["tag"].replace(":container ","")
@@ -222,9 +124,9 @@ for item in data:
 						container = container.replace("doi:", "http://doi.org/")
 
 					if item['type'] == "article-journal":
-						qid = getqid("Q1907", container, token)
+						qid = lwb_functions.getqid("Q1907", container)
 					else:
-						qid = getqid("Q12", container, token)
+						qid = lwb_functions.getqid("Q12", container)
 					propvals.append({"property":"P9","qid":qid}) # container relation
 
 				if tag["tag"].startswith(':type ') == True:
@@ -235,9 +137,11 @@ for item in data:
 						propvals.append({"property":"P5","qid":"Q46"})
 					elif type == "Proceedings":
 						propvals.append({"property":"P5","qid":"Q18"})
+
+		# Publication language. If language item does not exist, it is created. lexBibUri = lexvo uri
 		elif zp == "language":
 			language = lexvomapping.getLexvoId(val)
-			qid = getqid("Q8", language, token)
+			qid = lwb_functions.getqid("Q8", language)
 			propvals.append({"property":"P11","qid":qid})
 
 		### props with literal value
