@@ -9,7 +9,7 @@ import unidecode
 #import urllib.parse
 
 import lexvomapping
-import lwb_functions
+import lwb
 
 # open and load input file
 print('Please select Zotero export JSON to be processed.')
@@ -25,8 +25,8 @@ except Exception as ex:
 	sys.exit()
 
 # process Zotero export JSON
-token = lwb_functions.get_token()
-knownqid=lwb_functions.load_knownqid()
+token = lwb.get_token()
+knownqid=lwb.load_knownqid()
 lwb_data = []
 #item_updates = []
 itemcount = 0
@@ -62,7 +62,7 @@ for item in data:
 	if lexbibUri == "":
 		if item['type'] == "book" or item['type'] == "thesis":
 			if "ISBN" in item:
-				lexbibUri = "http://worldcat.org/isbn/"+re.search(r'^\d+', item["isbn"].replace("-","")).group(0)
+				lexbibUri = "http://worldcat.org/isbn/"+re.search(r'^\d+', item["ISBN"].replace("-","")).group(0)
 		elif item['type'] == "chapter" or item['type'] == "paper-conference":
 			if "ISBN" in item and "page" in item:
 				lexbibUri = "http://lexbib.org/lexbib/item#"+re.search(r'^\d+', item["ISBN"].replace("-","")).group(0)+"_"+item["page"].split('-')[0]
@@ -104,15 +104,16 @@ for item in data:
 			elif val == "thesis":
 				propvals.append({"property":"P5","qid":"Q57"})
 
-		# lexbib zotero tags can contain statements. if item in value does not exist, it is created.
+		# lexbib zotero tags can contain statements (shortcode for property, and value).
+		# If item as value, and that item does not exist, it is created.
 		elif zp == "tags":
 			for tag in val:
 				if tag["tag"].startswith(':event ') == True:
 					event = tag["tag"].replace(":event ","")
 					if event.startswith('http'): # event uri is from outside lexbib
-						qid = lwb_functions.getqid("Q6", event)
+						qid = lwb.getqid("Q6", event)
 					else: # convert to event uri in lexbib events namespace
-						qid = lwb_functions.getqid("Q6", 'http://lexbib.org/events#'+event)
+						qid = lwb.getqid("Q6", 'http://lexbib.org/events#'+event)
 					propvals.append({"property":"P36","qid":qid})
 				if tag["tag"].startswith(':container ') == True:
 					container = tag["tag"].replace(":container ","")
@@ -124,9 +125,9 @@ for item in data:
 						container = container.replace("doi:", "http://doi.org/")
 
 					if item['type'] == "article-journal":
-						qid = lwb_functions.getqid("Q1907", container)
+						qid = lwb.getqid("Q1907", container)
 					else:
-						qid = lwb_functions.getqid("Q12", container)
+						qid = lwb.getqid("Q12", container)
 					propvals.append({"property":"P9","qid":qid}) # container relation
 
 				if tag["tag"].startswith(':type ') == True:
@@ -141,7 +142,7 @@ for item in data:
 		# Publication language. If language item does not exist, it is created. lexBibUri = lexvo uri
 		elif zp == "language":
 			language = lexvomapping.getLexvoId(val)
-			qid = lwb_functions.getqid("Q8", language)
+			qid = lwb.getqid("Q8", language)
 			propvals.append({"property":"P11","qid":qid})
 
 		### props with literal value
@@ -193,6 +194,8 @@ for item in data:
 			for creator in val:
 				if "non-dropping-particle" in creator:
 					creator["family"] = creator["non-dropping-particle"]+" "+creator["family"]
+				if creator["family"] = "Various":
+					creator["given"] = "Various"
 				propvals.append({"property":prop, "string":creator["given"]+" "+creator["family"],"Qualifiers":{"P33":str(listpos),"P40":creator["given"],"P41":creator["family"]}})
 				listpos += 1
 

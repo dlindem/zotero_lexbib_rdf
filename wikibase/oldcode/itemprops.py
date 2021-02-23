@@ -1,7 +1,7 @@
 import getqid
 import lexvomapping
 
-def getWbProp(zp, val):
+def getWbProp(zp, val, type):
 	if zp == "type":
 		props = []
 		if val == "paper-conference":
@@ -34,6 +34,8 @@ def getWbProp(zp, val):
 				elif container.startswith('doi:'):
 					container = container.replace("doi:", "http://doi.org/")
 				qid = getqid.getqid("Q12", container)
+				if type == "article-journal" and
+					proplist.append({"property:"})
 				return [{"property":"P9","qid":qid}]
 			if tag["tag"].startswith(':type ') == True:
 				type = tag["tag"].replace(":type ","")

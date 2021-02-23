@@ -1,7 +1,7 @@
 import re
 import unidecode
 
-def getWbProp(zp, val):
+def getWbProp(zp, val, type):
 	if zp == "title":
 		return [{"property":"P6", "string":val}]
 	elif zp == "container-title":
@@ -27,9 +27,9 @@ def getWbProp(zp, val):
 			return [{"property":"P19", "string":val}]
 		elif len(val) == 13:
 			return [{"property":"P18", "string":val}]
-	elif zp == "volume" and item['type'] == "article-journal": # volume only for journals (book series also have "volume")
+	elif zp == "volume" and type == "article-journal": # volume only for journals (book series also have "volume")
 		return [{"property":"P22", "string":val}]
-	elif zp == "issue" and item['type'] == "article-journal": # issue only for journals
+	elif zp == "issue" and type == "article-journal": # issue only for journals
 		return [{"property":"P23", "string":val}]
 	elif zp == "id":
 		val = "http://lexbib.org/zotero/"+re.search(r'items/(.*)', val).group(1)

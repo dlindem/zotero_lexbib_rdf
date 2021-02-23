@@ -1,0 +1,11 @@
+PREFIX lwb: <http://data.lexbib.org/entity/>
+PREFIX ldp: <http://data.lexbib.org/prop/direct/>
+PREFIX lp: <http://data.lexbib.org/prop/>
+PREFIX lps: <http://data.lexbib.org/prop/statement/>
+PREFIX lpq: <http://data.lexbib.org/prop/qualifier/>
+
+select (substr(str(?bibItem),31) as ?qid) ?title ?lang where
+{ ?bibItem ldp:P5 lwb:Q3 .
+  ?bibItem ldp:P6 ?title .
+  ?bibItem ldp:P11 ?lang .
+} limit 10

@@ -302,7 +302,7 @@ with open(sparql_csv, 'r', encoding="utf-8") as csvfile:
 											redundant += 1
 											print('Found redundant Object: '+object+'. Will not write new statement.')
 											if redundant == 2:
-												# todo: delete accidentally created redundancies
+												# delete accidentally created redundancies
 												results = site.post('wbremoveclaims', claim=guid, token=token)
 												if results['success'] == 1:
 													print('Wb remove duplicate claim for '+qid+' ('+property+') '+object+': success.')

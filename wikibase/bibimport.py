@@ -9,7 +9,7 @@ import json
 import re
 #import requests
 #import urllib.parse
-import lwb_functions
+import lwb
 
 # open and load input file
 print('Please select post-processed Zotero export JSON to be imported to data.lexbib.org.')
@@ -27,8 +27,8 @@ except Exception as ex:
 	sys.exit()
 
 totalrows = len(data)
-#token = lwb_functions.get_token()
-knownqid = lwb_functions.load_knownqid()
+#token = lwb.get_token()
+knownqid = lwb.load_knownqid()
 
 with open('D:/LexBib/wikibase/logs/errorlog_'+infilename+'_'+time.strftime("%Y%m%d-%H%M%S")+'.log', 'w') as errorlog:
 	index = 0
@@ -46,7 +46,7 @@ with open('D:/LexBib/wikibase/logs/errorlog_'+infilename+'_'+time.strftime("%Y%m
 
 			try:
 				item = data[index]
-				qid = lwb_functions.getqid("Q3", item['lexbibUri'])
+				qid = lwb.getqid("Q3", item['lexbibUri'])
 				for prop in item['propvals']:
 
 					#print(prop)
@@ -55,7 +55,7 @@ with open('D:/LexBib/wikibase/logs/errorlog_'+infilename+'_'+time.strftime("%Y%m
 						#print (value)
 						done = False
 						while (not done):
-							createclaim = lwb_functions.site.post('wbcreateclaim', token=lwb_functions.token, entity=qid, property=prop['property'], snaktype="value", value=value, bot=True)
+							createclaim = lwb.site.post('wbcreateclaim', token=lwb.token, entity=qid, property=prop['property'], snaktype="value", value=value, bot=True)
 							if createclaim['success'] == 1:
 								done = True
 								print('Claim creation for '+prop['property']+': success.')
@@ -67,7 +67,7 @@ with open('D:/LexBib/wikibase/logs/errorlog_'+infilename+'_'+time.strftime("%Y%m
 						done = False
 						value = {"entity-type":"item","numeric-id":int(prop['qid'].replace("Q",""))}
 						while (not done):
-							results = lwb_functions.site.post('wbcreateclaim', token=lwb_functions.token, entity=qid, property=prop['property'], snaktype="value", bot=True, value=json.dumps(value))
+							results = lwb.site.post('wbcreateclaim', token=lwb.token, entity=qid, property=prop['property'], snaktype="value", bot=True, value=json.dumps(value))
 							if createclaim['success'] == 1:
 								done = True
 								print('Claim creation for '+prop['property']+': success.')
@@ -81,7 +81,7 @@ with open('D:/LexBib/wikibase/logs/errorlog_'+infilename+'_'+time.strftime("%Y%m
 							#print(qualivalue)
 							done = False
 							while (not done):
-								setqualifier = lwb_functions.site.post('wbsetqualifier', token=lwb_functions.token, claim=claimid, property=qualiprop, snaktype="value", value=qualivalue, bot=True)
+								setqualifier = lwb.site.post('wbsetqualifier', token=lwb.token, claim=claimid, property=qualiprop, snaktype="value", value=qualivalue, bot=True)
 								if setqualifier['success'] == 1:
 									done = True
 									print('Qualifier set for '+qualiprop+': success.')
@@ -92,7 +92,7 @@ with open('D:/LexBib/wikibase/logs/errorlog_'+infilename+'_'+time.strftime("%Y%m
 			except Exception as ex:
 				if 'Invalid CSRF token.' in str(ex):
 					print('Wait a sec. Must get a new CSRF token...')
-					lwb_functions.token = lwb_functions.get_token()
+					lwb.token = lwb.get_token()
 				else:
 					traceback.print_exc()
 					errorlog.write('\n\nError at input line ['+str(index+1)+'] '+item['lexbibUri']+'\n'+str(ex))
