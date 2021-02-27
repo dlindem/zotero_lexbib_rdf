@@ -28,7 +28,7 @@ except Exception as ex:
 
 totalrows = len(data)
 #token = lwb.get_token()
-knownqid = lwb.load_knownqid()
+#knownqid = lwb.load_knownqid()
 
 with open('D:/LexBib/wikibase/logs/errorlog_'+infilename+'_'+time.strftime("%Y%m%d-%H%M%S")+'.log', 'w') as errorlog:
 	index = 0
@@ -47,55 +47,15 @@ with open('D:/LexBib/wikibase/logs/errorlog_'+infilename+'_'+time.strftime("%Y%m
 			try:
 				item = data[index]
 				qid = lwb.getqid("Q3", item['lexbibUri'])
-				for prop in item['propvals']:
-
-					#print(prop)
-					if "string" in prop:
-						value = '"'+prop['string'].replace('"', '\\"')+'"'
-						#print (value)
-						done = False
-						while (not done):
-							createclaim = lwb.site.post('wbcreateclaim', token=lwb.token, entity=qid, property=prop['property'], snaktype="value", value=value, bot=True)
-							if createclaim['success'] == 1:
-								done = True
-								print('Claim creation for '+prop['property']+': success.')
-								claimid = createclaim['claim']['id']
-							else:
-								print('Claim creation failed, will try again...')
-								time.sleep(2)
-					if "qid" in prop:
-						done = False
-						value = {"entity-type":"item","numeric-id":int(prop['qid'].replace("Q",""))}
-						while (not done):
-							results = lwb.site.post('wbcreateclaim', token=lwb.token, entity=qid, property=prop['property'], snaktype="value", bot=True, value=json.dumps(value))
-							if createclaim['success'] == 1:
-								done = True
-								print('Claim creation for '+prop['property']+': success.')
-								claimid = createclaim['claim']['id']
-							else:
-								print('Claim creation failed, will try again...')
-								time.sleep(2)
-					if "Qualifiers" in prop:
-						for qualiprop in prop['Qualifiers']:
-							qualivalue = '"'+prop['Qualifiers'][qualiprop].replace('"', '\\"').replace("'", '\\"')+'"'
-							#print(qualivalue)
-							done = False
-							while (not done):
-								setqualifier = lwb.site.post('wbsetqualifier', token=lwb.token, claim=claimid, property=qualiprop, snaktype="value", value=qualivalue, bot=True)
-								if setqualifier['success'] == 1:
-									done = True
-									print('Qualifier set for '+qualiprop+': success.')
-								else:
-									print('Qualifier set failed, will try again...')
-									time.sleep(2)
+				for triple in item['propvals']:
+					statement = lwb.updateclaim(qid,triple['property'],triple['value'],triple['datatype'])
+					if "Qualifiers" in triple:
+						for qualitriple in triple['Qualifiers']:
+							lwb.setqualifier(qid,triple['property'],statement, qualitriple['property'], qualitriple['value'], qualitriple['datatype'])
 
 			except Exception as ex:
-				if 'Invalid CSRF token.' in str(ex):
-					print('Wait a sec. Must get a new CSRF token...')
-					lwb.token = lwb.get_token()
-				else:
-					traceback.print_exc()
-					errorlog.write('\n\nError at input line ['+str(index+1)+'] '+item['lexbibUri']+'\n'+str(ex))
+				traceback.print_exc()
+				lwb.logging.error('bibimport.py:Error at input line ['+str(index+1)+'] '+item['lexbibUri']+':'+str(ex))
 				continue
 			index += 1
 			rep = 0

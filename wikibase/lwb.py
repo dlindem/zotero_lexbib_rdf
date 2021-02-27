@@ -6,9 +6,13 @@ import re
 import requests
 import sys
 import unidecode
+import logging
 
 # Properties with constraint: max. 1 value
-max1props = ["P1","P2","P3","P4","P6","P8","P9","P10","P11","P14","P15","P16","P17","P22","P23","P24","P29","P30","P32","P34","P35","P36","P37","P38","P40","P41"]
+max1props = ["P1","P2","P3","P4","P6","P8","P9","P10","P11","P14","P15","P16","P17","P22","P23","P24","P29","P30","P32","P34","P35","P36","P37","P38","P40","P41","P46"]
+
+# Logging config
+logging.basicConfig(filename='lwb.log', filemode='a', format='%(asctime)s - %(levelname)s - %(message)s', datefmt='%d-%m-%y %H:%M:%S')
 
 # LexBib wikibase OAuth
 site = mwclient.Site('data.lexbib.org')
@@ -24,7 +28,7 @@ def get_token():
 	return token
 token = get_token()
 
-# Loads known qid-lexbibUri mappings from jsonl-file
+# Loads known lwbqid-lexbibUri mappings and lwbqid-Wikidataqid mappins from jsonl-files
 def load_knownqid():
 	knownqid = {}
 	try:
@@ -35,7 +39,7 @@ def load_knownqid():
 				count += 1
 				if mapping != "":
 					try:
-						mappingjson = json.loads(mapping.replace("lexbibItem:","lexbibItem"))
+						mappingjson = json.loads(mapping)
 						#print(mapping)
 						knownqid[mappingjson['lexbibItem']] = mappingjson['qid']
 					except Exception as ex:
@@ -50,10 +54,66 @@ def load_knownqid():
 	return knownqid
 knownqid = load_knownqid()
 
+def load_wdmappings():
+	wdqids = {}
+	try:
+		with open('D:/LexBib/wikibase/mappings/wdmappings.jsonl', encoding="utf-8") as f:
+			mappings = f.read().split('\n')
+			count = 0
+			for mapping in mappings:
+				count += 1
+				if mapping != "":
+					try:
+						mappingjson = json.loads(mapping)
+						#print(mapping)
+						wdqids[mappingjson['lwbqid']] = mappingjson['wdqid']
+					except Exception as ex:
+						print('Found unparsable mapping json in wdmappings.jsonl line ['+str(count)+']: '+mapping)
+						print(str(ex))
+						pass
+	except Exception as ex:
+		print ('Error: wdmappings file does not exist. Will start a new one.')
+		print (str(ex))
+
+	print('Known LWB-WD item mappings loaded.')
+	return wdqids
+wdqids = load_wdmappings()
+
 # Adds a new lexbibUri-qid mapping to knownqid.jsonl mapping file
 def save_knownqid(mapping):
 	with open('D:/LexBib/wikibase/knownqid.jsonl', 'a', encoding="utf-8") as jsonl_file:
 		jsonl_file.write(json.dumps(mapping)+'\n')
+
+# Adds a new lwbqid-wdqid mapping to wdmappings.jsonl mapping file
+def save_wdmapping(mapping):
+	with open('D:/LexBib/wikibase/mappings/wdmappings.jsonl', 'a', encoding="utf-8") as jsonl_file:
+		jsonl_file.write(json.dumps(mapping)+'\n')
+
+# Get equivalent lwb item qidnum from wikidata Qid
+def wdqid2lwbqid(wdqid):
+	print('Will try to find lwbqid for '+wdqid+'...')
+	global wdqids
+	# Try to find lwbqid from known mappings
+	for key, value in wdqids.items():
+		if wdqid == value:
+			print('Found lwbqid in wdqids known mappings.')
+			return key
+	# Try to find lwbqid via SPARQL
+	url = "https://data.lexbib.org/query/sparql?format=json&query=PREFIX%20lwb%3A%20%3Chttp%3A%2F%2Fdata.lexbib.org%2Fentity%2F%3E%0APREFIX%20ldp%3A%20%3Chttp%3A%2F%2Fdata.lexbib.org%2Fprop%2Fdirect%2F%3E%0A%0Aselect%20%3FlwbItem%20where%0A%7B%20%3FlwbItem%20ldp%3AP4%20wd%3A"+wdqid+"%20.%20%7D"
+
+	while True:
+		try:
+			r = requests.get(url)
+			lwbqid = r.json()['results']['bindings'][0]['lwbItem']['value'].replace("http://data.lexbib.org/entity/","")
+		except Exception as ex:
+			print('Error: SPARQL request failed.')
+			time.sleep(2)
+			return False
+		break
+	print('Found lwbqid '+lwbqid+' not in mappingfile, but via SPARQL, will add it to mappingfile.')
+	save_wdmapping({'lwbqid':lwbqid, 'wdqid':wdqid})
+	return lwbqid
+
 
 # function for wikibase item creation (after check if it is known)
 #token = get_token()
@@ -67,7 +127,7 @@ def getqid(lwbclasses, lexbibItem): # lwbclass: object of 'instance of' (P5), le
 		print(lexbibItem+' is a known wikibase item: Qid '+knownqid[lexbibItem]+', no need to create it.')
 		return knownqid[lexbibItem]
 	else:
-		lexbibItemSafe = urllib.parse.quote(lexbibItem, safe='~', encoding="utf-8", errors="strict")
+		lexbibItemSafe = urllib.parse.quote(lexbibItem, safe='~', encoding="utf-8")
 		url = "https://data.lexbib.org/query/sparql?format=json&query=SELECT%20%3FlwbItem%20%0AWHERE%20%0A%7B%20%20%3FlwbItem%20%3Chttp%3A%2F%2Fdata.lexbib.org%2Fprop%2Fdirect%2FP5%3E%20%3Chttp%3A%2F%2Fdata.lexbib.org%2Fentity%2F"+lwbclasses[0]+"%3E.%20%0A%0A%20%20%20%3FlwbItem%20%3Chttp%3A%2F%2Fdata.lexbib.org%2Fprop%2Fdirect%2FP3%3E%20%3C"+lexbibItemSafe+"%3E%20.%0A%7D"
 		done = False
 		while (not done):
@@ -185,22 +245,31 @@ def setlabel(s, lang, val):
 	global token
 
 	done = False
+	count = 0
 	value = val # insert operations if necessary
-	while (not done):
+	while count < 5:
+		count += 1
 		try:
 			request = site.post('wbsetlabel', id=s, language=lang, value=value, token=token, bot=True)
 			if request['success'] == 1:
-				done = True
 				print('Label creation done: '+s+' ('+lang+') '+val+'.')
-				#time.sleep(1)
+				return True
 		except Exception as ex:
 			if 'Invalid CSRF token.' in str(ex):
 				print('Wait a sec. Must get a new CSRF token...')
 				token = get_token()
+			elif 'Unrecognized value for parameter "language"' in str(ex):
+				print('Cannot set label in this language: '+lang)
+				logging.warning('Cannot set label in this language: '+lang)
+				break
 			else:
-				print('Label set operation failed, will try again...\n'+str(ex))
+				print('Label set operation '+s+' ('+lang+') '+val+' failed, will try again...\n'+str(ex))
+				logging.error('Label set operation '+s+' ('+lang+') '+val+' failed, will try again...', exc_info=True)
 				time.sleep(4)
-	return True
+	# log.add
+	print ('*** Label set operation '+s+' ('+lang+') '+val+' failed up to 5 times... skipped.')
+	logging.warning('Label set operation '+s+' ('+lang+') '+val+' failed up to 5 times... skipped.')
+	return False
 
 #get claims
 def getclaims(s, p):
@@ -219,23 +288,27 @@ def getclaims(s, p):
 			time.sleep(4)
 
 #update claims
-def updateclaim(s, p, o, dv):
+def updateclaim(s, p, o, dtype):
 	global max1props
 	global token
 
-	if dv == "string" or dv == "url":
+	if dtype == "string" or dtype == "url" or dtype == "monolingualtext":
 		value = '"'+o.replace('"', '\\"')+'"'
-	elif dv == "item":
+	elif dtype == "item" or dtype =="wikibase-entityid":
 		value = json.dumps({"entity-type":"item","numeric-id":int(o.replace("Q",""))})
 
 	claims = getclaims(s,p)
 	foundobjs = []
 	if bool(claims):
-		statecount = 0
+		statementcount = 0
 		for claim in claims[p]:
-			statecount += 1
+			statementcount += 1
 			guid = claim['id']
+			#print(str(claim['mainsnak']))
 			foundo = claim['mainsnak']['datavalue']['value']
+			if isinstance(foundo, dict): # foundo is a dict in case of wikibaseItem datatype
+				#print(str(foundo))
+				foundo = foundo['id']
 			if foundo in foundobjs:
 				print('Will delete a duplicate statement.')
 				results = site.post('wbremoveclaims', claim=guid, token=token)
@@ -243,7 +316,7 @@ def updateclaim(s, p, o, dv):
 					print('Wb remove duplicate claim for '+s+' ('+p+') '+o+': success.')
 			else:
 				foundobjs.append(foundo)
-				print("A statement #"+str(statecount)+" is already there: "+foundo)
+				print("A statement #"+str(statementcount)+" for prop "+p+" is already there: "+foundo)
 
 				if foundo == o or foundo == value:
 					print('Found redundant object. Claim update skipped.')
@@ -271,7 +344,9 @@ def updateclaim(s, p, o, dv):
 
 	if o not in foundobjs and value not in foundobjs: # must create new statement
 
-		while True:
+		count = 0
+		while count < 5:
+			count += 1
 			try:
 				request = site.post('wbcreateclaim', token=token, entity=s, property=p, snaktype="value", value=value, bot=True)
 
@@ -279,15 +354,67 @@ def updateclaim(s, p, o, dv):
 
 					claimId = request['claim']['id']
 					print('Claim creation done: '+s+' ('+p+') '+o+'.')
-					returnvalue = claimId
-					break
-					#time.sleep(1)
+					return claimId
+
 			except Exception as ex:
 				if 'Invalid CSRF token.' in str(ex):
 					print('Wait a sec. Must get a new CSRF token...')
 					token = get_token()
 				else:
 					print('Claim creation failed, will try again...\n'+str(ex))
+					logging.error('Claim creation '+s+' ('+p+') '+o+' failed, will try again...\n', exc_info=True)
 					time.sleep(4)
 
-	return returnvalue
+		print ('*** Claim creation operation '+s+' ('+p+') '+o+' failed 5 times... skipped.')
+		logging.warning('Label set operation '+s+' ('+p+') '+o+' failed 5 times... skipped.')
+		return False
+	else:
+		return returnvalue
+
+
+
+# set a Qualifier
+def setqualifier(qid, prop, claimid, qualiprop, qualivalue, dtype):
+	global token
+	if dtype == "string" or dtype == "url" or dtype == "monolingualtext":
+		qualivalue = '"'+qualivalue.replace('"', '\\"')+'"'
+	elif dtype == "item" or dtype =="wikibase-entityid":
+		qualivalue = json.dumps({"entity-type":"item","numeric-id":int(qualivalue.replace("Q",""))})
+
+	# claims = getclaims(qid,prop)
+	# foundobjs = []
+	# if bool(claims):
+	# 	statementcount = 0
+	# 	for claim in claims[prop]:
+	# 		if claim['id'] == claimid:
+	#
+
+
+
+
+
+
+
+
+
+
+
+
+
+	try:
+
+		while True:
+			setqualifier = site.post('wbsetqualifier', token=token, claim=claimid, property=qualiprop, snaktype="value", value=qualivalue, bot=True)
+			# always set!!
+			if setqualifier['success'] == 1:
+				print('Qualifier set for '+qualiprop+': success.')
+				return True
+	except Exception as ex:
+		if 'The statement has already a qualifier' in str(ex):
+			print('**** The statement has already a qualifier')
+			return False
+
+
+		print('Qualifier set failed, will try again...')
+		logging.error('Qualifier set failed for '+prop+' ('+qualiprop+') '+qualivalue+': '+str(ex))
+		time.sleep(2)

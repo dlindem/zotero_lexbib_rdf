@@ -90,19 +90,19 @@ for item in data:
 			# props with item value.
 
 			if val == "paper-conference":
-				propvals.append({"property":"P5","qid":"Q19"})
+				propvals.append({"property":"P5","datatype":"item","value":"Q19"})
 			elif val == "article-journal":
-				propvals.append({"property":"P5","qid":"Q21"})
+				propvals.append({"property":"P5","datatype":"item","value":"Q21"})
 			elif val == "book":
-				propvals.append({"property":"P5","qid":"Q16"})
+				propvals.append({"property":"P5","datatype":"item","value":"Q16"})
 			elif val == "chapter":
-				propvals.append({"property":"P5","qid":"Q17"})
+				propvals.append({"property":"P5","datatype":"item","value":"Q17"})
 			elif val == "motion_picture": # videos
-				propvals.append({"property":"P5","qid":"Q25"})
+				propvals.append({"property":"P5","datatype":"item","value":"Q25"})
 			elif val == "speech":
-				propvals.append({"property":"P5","qid":"Q47"})
+				propvals.append({"property":"P5","datatype":"item","value":"Q47"})
 			elif val == "thesis":
-				propvals.append({"property":"P5","qid":"Q57"})
+				propvals.append({"property":"P5","datatype":"item","value":"Q57"})
 
 		# lexbib zotero tags can contain statements (shortcode for property, and value).
 		# If item as value, and that item does not exist, it is created.
@@ -114,7 +114,7 @@ for item in data:
 						qid = lwb.getqid("Q6", event)
 					else: # convert to event uri in lexbib events namespace
 						qid = lwb.getqid("Q6", 'http://lexbib.org/events#'+event)
-					propvals.append({"property":"P36","qid":qid})
+					propvals.append({"property":"P36","datatype":"item","value":qid})
 				if tag["tag"].startswith(':container ') == True:
 					container = tag["tag"].replace(":container ","")
 					if container.startswith('isbn:') or container.startswith('oclc:'):
@@ -128,62 +128,66 @@ for item in data:
 						qid = lwb.getqid("Q1907", container)
 					else:
 						qid = lwb.getqid("Q12", container)
-					propvals.append({"property":"P9","qid":qid}) # container relation
+					propvals.append({"property":"P9","datatype":"item","value":qid}) # container relation
 
 				if tag["tag"].startswith(':type ') == True:
 					type = tag["tag"].replace(":type ","")
 					if type == "Review":
-						propvals.append({"property":"P5","qid":"Q15"})
+						propvals.append({"property":"P5","datatype":"item","value":"Q15"})
 					elif type == "Report":
-						propvals.append({"property":"P5","qid":"Q46"})
+						propvals.append({"property":"P5","datatype":"item","value":"Q46"})
 					elif type == "Proceedings":
-						propvals.append({"property":"P5","qid":"Q18"})
+						propvals.append({"property":"P5","datatype":"item","value":"Q18"})
+					elif type == "Dictionary":
+						propvals.append({"property":"P5","datatype":"item","value":"Q31"})
 
 		# Publication language. If language item does not exist, it is created. lexBibUri = lexvo uri
 		elif zp == "language":
 			language = lexvomapping.getLexvoId(val)
 			qid = lwb.getqid("Q8", language)
-			propvals.append({"property":"P11","qid":qid})
+			propvals.append({"property":"P11","datatype":"item","value":qid})
 
 		### props with literal value
 
 		elif zp == "title":
-			propvals.append({"property":"P6", "string":val})
+			propvals.append({"property":"P6","datatype":"string","value":val})
 		elif zp == "container-title":
-			propvals.append({"property":"P8", "string":val})
+			propvals.append({"property":"P8","datatype":"string","value":val})
 		elif zp == "event":
-			propvals.append({"property":"P37", "string":val})
+			propvals.append({"property":"P37","datatype":"string","value":val})
 		elif zp == "page":
-			propvals.append({"property":"P24", "string":val})
+			propvals.append({"property":"P24","datatype":"string","value":val})
 		elif zp == "publisher":
-			propvals.append({"property":"P34", "string":val})
+			propvals.append({"property":"P34","datatype":"string","value":val})
 		elif zp == "DOI":
 			if "http" not in val:
 				val = "http://doi.org/"+val
-			propvals.append({"property":"P17", "string":val})
+			propvals.append({"property":"P17","datatype":"string","value":val})
 		elif zp == "ISSN":
 			if "-" not in val: # normalize ISSN, remove any secondary ISSN
 				val = val[0:4]+"-"+val[4:9]
-			propvals.append({"property":"P20", "string":val[:9]})
+			propvals.append({"property":"P20","datatype":"string","value":val[:9]})
 		elif zp == "ISBN":
 			val = val.replace("-","")
 			val = re.search(r'^\d+',val).group(0)
 			if len(val) == 10:
-				propvals.append({"property":"P19", "string":val})
+				propvals.append({"property":"P19","datatype":"string","value":val})
 			elif len(val) == 13:
-				propvals.append({"property":"P18", "string":val})
+				propvals.append({"property":"P18","datatype":"string","value":val})
 		elif zp == "volume" and item['type'] == "article-journal": # volume only for journals (book series also have "volume")
-			propvals.append({"property":"P22", "string":val})
+			propvals.append({"property":"P22","datatype":"string","value":val})
 		elif zp == "issue" and item['type'] == "article-journal": # issue only for journals
-			propvals.append({"property":"P23", "string":val})
+			propvals.append({"property":"P23","datatype":"string","value":val})
+		elif zp == "journalAbbreviation":
+			propvals.append({"property":"P54","datatype":"string","value":val})
 		elif zp == "id":
 			val = "http://lexbib.org/zotero/"+re.search(r'items/(.*)', val).group(1)
-			propvals.append({"property":"P16", "string":val})
+			propvals.append({"property":"P16","datatype":"string","value":val})
 		elif zp == "URL":
-			propvals.append({"property":"P21", "string":val})
+			propvals.append({"property":"P21","datatype":"string","value":val})
 		elif zp == "issued":
 			year = val["date-parts"][0][0]
-			propvals.append({"property":"P14", "string":year})
+			propvals.append({"property":"P14","datatype":"string","value":year})
 		elif zp == "author" or zp == "editor":
 			if zp == "author":
 				prop = "P39"
@@ -192,11 +196,12 @@ for item in data:
 			creators = []
 			listpos = 1
 			for creator in val:
+
 				if "non-dropping-particle" in creator:
 					creator["family"] = creator["non-dropping-particle"]+" "+creator["family"]
-				if creator["family"] = "Various":
+				if creator["family"] == "Various":
 					creator["given"] = "Various"
-				propvals.append({"property":prop, "string":creator["given"]+" "+creator["family"],"Qualifiers":{"P33":str(listpos),"P40":creator["given"],"P41":creator["family"]}})
+				propvals.append({"property":prop,"datatype":"string","value":creator["given"]+" "+creator["family"],"Qualifiers":[{"property":"P33","datatype":"string","value":str(listpos)},{"property":"P40","datatype":"string","value":creator["given"]},{"property":"P41","datatype":"string","value":creator["family"]}]})
 				listpos += 1
 
 

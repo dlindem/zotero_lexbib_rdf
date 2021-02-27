@@ -1,25 +1,29 @@
 from SPARQLWrapper import SPARQLWrapper, JSON
 import time
 import sys
+import json
 import requests
 import mwclient
 import lwb
 
 # class if items to be enriched from Wikidata, example "Q8" for language
-c = "Q8"
+c = "Q31"
+print ('LWB class to be updated is: '+c)
+
 # List of LWB properties to be taken values for from Wikidata
 props = [
-"P43" # Wikimedia Language Code
+"P6","P11","P21","P47"
 ]
+# #Check if class c has equivalent on Wikidata
+# wdclass = lwb.getclaims(c, "P4")
+# if bool(wdclass):
+# 	wdclass = wdclass['P4'][0]['mainsnak']['datavalue']['value'].replace("http://www.wikidata.org/entity/","")
+# 	print(wdclass)
+# else:
+# 	print('*** No equivalent Wikidata item found for '+c+'.')
+# 	sys.exit()
 
-wdclass = lwb.getclaims(c, "P4")
-if bool(wdclass):
-	wdclass = wdclass['P4'][0]['mainsnak']['datavalue']['value'].replace("http://www.wikidata.org/entity/","")
-	print(wdclass)
-else:
-	print('*** No equivalent Wikidata item found for '+c+'.')
-	sys.exit()
-
+# Get LWB items belonging to class c
 url = "https://data.lexbib.org/query/sparql?format=json&query=PREFIX lwb%3A <http%3A%2F%2Fdata.lexbib.org%2Fentity%2F>%0APREFIX ldp%3A <http%3A%2F%2Fdata.lexbib.org%2Fprop%2Fdirect%2F>%0A%0ASELECT %3Fitem %3Fwdqid WHERE {%0A%3Fitem ldp%3AP5 lwb%3A"+c+" .%0A%3Fitem ldp%3AP4 %3Fwdqid .}%0A"
 done = False
 while (not done):
@@ -39,7 +43,7 @@ for prop in props:
 	wdprop = lwb.getclaims(prop, "P2")
 	if bool(wdprop):
 		wdprop = wdprop['P2'][0]['mainsnak']['datavalue']['value'].replace("http://www.wikidata.org/entity/","")
-		print(wdprop)
+		print('\nNew Prop:\nWikidata Prop for LWB prop '+prop+' is: '+wdprop)
 	else:
 		print('*** No equivalent Wikidata property found for '+prop+'.')
 		continue
@@ -47,19 +51,34 @@ for prop in props:
 	for item in lwbitems:
 		wdqid = item['wdqid']['value'].replace("http://www.wikidata.org/entity/","")
 		lwbqid = item['item']['value'].replace("http://data.lexbib.org/entity/","")
+		print('\nWill now update LWB item: '+lwbqid+' from wdItem: '+wdqid)
 		done = False
 		while (not done):
 			try:
 				request = wikidata.get('wbgetclaims', entity=wdqid, property=wdprop)
-				if "claims" in request:
-					done = True
 			except Exception as ex:
 				print('Getclaims operation failed, will try again...\n'+str(ex))
 				time.sleep(4)
-			if bool(request['claims']):
-				value = request['claims'][wdprop][0]['mainsnak']['datavalue']['value']
-				#print(lwbqid+prop+value)
-				statement = lwb.updateclaim(lwbqid,prop,value,"url")
+			if "claims" in request:
+				done = True
+		if bool(request['claims']):
+			for claim in request['claims'][wdprop]:
+				dtype = claim['mainsnak']['datavalue']['type']
+				print('Datatype: '+dtype)
+				if dtype == "wikibase-entityid":
+					wdqid = claim['mainsnak']['datavalue']['value']['id']
+					value = lwb.wdqid2lwbqid(wdqid)
+					#value = json.dumps({"entity-type":"item","numeric-id":lwbqidnum})
+					if value == False:
+						print('No LWB item found for Wikidata '+wdqid+'. Skipped...')
+						continue
+				elif dtype == "string":
+					value = claim['mainsnak']['datavalue']['value']
+					#print(str(claim))
+				elif dtype == "monolingualtext":
+					value = claim['mainsnak']['datavalue']['value']['text'] # loses language info, TBD
+				print('Will send this to updateclaim: '+str(value))
+				statement = lwb.updateclaim(lwbqid,prop,value,dtype)
 
 
 
