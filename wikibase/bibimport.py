@@ -36,8 +36,8 @@ with open('D:/LexBib/wikibase/logs/errorlog_'+infilename+'_'+time.strftime("%Y%m
 	rep = 0
 
 	while index < totalrows:
-		if rep > 4: # break while loop after 4 fails to process item
-			print ('\n...this script has entered in an endless loop... Abort.')
+		if rep > 4: # break 'while' loop after 5 failed attempts to process item
+			print ('\nbibimport.py has entered in an endless loop... abort.')
 			break
 		else:
 			print('\nList item Nr. '+str(index)+' processed. '+str(totalrows-index)+' list items left.\n')
@@ -46,7 +46,8 @@ with open('D:/LexBib/wikibase/logs/errorlog_'+infilename+'_'+time.strftime("%Y%m
 
 			try:
 				item = data[index]
-				qid = lwb.getqid("Q3", item['lexbibUri'])
+				qid = lwb.getqid("Q3", item['lexbibUri']) # Q3: LexBib BibItem class
+				classStatement = lwb.updateclaim(qid,"P5",item['lexbibClass'],"item")
 				for triple in item['propvals']:
 					statement = lwb.updateclaim(qid,triple['property'],triple['value'],triple['datatype'])
 					if "Qualifiers" in triple:
@@ -55,7 +56,9 @@ with open('D:/LexBib/wikibase/logs/errorlog_'+infilename+'_'+time.strftime("%Y%m
 
 			except Exception as ex:
 				traceback.print_exc()
-				lwb.logging.error('bibimport.py:Error at input line ['+str(index+1)+'] '+item['lexbibUri']+':'+str(ex))
+				lwb.logging.error('bibimport.py: Error at input line ['+str(index+1)+'] '+item['lexbibUri']+':'+str(ex))
 				continue
 			index += 1
 			rep = 0
+
+print('\nFinished. Check error log.')
