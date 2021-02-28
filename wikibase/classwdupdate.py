@@ -6,7 +6,7 @@ import requests
 import mwclient
 import lwb
 
-# class if items to be enriched from Wikidata, example "Q8" for language
+# class of items to be enriched from Wikidata, example "Q8" for language
 c = "Q8"
 print ('LWB class to be updated is: '+c)
 
@@ -14,14 +14,6 @@ print ('LWB class to be updated is: '+c)
 props = [
 "P43"
 ]
-# #Check if class c has equivalent on Wikidata
-# wdclass = lwb.getclaims(c, "P4")
-# if bool(wdclass):
-# 	wdclass = wdclass['P4'][0]['mainsnak']['datavalue']['value'].replace("http://www.wikidata.org/entity/","")
-# 	print(wdclass)
-# else:
-# 	print('*** No equivalent Wikidata item found for '+c+'.')
-# 	sys.exit()
 
 # Get LWB items belonging to class c
 url = "https://data.lexbib.org/query/sparql?format=json&query=PREFIX lwb%3A <http%3A%2F%2Fdata.lexbib.org%2Fentity%2F>%0APREFIX ldp%3A <http%3A%2F%2Fdata.lexbib.org%2Fprop%2Fdirect%2F>%0A%0ASELECT %3Fitem %3Fwdqid WHERE {%0A%3Fitem ldp%3AP5 lwb%3A"+c+" .%0A%3Fitem ldp%3AP4 %3Fwdqid .}%0A"
@@ -64,7 +56,7 @@ for prop in props:
 		if bool(request['claims']):
 			for claim in request['claims'][wdprop]:
 				dtype = claim['mainsnak']['datavalue']['type']
-				
+
 				if dtype == "wikibase-entityid":
 					wdqid = claim['mainsnak']['datavalue']['value']['id']
 					value = lwb.wdqid2lwbqid(wdqid)
