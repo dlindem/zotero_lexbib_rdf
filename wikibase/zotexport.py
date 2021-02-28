@@ -34,6 +34,8 @@ for item in data:
 	itemcount += 1
 	print("\nItem ["+str(itemcount)+"]: "+item['title'])
 	lexbibUri = ""
+	lexbibClass = ""
+
 	if "archive_location" in item:
 		if item["archive_location"].startswith('http') == True:
 			lexbibUri = re.sub('/+$',"",item["archive_location"]) # use archiveLocation field content (starting with http), removing any slashes at the end
@@ -43,6 +45,7 @@ for item in data:
 			lexbibUri = re.sub(r'^oclc:','http://worldcat.org/oclc/',item["archive_location"].replace("-",""))
 		else:
 			lexbibUri = "http://lexbib.org/lexbib/item#"+item["archive_location"]
+
 	if "DOI" in item:
 		doi = item['DOI']
 		if doi[:4] == "doi:":
@@ -85,28 +88,9 @@ for item in data:
 		# if itemproplist != None:
 		# 	lwb_item["props"].append(itemproplist)
 
-		if zp == "type":
-
-			# props with item value.
-
-			if val == "paper-conference":
-				propvals.append({"property":"P5","datatype":"item","value":"Q19"})
-			elif val == "article-journal":
-				propvals.append({"property":"P5","datatype":"item","value":"Q21"})
-			elif val == "book":
-				propvals.append({"property":"P5","datatype":"item","value":"Q16"})
-			elif val == "chapter":
-				propvals.append({"property":"P5","datatype":"item","value":"Q17"})
-			elif val == "motion_picture": # videos
-				propvals.append({"property":"P5","datatype":"item","value":"Q25"})
-			elif val == "speech":
-				propvals.append({"property":"P5","datatype":"item","value":"Q47"})
-			elif val == "thesis":
-				propvals.append({"property":"P5","datatype":"item","value":"Q57"})
-
 		# lexbib zotero tags can contain statements (shortcode for property, and value).
 		# If item as value, and that item does not exist, it is created.
-		elif zp == "tags":
+		if zp == "tags":
 			for tag in val:
 				if tag["tag"].startswith(':event ') == True:
 					event = tag["tag"].replace(":event ","")
@@ -140,12 +124,32 @@ for item in data:
 						propvals.append({"property":"P5","datatype":"item","value":"Q18"})
 					elif type == "Dictionary":
 						propvals.append({"property":"P5","datatype":"item","value":"Q31"})
+					elif type == "Software":
+						lexbibClass = "Q30" # this will override item type "book"
 
 		# Publication language. If language item does not exist, it is created. lexBibUri = lexvo uri
 		elif zp == "language":
 			language = lexvomapping.getLexvoId(val)
 			qid = lwb.getqid("Q8", language)
 			propvals.append({"property":"P11","datatype":"item","value":qid})
+
+		elif zp == "type" and lexbibClass == "":
+
+			if val == "paper-conference":
+				lexbibClass = "Q19"
+			elif val == "article-journal":
+				lexbibClass = "Q21"
+			elif val == "book":
+				lexbibClass = "Q16"
+			elif val == "chapter":
+				lexbibClass = "Q17"
+			elif val == "motion_picture": # videos
+				lexbibClass = "Q25"
+			elif val == "speech":
+				lexbibClass = "Q47"
+			elif val == "thesis":
+				lexbibClass = "Q57"
+
 
 		### props with literal value
 
@@ -188,6 +192,8 @@ for item in data:
 		elif zp == "issued":
 			year = val["date-parts"][0][0]
 			propvals.append({"property":"P14","datatype":"string","value":year})
+		elif zp == "edition":
+			propvals.append({"property":"P64","datatype":"string","value":val})
 		elif zp == "author" or zp == "editor":
 			if zp == "author":
 				prop = "P39"
@@ -204,10 +210,12 @@ for item in data:
 				propvals.append({"property":prop,"datatype":"string","value":creator["given"]+" "+creator["family"],"Qualifiers":[{"property":"P33","datatype":"string","value":str(listpos)},{"property":"P40","datatype":"string","value":creator["given"]},{"property":"P41","datatype":"string","value":creator["family"]}]})
 				listpos += 1
 
-
-
-
-	lwb_data.append({"lexbibUri":lexbibUri,"propvals":propvals})
+	# add lexbib Class amd propvals to target item
+	if lexbibClass == "":
+		print('*** Item '+lexbibUri+' has not been assigned any LexBib Class, that is fatal.')
+		lwb.logging.error('Item '+lexbibUri+' has not been assigned any LexBib Class, that is fatal.')
+	
+	lwb_data.append({"lexbibUri":lexbibUri,"lexbibClass":lexbibClass,"propvals":propvals})
 
 #print(str(json.dumps(lwb_data)))
 with open(infile.replace('.json', '_lwb_import_data.json'), 'w', encoding="utf-8") as json_file: # path to result JSON file
