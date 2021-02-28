@@ -411,7 +411,7 @@ def setqualifier(qid, prop, claimid, qualiprop, qualivalue, dtype):
 				return True
 	except Exception as ex:
 		if 'The statement has already a qualifier' in str(ex):
-			print('**** The statement has already a qualifier')
+			print('**** The statement already has a qualifier (with the same hash)')
 			return False
 
 
