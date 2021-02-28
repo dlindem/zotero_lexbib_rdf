@@ -4,13 +4,14 @@ import sys
 import json
 import requests
 import mwclient
-import lwb
+import lwb # functions for data.lexbib.org (LWB: LexBib WikiBase) I/O operations
 
 # class of items to be enriched from Wikidata, example "Q8" for language
 c = "Q8"
 print ('LWB class to be updated is: '+c)
 
 # List of LWB properties to be taken values for from Wikidata
+# This should come from a property schema for the selected LWB class (TBD)
 props = [
 "P43"
 ]
@@ -27,7 +28,7 @@ while (not done):
 		time.sleep(2)
 		continue
 	done = True
-print(str(lwbitems))
+#print(str(lwbitems))
 
 wikidata = mwclient.Site('wikidata.org')
 for prop in props:
@@ -49,11 +50,11 @@ for prop in props:
 			try:
 				request = wikidata.get('wbgetclaims', entity=wdqid, property=wdprop)
 			except Exception as ex:
-				print('Getclaims operation failed, will try again...\n'+str(ex))
+				print('Wikidata: Getclaims operation failed, will try again...\n'+str(ex))
 				time.sleep(4)
 			if "claims" in request:
 				done = True
-		if bool(request['claims']):
+		if bool(request['claims']): # i.e. if claims is not empty and contains a list (of claims)
 			for claim in request['claims'][wdprop]:
 				dtype = claim['mainsnak']['datavalue']['type']
 
