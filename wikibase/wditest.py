@@ -1,7 +1,13 @@
-
-from wikidataintegrator import wdi_core, wdi_login
-
 # This is an attempt to write a statement with datatype Time to data.lexbib.org wikibase instance
+from wikidataintegrator import wdi_core, wdi_login
+from wikidataintegrator.wdi_config import config as wdi_config
+
+wdi_config['MEDIAWIKI_API_URL'] = 'https://data.lexbib.org/w/api.php'
+wdi_config['SPARQL_ENDPOINT_URL'] = 'https://data.lexbib.org/query/sparql'
+wdi_config['WIKIBASE_URL'] = 'http://data.lexbib.org'
+wdi_config['PROPERTY_CONSTRAINT_PID'] = 'P7'
+wdi_config['DISTINCT_VALUES_CONSTRAINT_QID'] = 'Q16512'
+
 
 lwbuser = "DavidL"
 with open('D:/LexBib/wikibase/data_lexbib_org_pwd.txt', 'r', encoding='utf-8') as pwdfile:
