@@ -1,5 +1,5 @@
 {
-	"translatorID": "bc03b4fe-436d-4a1f-ba59-de4d2d7a63f7",
+	"translatorID": "bc03b4fe-436d-4a1f-ba59-de4d2d7a63f8",
 	"translatorType": 3,
 	"label": "LexBib JSON",
 	"creator": "Simon Kornblith",
@@ -106,6 +106,7 @@ function importNext(data, resolve, reject) {
 	resolve();
 }
 
+// Begin added code for lexbib.org
 // https://forums.zotero.org/discussion/63995/csl-json-export
 
 function doExport() {
@@ -125,6 +126,7 @@ function doExport() {
 			exportitem.notes = item.notes;
 		}
 		data.push(exportitem);
+// End added code for lexbib.org
 	}
 	Z.write(JSON.stringify(data, null, "\t"));
 }
