@@ -40,7 +40,7 @@ with open('D:/LexBib/wikibase/logs/errorlog_'+infilename+'_'+time.strftime("%Y%m
 			print ('\nbibimport.py has entered in an endless loop... abort.')
 			break
 		else:
-			print('\nList item Nr. '+str(index)+' processed. '+str(totalrows-index)+' list items left.\n')
+			print('\n'+str(index)+' items processed. '+str(totalrows-index)+' list items left.\n')
 			#time.sleep(1)
 			rep += 1
 
@@ -48,6 +48,30 @@ with open('D:/LexBib/wikibase/logs/errorlog_'+infilename+'_'+time.strftime("%Y%m
 				item = data[index]
 				qid = lwb.getqid("Q3", item['lexbibUri']) # Q3: LexBib BibItem class
 				classStatement = lwb.updateclaim(qid,"P5",item['lexbibClass'],"item")
+				for triple in item['creatorvals']:
+					#check if creator with that position is already there as item (not literal)
+					skip = False
+					if triple['property'] == "P39":
+						itemprop = "P12"
+					elif triple['property'] == "P42":
+						itemprop = "P13"
+					for Qualifier in triple['Qualifiers']:
+						if Qualifier['property'] == "P33":
+							listpos = Qualifier['value']
+							print('Found existing creator listpos: ',listpos)
+					creator_item_claims = lwb.getclaims(qid, itemprop)
+					for creator_item_claim in creator_item_claims[itemprop]:
+						creator_item_listpos = creator_item_claim['qualifiers']["P33"][0]['datavalue']['value']
+						if creator_item_listpos == listpos:
+							print('Found creator literal already replaced with creator item, will skip.')
+							skip = True
+					# if creator item claim for this creator listpos is not found, update literal
+					if skip == False:
+						statement = lwb.updateclaim(qid,triple['property'],triple['value'],triple['datatype'])
+						if "Qualifiers" in triple:
+							for qualitriple in triple['Qualifiers']:
+								lwb.setqualifier(qid,triple['property'],statement, qualitriple['property'], qualitriple['value'], qualitriple['datatype'])
+
 				for triple in item['propvals']:
 					statement = lwb.updateclaim(qid,triple['property'],triple['value'],triple['datatype'])
 					if "Qualifiers" in triple:
