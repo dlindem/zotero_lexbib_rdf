@@ -5,6 +5,8 @@ import sys
 import json
 import re
 import unidecode
+import os
+import shutil
 #import requests
 #import urllib.parse
 
@@ -24,6 +26,14 @@ except Exception as ex:
 	print (str(ex))
 	sys.exit()
 
+# load list of already exported PDFs
+try:
+	with open('D:/LexBib/exports/exported_PDF.json', 'r', encoding="utf-8") as pdflistfile:
+		pdflist = json.load(pdflistfile)
+except:
+	print('\npdflistfile not there, will save in a new one.')
+	pdflist = []
+
 # process Zotero export JSON
 token = lwb.get_token()
 knownqid=lwb.load_knownqid()
@@ -36,6 +46,7 @@ for item in data:
 	lexbibUri = ""
 	lexbibClass = ""
 
+	# define LexBib BibItem URI
 	if "archive_location" in item:
 		if item["archive_location"].startswith('http') == True:
 			lexbibUri = re.sub('/+$',"",item["archive_location"]) # use archiveLocation field content (starting with http), removing any slashes at the end
@@ -73,20 +84,16 @@ for item in data:
 			lexbibUri = re.sub('/$','',item["URL"]) # use URL field content removing slash at the end
 	if lexbibUri == "":
 		print('*** ERROR: Could not define lexbib Uri for '+item['title']+'. Item SKIPPED!!!')
+		lwb.logging.error('Could not define lexbib Uri for '+item['title']+'. Item SKIPPED!!!')
 		continue
 	else:
 		print('lexbib Uri will be: '+lexbibUri)
 
+	# iterate through zotero properties
+	creatorvals = []
 	propvals = []
 	for zp in item: # zp: zotero property
-		val = item[zp]
-		#print(property)
-		# itemproplist = itemprops.getWbProp(property,item[property],item['type'])
-		# litproplist = litprops.getWbProp(property,item[property],item['type'])
-		# if litproplist != None:
-		# 	lwb_item["props"].append(litproplist)
-		# if itemproplist != None:
-		# 	lwb_item["props"].append(itemproplist)
+		val = item[zp] # val: value of zotero property
 
 		# lexbib zotero tags can contain statements (shortcode for property, and value).
 		# If item as value, and that item does not exist, it is created.
@@ -112,6 +119,8 @@ for item in data:
 						qid = lwb.getqid("Q1907", container)
 					else:
 						qid = lwb.getqid("Q12", container)
+					if "title-short" in item:
+						lwb.setlabel(qid, "en", item['title-short'])
 					propvals.append({"property":"P9","datatype":"item","value":qid}) # container relation
 
 				if tag["tag"].startswith(':type ') == True:
@@ -152,7 +161,9 @@ for item in data:
 
 
 		### props with literal value
-
+		elif zp == "id":
+			val = "http://lexbib.org/zotero/"+re.search(r'items/(.*)', val).group(1)
+			propvals.append({"property":"P16","datatype":"string","value":val})
 		elif zp == "title":
 			propvals.append({"property":"P6","datatype":"string","value":val})
 		elif zp == "container-title":
@@ -184,9 +195,6 @@ for item in data:
 			propvals.append({"property":"P23","datatype":"string","value":val})
 		elif zp == "journalAbbreviation":
 			propvals.append({"property":"P54","datatype":"string","value":val})
-		elif zp == "id":
-			val = "http://lexbib.org/zotero/"+re.search(r'items/(.*)', val).group(1)
-			propvals.append({"property":"P16","datatype":"string","value":val})
 		elif zp == "URL":
 			propvals.append({"property":"P21","datatype":"string","value":val})
 		elif zp == "issued":
@@ -199,23 +207,65 @@ for item in data:
 				prop = "P39"
 			elif zp == "editor":
 				prop = "P42"
-			creators = []
 			listpos = 1
 			for creator in val:
+				if "literal" in creator: # this means there is no firstname-lastname but a single string (for Orgs):
+					pass # TBD
+				else:
+					if "non-dropping-particle" in creator:
+						creator["family"] = creator["non-dropping-particle"]+" "+creator["family"]
+					if creator["family"] == "Various":
+						creator["given"] = "Various"
+					creatorvals.append({"property":prop,"datatype":"string","value":creator["given"]+" "+creator["family"],"Qualifiers":[{"property":"P33","datatype":"string","value":str(listpos)},{"property":"P40","datatype":"string","value":creator["given"]},{"property":"P41","datatype":"string","value":creator["family"]}]})
+					listpos += 1
 
-				if "non-dropping-particle" in creator:
-					creator["family"] = creator["non-dropping-particle"]+" "+creator["family"]
-				if creator["family"] == "Various":
-					creator["given"] = "Various"
-				propvals.append({"property":prop,"datatype":"string","value":creator["given"]+" "+creator["family"],"Qualifiers":[{"property":"P33","datatype":"string","value":str(listpos)},{"property":"P40","datatype":"string","value":creator["given"]},{"property":"P41","datatype":"string","value":creator["family"]}]})
-				listpos += 1
+		# Attachments
+		elif zp == "attachments":
+			for attachment in val:
+				if attachment['contentType'] == "application/pdf":
+					pdfloc = re.search(r'(D:\\Zotero\\storage)\\([A-Z0-9]+)\\(.*)', attachment['localPath'])
+					pdfpath = pdfloc.group(1)
+					pdffolder = pdfloc.group(2)
+					pdfoldfile = pdfloc.group(3)
+					forbidden = re.compile(r'[^a-zA-Z0-9_\.]')
+					if forbidden.search(pdfoldfile) != None:
+						print("PDF file "+pdfoldfile+" will be renamed (remove [^a-zA-Z0-9_] from name)")
+						pdfnewfile = forbidden.sub('', pdfoldfile)
+						print('Renamed PDF file to handle is '+pdfnewfile)
+						time.sleep(2)
+					else:
+						pdfnewfile = pdfoldfile
+						print('Unrenamed PDF file to handle is '+pdfnewfile)
+					if pdffolder not in pdflist:
+						newpath = 'D:\\LexBib\\exports\\export_filerepo\\'+pdffolder
+						if not os.path.isdir(newpath):
+							os.makedirs(newpath)
+						shutil.copy(pdfpath+'\\'+pdffolder+'\\'+pdfoldfile, newpath+'\\'+pdfnewfile)
+						print('Found and copied '+pdfnewfile)
+						pdflist.append(pdffolder)
+						propvals.append({"property":"P70","datatype":"string","value":"http://lexbib.org/zotero/"+pdffolder})
+				elif attachment['contentType'] == "text/plain":
+					txturl = attachment['uri'].replace("http://zotero.org/groups/1892855/items/","http://lexbib.org/zotero/")
+					propvals.append({"property":"P71","datatype":"string","value":txturl})
 
-	# add lexbib Class amd propvals to target item
+		# Extra field, can contain a wikipedia page title, used in Elexifinder project as first-author-location-URI
+		elif zp == "extra":
+			place = val.replace("\n","").replace(" ","").split(";")[0]
+			if "en.wikipedia" in place:
+				# check if this location is already in LWB, if it doesn't exist, create it
+				qid = lwb.getqid("Q9", place)
+				propvals.append({"property":"P29","datatype":"item","value":qid})
+
+	# add lexbib Class and propvals to target item
 	if lexbibClass == "":
 		print('*** Item '+lexbibUri+' has not been assigned any LexBib Class, that is fatal.')
 		lwb.logging.error('Item '+lexbibUri+' has not been assigned any LexBib Class, that is fatal.')
-	
-	lwb_data.append({"lexbibUri":lexbibUri,"lexbibClass":lexbibClass,"propvals":propvals})
+
+	lwb_data.append({"lexbibUri":lexbibUri,"lexbibClass":lexbibClass,"creatorvals":creatorvals,"propvals":propvals})
+
+# save updated PDF list
+with open('D:/LexBib/exports/exported_PDF.json', 'w', encoding="utf-8") as pdflistfile:
+	json.dump(pdflist, pdflistfile, ensure_ascii=False, indent=2)
 
 #print(str(json.dumps(lwb_data)))
 with open(infile.replace('.json', '_lwb_import_data.json'), 'w', encoding="utf-8") as json_file: # path to result JSON file
