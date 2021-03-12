@@ -1,2 +1,4 @@
 
 *.pyc
+wikibase/config.py
+wikibase/lwb.log
