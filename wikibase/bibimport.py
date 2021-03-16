@@ -60,11 +60,12 @@ with open('D:/LexBib/wikibase/logs/errorlog_'+infilename+'_'+time.strftime("%Y%m
 							listpos = Qualifier['value']
 							print('Found existing creator listpos: ',listpos)
 					creator_item_claims = lwb.getclaims(qid, itemprop)
-					for creator_item_claim in creator_item_claims[itemprop]:
-						creator_item_listpos = creator_item_claim['qualifiers']["P33"][0]['datavalue']['value']
-						if creator_item_listpos == listpos:
-							print('Found creator literal already replaced with creator item, will skip.')
-							skip = True
+					if itemprop in creator_item_claims:
+						for creator_item_claim in creator_item_claims[itemprop]:
+							creator_item_listpos = creator_item_claim['qualifiers']["P33"][0]['datavalue']['value']
+							if creator_item_listpos == listpos:
+								print('Found creator literal already replaced with creator item, will skip.')
+								skip = True
 					# if creator item claim for this creator listpos is not found, update literal
 					if skip == False:
 						statement = lwb.updateclaim(qid,triple['property'],triple['value'],triple['datatype'])
@@ -73,6 +74,7 @@ with open('D:/LexBib/wikibase/logs/errorlog_'+infilename+'_'+time.strftime("%Y%m
 								lwb.setqualifier(qid,triple['property'],statement, qualitriple['property'], qualitriple['value'], qualitriple['datatype'])
 
 				for triple in item['propvals']:
+
 					statement = lwb.updateclaim(qid,triple['property'],triple['value'],triple['datatype'])
 					if "Qualifiers" in triple:
 						for qualitriple in triple['Qualifiers']:
