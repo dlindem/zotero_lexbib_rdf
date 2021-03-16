@@ -1,0 +1,20 @@
+PREFIX lwb: <http://data.lexbib.org/entity/>
+PREFIX ldp: <http://data.lexbib.org/prop/direct/>
+PREFIX lp: <http://data.lexbib.org/prop/>
+PREFIX lps: <http://data.lexbib.org/prop/statement/>
+PREFIX lpq: <http://data.lexbib.org/prop/qualifier/>
+
+
+    SELECT DISTINCT ?bibItem ?seqnum ?authordata WHERE {
+      ?bibItem ldp:P5 lwb:Q3 .
+      ?bibItem lp:P12 ?authorstatement .
+      ?authorstatement lps:P12 ?authornode .
+      ?authornode rdfs:label ?authorlabel.
+# 	  ?authorlabel foaf:firstName ?firstname
+#                ; foaf:surname ?lastname .
+       ?authorstatement lpq:P33 ?seqnumstr .
+       BIND ( xsd:integer(?seqnumstr) as ?seqnum )
+#       # Build the JSON object for a single author
+       BIND ( CONCAT('{ "uri" : "', (strafter(str(?authornode),"http://data.lexbib.org/entity/Q")), '", "name": "', ?authorlabel, '" }') as ?authordata )
+} ORDER BY ?bibItem ?seqnum ?authordata
+limit 10
