@@ -8,22 +8,31 @@ import requests
 import sys
 import unidecode
 import logging
+from wikidataintegrator import wdi_core, wdi_login
 import config
 
 # Properties with constraint: max. 1 value
-max1props = ["P1","P2","P3","P4","P6","P8","P9","P10","P11","P14","P15","P16","P17","P22","P23","P24","P29","P30","P32","P34","P35","P36","P37","P38","P40","P41", "P46"]
+max1props = ["P1","P2","P3","P4","P6","P8","P9","P10","P11","P14","P15","P16","P17","P22","P23","P24","P29","P30","P32","P34","P35","P36","P37","P38","P40","P41", "P46", "P65", "P87"]
 
 # Logging config
 logging.basicConfig(filename='lwb.log', filemode='a', format='%(asctime)s - %(levelname)s - %(message)s', datefmt='%d-%m-%y %H:%M:%S')
 
-# LexBib wikibase OAuth
+# WDI setup
+
+with open(config.datafolder+'wikibase/data_lexbib_org_pwd.txt', 'r', encoding='utf-8') as pwdfile:
+	lwbpass = pwdfile.read()
+mediawiki_api_url = "https://data.lexbib.org/w/api.php" # <- change to applicable wikibase
+sparql_endpoint_url = "https://data.lexbib.org/query/sparql"  # <- change to applicable wikibase
+login = wdi_login.WDLogin(config.lwbuser, lwbpass, mediawiki_api_url=mediawiki_api_url)
+lwbEngine = wdi_core.WDItemEngine.wikibase_item_engine_factory(mediawiki_api_url, sparql_endpoint_url)
+
+# LexBib wikibase OAuth for mwclient
 site = mwclient.Site('data.lexbib.org')
 def get_token():
 	global site
-	with open(config.datafolder+'wikibase/data_lexbib_org_pwd.txt', 'r', encoding='utf-8') as pwdfile:
-		pwd = pwdfile.read()
+	global lwbpass
 
-	login = site.login(username='DavidL', password=pwd)
+	login = site.login(username=config.lwbuser, password=lwbpass)
 	csrfquery = site.api('query', meta='tokens')
 	token=csrfquery['query']['tokens']['csrftoken']
 	print("Got fresh CSRF token for data.lexbib.org.")
@@ -35,7 +44,7 @@ def load_knownqid():
 	knownqid = {}
 	try:
 		with open(config.datafolder+'wikibase/mappings/lexbibmappings.csv', encoding="utf-8") as csvfile:
-			rows = csv.reader(csvfile, delimiter="\t")
+			rows = csv.reader(csvfile, delimiter=",")
 			count = 0
 			header = next(rows)
 			for row in rows:
@@ -44,13 +53,13 @@ def load_knownqid():
 					try:
 						knownqid[row[0]] = row[1]
 					except Exception as ex:
-						print('Found unparsable mapping json in knownqid.jsonl line ['+str(count)+']: '+mapping)
+						print('Found unparsable mapping json in lexbibmappings.csv line ['+str(count)+']: ')
 						print(str(ex))
 						pass
 	except Exception as ex:
 		print ('Error: knownqid file does not exist. Will start a new one.')
 		print (str(ex))
-	print(str(knownqid))
+	#print(str(knownqid))
 	print('Known LWB Qid loaded.')
 	return knownqid
 knownqid = load_knownqid()
@@ -83,7 +92,7 @@ wdqids = load_wdmappings()
 # Adds a new lexbibUri-qid mapping to knownqid.jsonl mapping file
 def save_knownqid(lexbibItem,qid):
 	with open(config.datafolder+'wikibase/mappings/lexbibmappings.csv', 'a', encoding="utf-8") as csvfile:
-		csvfile.write(lexbibItem+'\t'+qid+'\n')
+		csvfile.write(lexbibItem+','+qid+'\n')
 
 # Adds a new lwbqid-wdqid mapping to wdmappings.jsonl mapping file
 def save_wdmapping(mapping):
@@ -182,6 +191,7 @@ def getqid(lwbclasses, lexbibItem): # lwbclass: object of 'instance of' (P5), le
 				print('Error: SPARQL request failed.')
 				time.sleep(2)
 				continue
+
 			done = True
 		if len(results) == 0:
 			print('Found no Qid for LexBib URI '+lexbibItem+', will create it.')
@@ -318,6 +328,37 @@ def setlabel(s, lang, val, type="label"):
 	logging.warning('Label set operation '+s+' ('+lang+') '+val+' failed up to 5 times... skipped.')
 	return False
 
+#create string (or url) claim
+def setdescription(s, lang, val):
+	global token
+
+	done = False
+	count = 0
+	value = val # insert operations if necessary
+	while count < 5:
+		count += 1
+		try:
+			request = site.post('wbsetdescription', id=s, language=lang, value=value, token=token, bot=True)
+			if request['success'] == 1:
+				print('Description creation done: '+s+' ('+lang+') "'+val+'".')
+				return True
+		except Exception as ex:
+			if 'Invalid CSRF token.' in str(ex):
+				print('Wait a sec. Must get a new CSRF token...')
+				token = get_token()
+			elif 'Unrecognized value for parameter "language"' in str(ex):
+				print('Cannot set description in this language: '+lang)
+				logging.warning('Cannot set description in this language: '+lang)
+				break
+			else:
+				print('Description set operation '+s+' ('+lang+') '+val+' failed, will try again...\n'+str(ex))
+				logging.error('Description set operation '+s+' ('+lang+') '+val+' failed, will try again...', exc_info=True)
+				time.sleep(4)
+	# log.add
+	print ('*** Description set operation '+s+' ('+lang+') '+val+' failed up to 5 times... skipped.')
+	logging.warning('Description set operation '+s+' ('+lang+') '+val+' failed up to 5 times... skipped.')
+	return False
+
 #get claims from qid
 def getclaims(s, p):
 	done = False
@@ -349,14 +390,24 @@ def getclaimfromstatement(guid):
 			time.sleep(4)
 
 #update claims
-def updateclaim(s, p, o, dtype):
+def updateclaim(s, p, o, dtype): # for novalue: o="novalue", dtype="novalue"
 	global max1props
 	global token
 
-	if dtype == "string" or dtype == "url" or dtype == "monolingualtext":
+	if dtype == "time":
+		data=[(wdi_core.WDTime(o['time'], prop_nr=p, precision=o['precision']))]
+		item = lwbEngine(wd_item_id=s, data=data)
+		print('Successful time object write operation: '+item.write(login))
+		# TBD: duplicate statement control
+		claims = getclaims(s,p)
+		print(str(claims))
+		return claims[p][0]['id']
+	elif dtype == "string" or dtype == "url" or dtype == "monolingualtext":
 		value = '"'+o.replace('"', '\\"')+'"'
 	elif dtype == "item" or dtype =="wikibase-entityid":
 		value = json.dumps({"entity-type":"item","numeric-id":int(o.replace("Q",""))})
+	elif dtype == "novalue":
+		value = "novalue"
 
 	claims = getclaims(s,p)
 	foundobjs = []
@@ -366,7 +417,10 @@ def updateclaim(s, p, o, dtype):
 			statementcount += 1
 			guid = claim['id']
 			#print(str(claim['mainsnak']))
-			foundo = claim['mainsnak']['datavalue']['value']
+			if claim['mainsnak']['snaktype'] == "value":
+				foundo = claim['mainsnak']['datavalue']['value']
+			elif claim['mainsnak']['snaktype'] == "novalue":
+				foundo = "novalue"
 			if isinstance(foundo, dict): # foundo is a dict in case of datatype wikibaseItem
 				#print(str(foundo))
 				foundo = foundo['id']
@@ -409,7 +463,10 @@ def updateclaim(s, p, o, dtype):
 		while count < 5:
 			count += 1
 			try:
-				request = site.post('wbcreateclaim', token=token, entity=s, property=p, snaktype="value", value=value, bot=True)
+				if dtype == "novalue":
+					request = site.post('wbcreateclaim', token=token, entity=s, property=p, snaktype="novalue", bot=True)
+				else:
+					request = site.post('wbcreateclaim', token=token, entity=s, property=p, snaktype="value", value=value, bot=True)
 
 				if request['success'] == 1:
 
