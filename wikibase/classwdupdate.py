@@ -14,7 +14,7 @@ print ('LWB class to be updated is: '+c)
 # For properties, e.g. "P65"; for wikipedia English sitelink, "en.wiki"; "en.label" for English label.
 # This should come from a property schema for the selected LWB class (TBD)
 props = [
-"en.label"
+"en.wiki",
 ]
 
 # Get LWB items belonging to class c
@@ -42,8 +42,8 @@ for prop in props:
 			wdqid = item['wdqid']['value'].replace("http://www.wikidata.org/entity/","")
 			lwbqid = item['item']['value'].replace("http://data.lexbib.org/entity/","")
 			print('Will now get en.wikipedia page url for LWB item: '+lwbqid+' from wdItem: '+wdqid)
-			enwikiurl = lwb.get_wikipedia_url_from_wikidata_id(wdqid, lang='en', debug=True)
-			lwb.stringclaim (lwbqid,"P66",enwikiurl)
+			enwikiurl = lwb.get_wikipedia_url_from_wikidata_id(wdqid, lang='en')#, debug=True)
+			lwb.updateclaim (lwbqid,"P66",enwikiurl,"url")
 			itemcount += 1
 	elif prop == "en.label":
 		# get label (English), and write it to LWB
