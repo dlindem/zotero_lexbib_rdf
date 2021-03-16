@@ -1,0 +1,44 @@
+PREFIX lwb: <http://data.lexbib.org/entity/>
+PREFIX ldp: <http://data.lexbib.org/prop/direct/>
+PREFIX lp: <http://data.lexbib.org/prop/>
+PREFIX lps: <http://data.lexbib.org/prop/statement/>
+PREFIX lpq: <http://data.lexbib.org/prop/qualifier/>
+
+SELECT
+(strafter(str(?bibItem),"data.lexbib.org/entity/") as ?uri)
+#?collection
+?title
+#?articleTM
+(str(?zotItem) as ?zotItemUri)
+
+(strafter(str(?lexvolang),"http://lexvo.org/id/iso639-3/") as ?publang)
+#(strafter(str(?pdffile),"http://lexbib.org/zotero/") as ?pdffile)
+?pdffile
+#?pdftxt
+?txtfile
+?fullTextUrl
+?containerFullTextUrl
+?containerUrl
+?containerShortTitle
+?authorLoc
+
+where {
+
+  ?bibItem ldp:P5 lwb:Q3 .
+#  ?bibItem ldp:P85 ?collection .
+  ?bibItem ldp:P6 ?title .
+
+  ?bibItem ldp:P16 ?zotItem .
+  ?bibItem ldp:P11 ?langItem . ?langItem ldp:P32 ?lexvolang .
+  ?bibItem ldp:P70 ?pdffile .
+  ?bibItem ldp:P71 ?txtfile .
+  ?bibItem ldp:P21 ?fullTextUrl .
+  OPTIONAL {?bibItem ldp:P29 ?auLocUri . ?auLocUri ldp:P66 ?authorLoc .}
+  OPTIONAL {?bibItem ldp:P9 ?containerUri .
+  OPTIONAL {?containerUri ldp:P21 ?containerFullTextUrl .}
+  OPTIONAL {?containerUri ldp:P3 ?containerUrl .} # LexBib Item URI
+  OPTIONAL {?containerUri rdfs:label ?containerShortTitle .}}
+
+
+}
+limit 10
