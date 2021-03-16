@@ -4,8 +4,10 @@ PREFIX lp: <http://data.lexbib.org/prop/>
 PREFIX lps: <http://data.lexbib.org/prop/statement/>
 PREFIX lpq: <http://data.lexbib.org/prop/qualifier/>
 
-select (substr(str(?bibItem),31) as ?qid) ?title ?lang where
+select distinct ?bibItem ?dct_title ?wikilang where
 { ?bibItem ldp:P5 lwb:Q3 .
-  ?bibItem ldp:P6 ?title .
-  ?bibItem ldp:P11 ?lang .
-} limit 10
+ MINUS {?bibItem rdfs:label ?label FILTER (lang(?label)="en")}
+ ?bibItem ldp:P6 ?dct_title .
+ ?bibItem ldp:P11 ?publang .
+ ?publang ldp:P43 ?wikilang .
+}
