@@ -15,24 +15,26 @@ import config
 max1props = ["P1","P2","P3","P4","P6","P8","P9","P10","P11","P14","P15","P16","P17","P22","P23","P24","P29","P30","P32","P34","P35","P36","P37","P38","P40","P41", "P46", "P65", "P87"]
 
 # Logging config
-logging.basicConfig(filename='lwb.log', filemode='a', format='%(asctime)s - %(levelname)s - %(message)s', datefmt='%d-%m-%y %H:%M:%S')
+logging.basicConfig(filename='logs/lwb.log', filemode='a', format='%(asctime)s - %(levelname)s - %(message)s', datefmt='%d-%m-%y %H:%M:%S')
 
 # WDI setup
 
-with open(config.datafolder+'wikibase/data_lexbib_org_pwd.txt', 'r', encoding='utf-8') as pwdfile:
-	lwbpass = pwdfile.read()
+with open(config.datafolder+'wikibase/data_lexbib_org_bot_pwd.txt', 'r', encoding='utf-8') as pwdfile:
+	lwbbotpass = pwdfile.read()
 mediawiki_api_url = "https://data.lexbib.org/w/api.php" # <- change to applicable wikibase
 sparql_endpoint_url = "https://data.lexbib.org/query/sparql"  # <- change to applicable wikibase
-login = wdi_login.WDLogin(config.lwbuser, lwbpass, mediawiki_api_url=mediawiki_api_url)
+login = wdi_login.WDLogin(config.lwbuser, lwbbotpass, mediawiki_api_url=mediawiki_api_url)
 lwbEngine = wdi_core.WDItemEngine.wikibase_item_engine_factory(mediawiki_api_url, sparql_endpoint_url)
 
 # LexBib wikibase OAuth for mwclient
+with open(config.datafolder+'wikibase/data_lexbib_org_user_pwd.txt', 'r', encoding='utf-8') as pwdfile:
+	lwbuserpass = pwdfile.read()
 site = mwclient.Site('data.lexbib.org')
 def get_token():
 	global site
 	global lwbpass
 
-	login = site.login(username=config.lwbuser, password=lwbpass)
+	login = site.login(username=config.lwbuser, password=lwbuserpass)
 	csrfquery = site.api('query', meta='tokens')
 	token=csrfquery['query']['tokens']['csrftoken']
 	print("Got fresh CSRF token for data.lexbib.org.")
@@ -171,7 +173,7 @@ def newitemwithlabel(lwbclasses, labellang, label): # lwbclass: object of 'insta
 
 # function for wikibase item creation (after check if it is known)
 #token = get_token()
-def getqid(lwbclasses, lexbibItem): # lwbclass: object of 'instance of' (P5), lexbibItem = lexbibUri (P3) of the (known or new) q-item
+def getqid(lwbclasses, lexbibItem, onlyknown=False): # lwbclass: object of 'instance of' (P5), lexbibItem = lexbibUri (P3) of the (known or new) q-item
 	global token
 	global knownqid
 	if isinstance(lwbclasses, str) == True: # if a single value is passed as string, not as list
@@ -179,74 +181,86 @@ def getqid(lwbclasses, lexbibItem): # lwbclass: object of 'instance of' (P5), le
 	if lexbibItem in knownqid:
 		print(lexbibItem+' is a known wikibase item: Qid '+knownqid[lexbibItem]+', no need to create it.')
 		return knownqid[lexbibItem]
-	else:
-		lexbibItemSafe = urllib.parse.quote(lexbibItem, safe='~', encoding="utf-8")
-		url = "https://data.lexbib.org/query/sparql?format=json&query=SELECT%20%3FlwbItem%20%0AWHERE%20%0A%7B%20%20%3FlwbItem%20%3Chttp%3A%2F%2Fdata.lexbib.org%2Fprop%2Fdirect%2FP5%3E%20%3Chttp%3A%2F%2Fdata.lexbib.org%2Fentity%2F"+lwbclasses[0]+"%3E.%20%0A%0A%20%20%20%3FlwbItem%20%3Chttp%3A%2F%2Fdata.lexbib.org%2Fprop%2Fdirect%2FP3%3E%20%3C"+lexbibItemSafe+"%3E%20.%0A%7D"
+	if onlyknown:
+		return False
+	lexbibItemSafe = urllib.parse.quote(lexbibItem, safe='~', encoding="utf-8")
+	url = "https://data.lexbib.org/query/sparql?format=json&query=SELECT%20%3FlwbItem%20%0AWHERE%20%0A%7B%20%20%3FlwbItem%20%3Chttp%3A%2F%2Fdata.lexbib.org%2Fprop%2Fdirect%2FP5%3E%20%3Chttp%3A%2F%2Fdata.lexbib.org%2Fentity%2F"+lwbclasses[0]+"%3E.%20%0A%0A%20%20%20%3FlwbItem%20%3Chttp%3A%2F%2Fdata.lexbib.org%2Fprop%2Fdirect%2FP3%3E%20%3C"+lexbibItemSafe+"%3E%20.%0A%7D"
+	done = False
+	while (not done):
+		try:
+			r = requests.get(url)
+			results = r.json()['results']['bindings']
+		except Exception as ex:
+			print('Error: SPARQL request failed.')
+			time.sleep(2)
+			continue
+
+		done = True
+	if len(results) == 0:
+		print('Found no Qid for LexBib URI '+lexbibItem+', will create it.')
+		claim = {"claims":[{"mainsnak":{"snaktype":"value","property":"P3","datavalue":{"value":lexbibItem,"type":"string"}},"type":"statement","rank":"normal"}]}
 		done = False
 		while (not done):
 			try:
-				r = requests.get(url)
-				results = r.json()['results']['bindings']
+				itemcreation = site.post('wbeditentity', token=token, new="item", bot=True, data=json.dumps(claim))
 			except Exception as ex:
-				print('Error: SPARQL request failed.')
-				time.sleep(2)
+				if 'Invalid CSRF token.' in str(ex):
+					print('Wait a sec. Must get a new CSRF token...')
+					token = get_token()
+				else:
+					print(str(ex))
+					time.sleep(4)
 				continue
+			#print(str(itemcreation))
+			if itemcreation['success'] == 1:
+				done = True
+				qid = itemcreation['entity']['id']
+				print('Item creation for '+lexbibItem+': success. QID = '+qid)
+			else:
+				print('Item creation failed, will try again...')
+				time.sleep(2)
 
-			done = True
-		if len(results) == 0:
-			print('Found no Qid for LexBib URI '+lexbibItem+', will create it.')
-			claim = {"claims":[{"mainsnak":{"snaktype":"value","property":"P3","datavalue":{"value":lexbibItem,"type":"string"}},"type":"statement","rank":"normal"}]}
+
+
+		for lwbclass in lwbclasses:
 			done = False
 			while (not done):
+				claim = {"entity-type":"item","numeric-id":int(lwbclass.replace("Q",""))}
+				classclaim = site.post('wbcreateclaim', token=token, entity=qid, property="P5", snaktype="value", value=json.dumps(claim))
 				try:
-					itemcreation = site.post('wbeditentity', token=token, new="item", bot=True, data=json.dumps(claim))
-				except Exception as ex:
-					if 'Invalid CSRF token.' in str(ex):
-						print('Wait a sec. Must get a new CSRF token...')
-						token = get_token()
-					else:
-						print(str(ex))
-						time.sleep(4)
-					continue
-				#print(str(itemcreation))
-				if itemcreation['success'] == 1:
-					done = True
-					qid = itemcreation['entity']['id']
-					print('Item creation for '+lexbibItem+': success. QID = '+qid)
-				else:
-					print('Item creation failed, will try again...')
+					if classclaim['success'] == 1:
+						done = True
+						print('Instance-of-claim creation for '+lexbibItem+': success. Class is '+lwbclass)
+						#time.sleep(1)
+				except:
+					print('Claim creation failed, will try again...')
 					time.sleep(2)
+		knownqid[lexbibItem] = qid
+		save_knownqid(lexbibItem,qid)
+		return qid
+	elif len(results) > 1:
+		print('*** Error: Found more than one Wikibase item for one LexBib URI that should be unique... will take the first result.')
+		qid = results[0]['lwbItem']['value'].replace("http://data.lexbib.org/entity/","")
+		knownqid[lexbibItem] = qid
+		save_knownqid(lexbibItem,qid)
+		return qid
+	elif len(results) == 1:
+		qid = results[0]['lwbItem']['value'].replace("http://data.lexbib.org/entity/","")
+		print('Found '+lexbibItem+' not in knownqid file but on data.lexbib: Qid '+qid+'; no need to create it, will add to knownqid file.')
+		knownqid[lexbibItem] = qid
+		save_knownqid(lexbibItem,qid)
+		return qid
 
-
-
-			for lwbclass in lwbclasses:
-				done = False
-				while (not done):
-					claim = {"entity-type":"item","numeric-id":int(lwbclass.replace("Q",""))}
-					classclaim = site.post('wbcreateclaim', token=token, entity=qid, property="P5", snaktype="value", value=json.dumps(claim))
-					try:
-						if classclaim['success'] == 1:
-							done = True
-							print('Instance-of-claim creation for '+lexbibItem+': success. Class is '+lwbclass)
-							#time.sleep(1)
-					except:
-						print('Claim creation failed, will try again...')
-						time.sleep(2)
-			knownqid[lexbibItem] = qid
-			save_knownqid(lexbibItem,qid)
-			return qid
-		elif len(results) > 1:
-			print('*** Error: Found more than one Wikibase item for one LexBib URI that should be unique... will take the first result.')
-			qid = results[0]['lwbItem']['value'].replace("http://data.lexbib.org/entity/","")
-			knownqid[lexbibItem] = qid
-			save_knownqid(lexbibItem,qid)
-			return qid
-		elif len(results) == 1:
-			qid = results[0]['lwbItem']['value'].replace("http://data.lexbib.org/entity/","")
-			print('Found '+lexbibItem+' not in knownqid file but on data.lexbib: Qid '+qid+'; no need to create it, will add to knownqid file.')
-			knownqid[lexbibItem] = qid
-			save_knownqid(lexbibItem,qid)
-			return qid
+#get label
+def getlabel(qid, lang):
+	done = False
+	while True:
+		request = site.get('wbgetentities', ids=qid, props="labels", languages=lang)
+		if request['success'] == 1:
+			return request["entities"][qid]["labels"][lang]["value"]
+		else:
+			print('Something went wrong with label retrieval for '+qid+', will try again.')
+			time.sleep(3)
 
 #create item claim
 def itemclaim(s, p, o):
@@ -307,7 +321,7 @@ def setlabel(s, lang, val, type="label"):
 			if type == "label":
 				request = site.post('wbsetlabel', id=s, language=lang, value=value, token=token, bot=True)
 			elif type == "alias":
-				request = site.post('wbsetaliases', id=s, language=lang, set=value, token=token, bot=True)
+				request = site.post('wbsetaliases', id=s, language=lang, add=value, token=token, bot=True)
 			if request['success'] == 1:
 				print('Label creation done: '+s+' ('+lang+') '+val+', type: '+type)
 				return True
@@ -349,6 +363,13 @@ def setdescription(s, lang, val):
 			elif 'Unrecognized value for parameter "language"' in str(ex):
 				print('Cannot set description in this language: '+lang)
 				logging.warning('Cannot set description in this language: '+lang)
+				break
+			elif 'already has label' in str(ex) and 'using the same description text.' in str(ex):
+				# this is a hot candidate for merging
+				print('*** Oh, it seems that we have a hot candidate for merging here... Writing info to mergecandidates.log')
+				with open ('logs/mergecandidates.log', 'a', encoding='utf-8') as mergecandfile:
+					mergecand = re.search(r'\[\[Item:(Q\d+)',str(ex)).group(1)
+					mergecandfile.write(s+' and '+mergecand+' : '+val+'\n')
 				break
 			else:
 				print('Description set operation '+s+' ('+lang+') '+val+' failed, will try again...\n'+str(ex))
@@ -400,7 +421,7 @@ def updateclaim(s, p, o, dtype): # for novalue: o="novalue", dtype="novalue"
 		print('Successful time object write operation: '+item.write(login))
 		# TBD: duplicate statement control
 		claims = getclaims(s,p)
-		print(str(claims))
+		#print(str(claims))
 		return claims[p][0]['id']
 	elif dtype == "string" or dtype == "url" or dtype == "monolingualtext":
 		value = '"'+o.replace('"', '\\"')+'"'

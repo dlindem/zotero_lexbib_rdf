@@ -1,0 +1,382 @@
+23-03-21 20:51:54 - WARNING - Subscribe to the mediawiki-api-announce mailing list at <https://lists.wikimedia.org/mailman/listinfo/mediawiki-api-announce> for notice of API deprecations and breaking changes.
+23-03-21 20:51:54 - WARNING - Main-account login via "action=login" is deprecated and may stop working without warning. To continue login with "action=login", see [[Special:BotPasswords]]. To safely continue using main-account login, see "action=clientlogin".
+23-03-21 20:52:36 - ERROR - Description set operation Q23247 (en) a Person failed, will try again...
+Traceback (most recent call last):
+  File "D:\GitHub\zotero_lexbib_rdf\wikibase\lwb.py", line 361, in setdescription
+    request = site.post('wbsetdescription', id=s, language=lang, value=value, token=token, bot=True)
+  File "C:\Python38\lib\site-packages\mwclient\client.py", line 245, in post
+    return self.api(action, 'POST', *args, **kwargs)
+  File "C:\Python38\lib\site-packages\mwclient\client.py", line 288, in api
+    if self.handle_api_result(info, sleeper=sleeper):
+  File "C:\Python38\lib\site-packages\mwclient\client.py", line 331, in handle_api_result
+    raise errors.APIError(info['error']['code'],
+mwclient.errors.APIError: ('modification-failed', 'Item [[Item:Q23139|Q23139]] already has label "Jürgen Schäfer" associated with language code en, using the same description text.', 'See https://data.lexbib.org/w/api.php for API usage. Subscribe to the mediawiki-api-announce mailing list at &lt;https://lists.wikimedia.org/mailman/listinfo/mediawiki-api-announce&gt; for notice of API deprecations and breaking changes.')
+23-03-21 20:52:41 - ERROR - Description set operation Q23247 (en) a Person failed, will try again...
+Traceback (most recent call last):
+  File "D:\GitHub\zotero_lexbib_rdf\wikibase\lwb.py", line 361, in setdescription
+    request = site.post('wbsetdescription', id=s, language=lang, value=value, token=token, bot=True)
+  File "C:\Python38\lib\site-packages\mwclient\client.py", line 245, in post
+    return self.api(action, 'POST', *args, **kwargs)
+  File "C:\Python38\lib\site-packages\mwclient\client.py", line 288, in api
+    if self.handle_api_result(info, sleeper=sleeper):
+  File "C:\Python38\lib\site-packages\mwclient\client.py", line 331, in handle_api_result
+    raise errors.APIError(info['error']['code'],
+mwclient.errors.APIError: ('modification-failed', 'Item [[Item:Q23139|Q23139]] already has label "Jürgen Schäfer" associated with language code en, using the same description text.', 'See https://data.lexbib.org/w/api.php for API usage. Subscribe to the mediawiki-api-announce mailing list at &lt;https://lists.wikimedia.org/mailman/listinfo/mediawiki-api-announce&gt; for notice of API deprecations and breaking changes.')
+23-03-21 20:52:46 - ERROR - Description set operation Q23247 (en) a Person failed, will try again...
+Traceback (most recent call last):
+  File "D:\GitHub\zotero_lexbib_rdf\wikibase\lwb.py", line 361, in setdescription
+    request = site.post('wbsetdescription', id=s, language=lang, value=value, token=token, bot=True)
+  File "C:\Python38\lib\site-packages\mwclient\client.py", line 245, in post
+    return self.api(action, 'POST', *args, **kwargs)
+  File "C:\Python38\lib\site-packages\mwclient\client.py", line 288, in api
+    if self.handle_api_result(info, sleeper=sleeper):
+  File "C:\Python38\lib\site-packages\mwclient\client.py", line 331, in handle_api_result
+    raise errors.APIError(info['error']['code'],
+mwclient.errors.APIError: ('modification-failed', 'Item [[Item:Q23139|Q23139]] already has label "Jürgen Schäfer" associated with language code en, using the same description text.', 'See https://data.lexbib.org/w/api.php for API usage. Subscribe to the mediawiki-api-announce mailing list at &lt;https://lists.wikimedia.org/mailman/listinfo/mediawiki-api-announce&gt; for notice of API deprecations and breaking changes.')
+23-03-21 20:58:44 - WARNING - Subscribe to the mediawiki-api-announce mailing list at <https://lists.wikimedia.org/mailman/listinfo/mediawiki-api-announce> for notice of API deprecations and breaking changes.
+23-03-21 20:58:44 - WARNING - Main-account login via "action=login" is deprecated and may stop working without warning. To continue login with "action=login", see [[Special:BotPasswords]]. To safely continue using main-account login, see "action=clientlogin".
+23-03-21 20:59:26 - ERROR - Description set operation Q23247 (en) a Person failed, will try again...
+Traceback (most recent call last):
+  File "D:\GitHub\zotero_lexbib_rdf\wikibase\lwb.py", line 362, in setdescription
+    request = site.post('wbsetdescription', id=s, language=lang, value=value, token=token, bot=True)
+  File "C:\Python38\lib\site-packages\mwclient\client.py", line 245, in post
+    return self.api(action, 'POST', *args, **kwargs)
+  File "C:\Python38\lib\site-packages\mwclient\client.py", line 288, in api
+    if self.handle_api_result(info, sleeper=sleeper):
+  File "C:\Python38\lib\site-packages\mwclient\client.py", line 331, in handle_api_result
+    raise errors.APIError(info['error']['code'],
+mwclient.errors.APIError: ('modification-failed', 'Item [[Item:Q23139|Q23139]] already has label "Jürgen Schäfer" associated with language code en, using the same description text.', 'See https://data.lexbib.org/w/api.php for API usage. Subscribe to the mediawiki-api-announce mailing list at &lt;https://lists.wikimedia.org/mailman/listinfo/mediawiki-api-announce&gt; for notice of API deprecations and breaking changes.')
+23-03-21 20:59:31 - ERROR - Description set operation Q23247 (en) a Person failed, will try again...
+Traceback (most recent call last):
+  File "D:\GitHub\zotero_lexbib_rdf\wikibase\lwb.py", line 362, in setdescription
+    request = site.post('wbsetdescription', id=s, language=lang, value=value, token=token, bot=True)
+  File "C:\Python38\lib\site-packages\mwclient\client.py", line 245, in post
+    return self.api(action, 'POST', *args, **kwargs)
+  File "C:\Python38\lib\site-packages\mwclient\client.py", line 288, in api
+    if self.handle_api_result(info, sleeper=sleeper):
+  File "C:\Python38\lib\site-packages\mwclient\client.py", line 331, in handle_api_result
+    raise errors.APIError(info['error']['code'],
+mwclient.errors.APIError: ('modification-failed', 'Item [[Item:Q23139|Q23139]] already has label "Jürgen Schäfer" associated with language code en, using the same description text.', 'See https://data.lexbib.org/w/api.php for API usage. Subscribe to the mediawiki-api-announce mailing list at &lt;https://lists.wikimedia.org/mailman/listinfo/mediawiki-api-announce&gt; for notice of API deprecations and breaking changes.')
+23-03-21 21:05:32 - WARNING - Subscribe to the mediawiki-api-announce mailing list at <https://lists.wikimedia.org/mailman/listinfo/mediawiki-api-announce> for notice of API deprecations and breaking changes.
+23-03-21 21:05:32 - WARNING - Main-account login via "action=login" is deprecated and may stop working without warning. To continue login with "action=login", see [[Special:BotPasswords]]. To safely continue using main-account login, see "action=clientlogin".
+23-03-21 21:06:14 - ERROR - Description set operation Q23247 (en) a Person failed, will try again...
+Traceback (most recent call last):
+  File "D:\GitHub\zotero_lexbib_rdf\wikibase\lwb.py", line 362, in setdescription
+    request = site.post('wbsetdescription', id=s, language=lang, value=value, token=token, bot=True)
+  File "C:\Python38\lib\site-packages\mwclient\client.py", line 245, in post
+    return self.api(action, 'POST', *args, **kwargs)
+  File "C:\Python38\lib\site-packages\mwclient\client.py", line 288, in api
+    if self.handle_api_result(info, sleeper=sleeper):
+  File "C:\Python38\lib\site-packages\mwclient\client.py", line 331, in handle_api_result
+    raise errors.APIError(info['error']['code'],
+mwclient.errors.APIError: ('modification-failed', 'Item [[Item:Q23139|Q23139]] already has label "Jürgen Schäfer" associated with language code en, using the same description text.', 'See https://data.lexbib.org/w/api.php for API usage. Subscribe to the mediawiki-api-announce mailing list at &lt;https://lists.wikimedia.org/mailman/listinfo/mediawiki-api-announce&gt; for notice of API deprecations and breaking changes.')
+23-03-21 21:06:19 - ERROR - Description set operation Q23247 (en) a Person failed, will try again...
+Traceback (most recent call last):
+  File "D:\GitHub\zotero_lexbib_rdf\wikibase\lwb.py", line 362, in setdescription
+    request = site.post('wbsetdescription', id=s, language=lang, value=value, token=token, bot=True)
+  File "C:\Python38\lib\site-packages\mwclient\client.py", line 245, in post
+    return self.api(action, 'POST', *args, **kwargs)
+  File "C:\Python38\lib\site-packages\mwclient\client.py", line 288, in api
+    if self.handle_api_result(info, sleeper=sleeper):
+  File "C:\Python38\lib\site-packages\mwclient\client.py", line 331, in handle_api_result
+    raise errors.APIError(info['error']['code'],
+mwclient.errors.APIError: ('modification-failed', 'Item [[Item:Q23139|Q23139]] already has label "Jürgen Schäfer" associated with language code en, using the same description text.', 'See https://data.lexbib.org/w/api.php for API usage. Subscribe to the mediawiki-api-announce mailing list at &lt;https://lists.wikimedia.org/mailman/listinfo/mediawiki-api-announce&gt; for notice of API deprecations and breaking changes.')
+23-03-21 21:12:40 - WARNING - Subscribe to the mediawiki-api-announce mailing list at <https://lists.wikimedia.org/mailman/listinfo/mediawiki-api-announce> for notice of API deprecations and breaking changes.
+23-03-21 21:12:40 - WARNING - Main-account login via "action=login" is deprecated and may stop working without warning. To continue login with "action=login", see [[Special:BotPasswords]]. To safely continue using main-account login, see "action=clientlogin".
+23-03-21 21:12:55 - ERROR - Description set operation Q23247 (en) a Person failed, will try again...
+Traceback (most recent call last):
+  File "D:\GitHub\zotero_lexbib_rdf\wikibase\lwb.py", line 362, in setdescription
+    request = site.post('wbsetdescription', id=s, language=lang, value=value, token=token, bot=True)
+  File "C:\Python38\lib\site-packages\mwclient\client.py", line 245, in post
+    return self.api(action, 'POST', *args, **kwargs)
+  File "C:\Python38\lib\site-packages\mwclient\client.py", line 288, in api
+    if self.handle_api_result(info, sleeper=sleeper):
+  File "C:\Python38\lib\site-packages\mwclient\client.py", line 331, in handle_api_result
+    raise errors.APIError(info['error']['code'],
+mwclient.errors.APIError: ('modification-failed', 'Item [[Item:Q23139|Q23139]] already has label "Jürgen Schäfer" associated with language code en, using the same description text.', 'See https://data.lexbib.org/w/api.php for API usage. Subscribe to the mediawiki-api-announce mailing list at &lt;https://lists.wikimedia.org/mailman/listinfo/mediawiki-api-announce&gt; for notice of API deprecations and breaking changes.')
+23-03-21 21:12:59 - ERROR - Description set operation Q23247 (en) a Person failed, will try again...
+Traceback (most recent call last):
+  File "D:\GitHub\zotero_lexbib_rdf\wikibase\lwb.py", line 362, in setdescription
+    request = site.post('wbsetdescription', id=s, language=lang, value=value, token=token, bot=True)
+  File "C:\Python38\lib\site-packages\mwclient\client.py", line 245, in post
+    return self.api(action, 'POST', *args, **kwargs)
+  File "C:\Python38\lib\site-packages\mwclient\client.py", line 288, in api
+    if self.handle_api_result(info, sleeper=sleeper):
+  File "C:\Python38\lib\site-packages\mwclient\client.py", line 331, in handle_api_result
+    raise errors.APIError(info['error']['code'],
+mwclient.errors.APIError: ('modification-failed', 'Item [[Item:Q23139|Q23139]] already has label "Jürgen Schäfer" associated with language code en, using the same description text.', 'See https://data.lexbib.org/w/api.php for API usage. Subscribe to the mediawiki-api-announce mailing list at &lt;https://lists.wikimedia.org/mailman/listinfo/mediawiki-api-announce&gt; for notice of API deprecations and breaking changes.')
+23-03-21 21:13:03 - ERROR - Description set operation Q23247 (en) a Person failed, will try again...
+Traceback (most recent call last):
+  File "D:\GitHub\zotero_lexbib_rdf\wikibase\lwb.py", line 362, in setdescription
+    request = site.post('wbsetdescription', id=s, language=lang, value=value, token=token, bot=True)
+  File "C:\Python38\lib\site-packages\mwclient\client.py", line 245, in post
+    return self.api(action, 'POST', *args, **kwargs)
+  File "C:\Python38\lib\site-packages\mwclient\client.py", line 288, in api
+    if self.handle_api_result(info, sleeper=sleeper):
+  File "C:\Python38\lib\site-packages\mwclient\client.py", line 331, in handle_api_result
+    raise errors.APIError(info['error']['code'],
+mwclient.errors.APIError: ('modification-failed', 'Item [[Item:Q23139|Q23139]] already has label "Jürgen Schäfer" associated with language code en, using the same description text.', 'See https://data.lexbib.org/w/api.php for API usage. Subscribe to the mediawiki-api-announce mailing list at &lt;https://lists.wikimedia.org/mailman/listinfo/mediawiki-api-announce&gt; for notice of API deprecations and breaking changes.')
+23-03-21 21:15:04 - WARNING - Subscribe to the mediawiki-api-announce mailing list at <https://lists.wikimedia.org/mailman/listinfo/mediawiki-api-announce> for notice of API deprecations and breaking changes.
+23-03-21 21:15:04 - WARNING - Main-account login via "action=login" is deprecated and may stop working without warning. To continue login with "action=login", see [[Special:BotPasswords]]. To safely continue using main-account login, see "action=clientlogin".
+23-03-21 21:15:45 - ERROR - Description set operation Q23247 (en) a Person failed, will try again...
+Traceback (most recent call last):
+  File "D:\GitHub\zotero_lexbib_rdf\wikibase\lwb.py", line 362, in setdescription
+    request = site.post('wbsetdescription', id=s, language=lang, value=value, token=token, bot=True)
+  File "C:\Python38\lib\site-packages\mwclient\client.py", line 245, in post
+    return self.api(action, 'POST', *args, **kwargs)
+  File "C:\Python38\lib\site-packages\mwclient\client.py", line 288, in api
+    if self.handle_api_result(info, sleeper=sleeper):
+  File "C:\Python38\lib\site-packages\mwclient\client.py", line 331, in handle_api_result
+    raise errors.APIError(info['error']['code'],
+mwclient.errors.APIError: ('modification-failed', 'Item [[Item:Q23139|Q23139]] already has label "Jürgen Schäfer" associated with language code en, using the same description text.', 'See https://data.lexbib.org/w/api.php for API usage. Subscribe to the mediawiki-api-announce mailing list at &lt;https://lists.wikimedia.org/mailman/listinfo/mediawiki-api-announce&gt; for notice of API deprecations and breaking changes.')
+23-03-21 21:15:49 - ERROR - Description set operation Q23247 (en) a Person failed, will try again...
+Traceback (most recent call last):
+  File "D:\GitHub\zotero_lexbib_rdf\wikibase\lwb.py", line 362, in setdescription
+    request = site.post('wbsetdescription', id=s, language=lang, value=value, token=token, bot=True)
+  File "C:\Python38\lib\site-packages\mwclient\client.py", line 245, in post
+    return self.api(action, 'POST', *args, **kwargs)
+  File "C:\Python38\lib\site-packages\mwclient\client.py", line 288, in api
+    if self.handle_api_result(info, sleeper=sleeper):
+  File "C:\Python38\lib\site-packages\mwclient\client.py", line 331, in handle_api_result
+    raise errors.APIError(info['error']['code'],
+mwclient.errors.APIError: ('modification-failed', 'Item [[Item:Q23139|Q23139]] already has label "Jürgen Schäfer" associated with language code en, using the same description text.', 'See https://data.lexbib.org/w/api.php for API usage. Subscribe to the mediawiki-api-announce mailing list at &lt;https://lists.wikimedia.org/mailman/listinfo/mediawiki-api-announce&gt; for notice of API deprecations and breaking changes.')
+23-03-21 21:18:29 - WARNING - Subscribe to the mediawiki-api-announce mailing list at <https://lists.wikimedia.org/mailman/listinfo/mediawiki-api-announce> for notice of API deprecations and breaking changes.
+23-03-21 21:18:29 - WARNING - Main-account login via "action=login" is deprecated and may stop working without warning. To continue login with "action=login", see [[Special:BotPasswords]]. To safely continue using main-account login, see "action=clientlogin".
+23-03-21 21:19:10 - WARNING - Description set operation Q23247 (en) a Person failed up to 5 times... skipped.
+23-03-21 21:19:17 - WARNING - Description set operation Q23248 (en) a Person failed up to 5 times... skipped.
+23-03-21 21:19:45 - WARNING - Description set operation Q23153 (en) a Person failed up to 5 times... skipped.
+23-03-21 21:20:12 - WARNING - Description set operation Q23159 (en) a Person failed up to 5 times... skipped.
+23-03-21 21:20:12 - WARNING - Description set operation Q23160 (en) a Person failed up to 5 times... skipped.
+23-03-21 21:20:13 - WARNING - Description set operation Q23161 (en) a Person failed up to 5 times... skipped.
+23-03-21 21:20:25 - WARNING - Description set operation Q23164 (en) a Person failed up to 5 times... skipped.
+23-03-21 21:20:31 - WARNING - Description set operation Q23165 (en) a Person failed up to 5 times... skipped.
+23-03-21 21:20:31 - WARNING - Description set operation Q23166 (en) a Person failed up to 5 times... skipped.
+23-03-21 21:20:38 - WARNING - Description set operation Q23168 (en) a Person failed up to 5 times... skipped.
+23-03-21 21:20:44 - WARNING - Description set operation Q23170 (en) a Person failed up to 5 times... skipped.
+23-03-21 21:21:54 - WARNING - Description set operation Q23184 (en) a Person failed up to 5 times... skipped.
+23-03-21 21:22:13 - WARNING - Description set operation Q23188 (en) a Person failed up to 5 times... skipped.
+23-03-21 21:22:32 - WARNING - Description set operation Q23193 (en) a Person failed up to 5 times... skipped.
+23-03-21 21:23:04 - WARNING - Description set operation Q23200 (en) a Person failed up to 5 times... skipped.
+23-03-21 21:23:37 - WARNING - Description set operation Q23208 (en) a Person failed up to 5 times... skipped.
+23-03-21 21:24:01 - WARNING - Description set operation Q23213 (en) a Person failed up to 5 times... skipped.
+23-03-21 21:24:27 - WARNING - Description set operation Q23219 (en) a Person failed up to 5 times... skipped.
+23-03-21 21:24:34 - WARNING - Description set operation Q23221 (en) a Person failed up to 5 times... skipped.
+23-03-21 21:24:34 - WARNING - Description set operation Q23222 (en) a Person failed up to 5 times... skipped.
+23-03-21 21:24:48 - WARNING - Description set operation Q23226 (en) a Person failed up to 5 times... skipped.
+23-03-21 21:24:54 - WARNING - Description set operation Q23228 (en) a Person failed up to 5 times... skipped.
+23-03-21 21:25:13 - WARNING - Description set operation Q23232 (en) a Person failed up to 5 times... skipped.
+23-03-21 21:25:44 - WARNING - Description set operation Q23239 (en) a Person failed up to 5 times... skipped.
+23-03-21 21:32:20 - WARNING - Description set operation Q16056 (en) a Language failed up to 5 times... skipped.
+23-03-21 21:34:07 - WARNING - Description set operation Q8099 (en) a Language failed up to 5 times... skipped.
+23-03-21 21:34:07 - WARNING - Description set operation Q8243 (en) a Language failed up to 5 times... skipped.
+23-03-21 21:34:08 - WARNING - Description set operation Q8281 (en) a Language failed up to 5 times... skipped.
+23-03-21 21:34:08 - WARNING - Description set operation Q8348 (en) a Language failed up to 5 times... skipped.
+23-03-21 21:34:08 - WARNING - Description set operation Q8379 (en) a Language failed up to 5 times... skipped.
+23-03-21 21:34:12 - WARNING - Description set operation Q8725 (en) a Language failed up to 5 times... skipped.
+23-03-21 21:34:13 - WARNING - Description set operation Q8878 (en) a Language failed up to 5 times... skipped.
+23-03-21 21:34:15 - WARNING - Description set operation Q9506 (en) a Language failed up to 5 times... skipped.
+23-03-21 21:34:17 - WARNING - Description set operation Q9891 (en) a Language failed up to 5 times... skipped.
+23-03-21 21:34:17 - WARNING - Description set operation Q9939 (en) a Language failed up to 5 times... skipped.
+23-03-21 21:34:17 - WARNING - Description set operation Q9986 (en) a Language failed up to 5 times... skipped.
+23-03-21 21:34:23 - WARNING - Description set operation Q10334 (en) a Language failed up to 5 times... skipped.
+23-03-21 21:34:23 - WARNING - Description set operation Q10391 (en) a Language failed up to 5 times... skipped.
+23-03-21 21:34:23 - WARNING - Description set operation Q10405 (en) a Language failed up to 5 times... skipped.
+23-03-21 21:36:53 - WARNING - Description set operation Q16310 (en) a Language failed up to 5 times... skipped.
+23-03-21 21:45:28 - WARNING - Description set operation Q16419 (en) a Language failed up to 5 times... skipped.
+23-03-21 21:52:45 - WARNING - Description set operation Q16183 (en) a Language failed up to 5 times... skipped.
+23-03-21 21:58:47 - WARNING - Description set operation Q16257 (en) a Language failed up to 5 times... skipped.
+23-03-21 22:03:18 - WARNING - Description set operation Q16113 (en) a Language failed up to 5 times... skipped.
+23-03-21 22:03:42 - WARNING - Description set operation Q16117 (en) a Language failed up to 5 times... skipped.
+23-03-21 22:07:28 - WARNING - Description set operation Q16163 (en) a Language failed up to 5 times... skipped.
+23-03-21 22:08:59 - WARNING - Description set operation Q14399 (en) a Language failed up to 5 times... skipped.
+23-03-21 22:09:05 - WARNING - Description set operation Q14424 (en) a Language failed up to 5 times... skipped.
+23-03-21 22:09:06 - WARNING - Description set operation Q14484 (en) a Language failed up to 5 times... skipped.
+23-03-21 22:09:06 - WARNING - Description set operation Q14491 (en) a Language failed up to 5 times... skipped.
+23-03-21 22:09:07 - WARNING - Description set operation Q14534 (en) a Language failed up to 5 times... skipped.
+23-03-21 22:09:07 - WARNING - Description set operation Q14631 (en) a Language failed up to 5 times... skipped.
+23-03-21 22:09:08 - WARNING - Description set operation Q14656 (en) a Language failed up to 5 times... skipped.
+23-03-21 22:09:09 - WARNING - Description set operation Q14851 (en) a Language failed up to 5 times... skipped.
+23-03-21 22:09:10 - WARNING - Description set operation Q14929 (en) a Language failed up to 5 times... skipped.
+23-03-21 22:09:10 - WARNING - Description set operation Q15013 (en) a Language failed up to 5 times... skipped.
+23-03-21 22:09:12 - WARNING - Description set operation Q15116 (en) a Language failed up to 5 times... skipped.
+23-03-21 22:09:13 - WARNING - Description set operation Q15130 (en) a Language failed up to 5 times... skipped.
+23-03-21 22:09:13 - WARNING - Description set operation Q15198 (en) a Language failed up to 5 times... skipped.
+23-03-21 22:09:14 - WARNING - Description set operation Q15260 (en) a Language failed up to 5 times... skipped.
+23-03-21 22:09:14 - WARNING - Description set operation Q15291 (en) a Language failed up to 5 times... skipped.
+23-03-21 22:09:15 - WARNING - Description set operation Q15435 (en) a Language failed up to 5 times... skipped.
+23-03-21 22:09:15 - WARNING - Description set operation Q15496 (en) a Language failed up to 5 times... skipped.
+23-03-21 22:09:15 - WARNING - Description set operation Q15515 (en) a Language failed up to 5 times... skipped.
+23-03-21 22:09:16 - WARNING - Description set operation Q15600 (en) a Language failed up to 5 times... skipped.
+23-03-21 22:09:16 - WARNING - Description set operation Q15601 (en) a Language failed up to 5 times... skipped.
+23-03-21 22:09:16 - WARNING - Description set operation Q15605 (en) a Language failed up to 5 times... skipped.
+23-03-21 22:09:17 - WARNING - Description set operation Q15650 (en) a Language failed up to 5 times... skipped.
+23-03-21 22:09:17 - WARNING - Description set operation Q15694 (en) a Language failed up to 5 times... skipped.
+23-03-21 22:09:18 - WARNING - Description set operation Q15764 (en) a Language failed up to 5 times... skipped.
+23-03-21 22:09:24 - WARNING - Description set operation Q15820 (en) a Language failed up to 5 times... skipped.
+23-03-21 22:09:24 - WARNING - Description set operation Q15910 (en) a Language failed up to 5 times... skipped.
+23-03-21 22:11:05 - WARNING - Description set operation Q15951 (en) a Language failed up to 5 times... skipped.
+23-03-21 22:13:28 - WARNING - Description set operation Q10702 (en) a Language failed up to 5 times... skipped.
+23-03-21 22:13:28 - WARNING - Description set operation Q10852 (en) a Language failed up to 5 times... skipped.
+23-03-21 22:13:28 - WARNING - Description set operation Q10906 (en) a Language failed up to 5 times... skipped.
+23-03-21 22:13:29 - WARNING - Description set operation Q10947 (en) a Language failed up to 5 times... skipped.
+23-03-21 22:13:29 - WARNING - Description set operation Q10953 (en) a Language failed up to 5 times... skipped.
+23-03-21 22:13:30 - WARNING - Description set operation Q10997 (en) a Language failed up to 5 times... skipped.
+23-03-21 22:13:31 - WARNING - Description set operation Q11028 (en) a Language failed up to 5 times... skipped.
+23-03-21 22:13:31 - WARNING - Description set operation Q11030 (en) a Language failed up to 5 times... skipped.
+23-03-21 22:13:34 - WARNING - Description set operation Q11228 (en) a Language failed up to 5 times... skipped.
+23-03-21 22:13:38 - WARNING - Description set operation Q11297 (en) a Language failed up to 5 times... skipped.
+23-03-21 22:13:40 - WARNING - Description set operation Q11726 (en) a Language failed up to 5 times... skipped.
+23-03-21 22:13:41 - WARNING - Description set operation Q11742 (en) a Language failed up to 5 times... skipped.
+23-03-21 22:13:43 - WARNING - Description set operation Q11794 (en) a Language failed up to 5 times... skipped.
+23-03-21 22:13:43 - WARNING - Description set operation Q11844 (en) a Language failed up to 5 times... skipped.
+23-03-21 22:13:44 - WARNING - Description set operation Q11984 (en) a Language failed up to 5 times... skipped.
+23-03-21 22:13:44 - WARNING - Description set operation Q11995 (en) a Language failed up to 5 times... skipped.
+23-03-21 22:13:45 - WARNING - Description set operation Q12065 (en) a Language failed up to 5 times... skipped.
+23-03-21 22:13:46 - WARNING - Description set operation Q12418 (en) a Language failed up to 5 times... skipped.
+23-03-21 22:13:48 - WARNING - Description set operation Q12473 (en) a Language failed up to 5 times... skipped.
+23-03-21 22:13:48 - WARNING - Description set operation Q12703 (en) a Language failed up to 5 times... skipped.
+23-03-21 22:13:49 - WARNING - Description set operation Q12837 (en) a Language failed up to 5 times... skipped.
+23-03-21 22:13:54 - WARNING - Description set operation Q13100 (en) a Language failed up to 5 times... skipped.
+23-03-21 22:13:54 - WARNING - Description set operation Q13193 (en) a Language failed up to 5 times... skipped.
+23-03-21 22:13:55 - WARNING - Description set operation Q13800 (en) a Language failed up to 5 times... skipped.
+23-03-21 22:13:56 - WARNING - Description set operation Q13911 (en) a Language failed up to 5 times... skipped.
+23-03-21 22:13:56 - WARNING - Description set operation Q14074 (en) a Language failed up to 5 times... skipped.
+23-03-21 22:13:58 - WARNING - Description set operation Q14155 (en) a Language failed up to 5 times... skipped.
+23-03-21 22:13:59 - WARNING - Description set operation Q14240 (en) a Language failed up to 5 times... skipped.
+23-03-21 22:13:59 - WARNING - Description set operation Q14249 (en) a Language failed up to 5 times... skipped.
+23-03-21 22:19:29 - WARNING - Description set operation Q3480 (en) a journal article failed up to 5 times... skipped.
+23-03-21 22:27:11 - WARNING - Description set operation Q4941 (en) a journal article failed up to 5 times... skipped.
+23-03-21 22:28:06 - WARNING - Description set operation Q5250 (en) a journal article failed up to 5 times... skipped.
+23-03-21 22:31:20 - WARNING - Description set operation Q5738 (en) a journal article failed up to 5 times... skipped.
+23-03-21 22:31:22 - WARNING - Description set operation Q5741 (en) a journal article failed up to 5 times... skipped.
+23-03-21 22:31:23 - WARNING - Description set operation Q5744 (en) a journal article failed up to 5 times... skipped.
+23-03-21 22:31:24 - WARNING - Description set operation Q5747 (en) a journal article failed up to 5 times... skipped.
+23-03-21 22:31:25 - WARNING - Description set operation Q5748 (en) a journal article failed up to 5 times... skipped.
+23-03-21 22:31:25 - WARNING - Description set operation Q5751 (en) a journal article failed up to 5 times... skipped.
+23-03-21 22:31:27 - WARNING - Description set operation Q5754 (en) a journal article failed up to 5 times... skipped.
+23-03-21 22:31:28 - WARNING - Description set operation Q5759 (en) a journal article failed up to 5 times... skipped.
+23-03-21 22:31:29 - WARNING - Description set operation Q5762 (en) a journal article failed up to 5 times... skipped.
+23-03-21 22:31:30 - WARNING - Description set operation Q5765 (en) a journal article failed up to 5 times... skipped.
+23-03-21 22:31:40 - WARNING - Description set operation Q5791 (en) a journal article failed up to 5 times... skipped.
+23-03-21 22:32:25 - WARNING - Description set operation Q5826 (en) a journal article failed up to 5 times... skipped.
+23-03-21 22:32:25 - WARNING - Description set operation Q5828 (en) a journal article failed up to 5 times... skipped.
+23-03-21 22:32:26 - WARNING - Description set operation Q5830 (en) a journal article failed up to 5 times... skipped.
+23-03-21 22:32:27 - WARNING - Description set operation Q5832 (en) a journal article failed up to 5 times... skipped.
+23-03-21 22:32:27 - WARNING - Description set operation Q5833 (en) a journal article failed up to 5 times... skipped.
+23-03-21 22:32:28 - WARNING - Description set operation Q5835 (en) a journal article failed up to 5 times... skipped.
+23-03-21 22:32:36 - WARNING - Description set operation Q5860 (en) a journal article failed up to 5 times... skipped.
+23-03-21 22:32:36 - WARNING - Description set operation Q5862 (en) a journal article failed up to 5 times... skipped.
+23-03-21 22:32:37 - WARNING - Description set operation Q5864 (en) a journal article failed up to 5 times... skipped.
+23-03-21 22:32:37 - WARNING - Description set operation Q5865 (en) a journal article failed up to 5 times... skipped.
+23-03-21 22:32:41 - WARNING - Description set operation Q5878 (en) a journal article failed up to 5 times... skipped.
+23-03-21 22:32:42 - WARNING - Description set operation Q5880 (en) a journal article failed up to 5 times... skipped.
+23-03-21 22:32:50 - WARNING - Description set operation Q5908 (en) a journal article failed up to 5 times... skipped.
+23-03-21 22:32:51 - WARNING - Description set operation Q5910 (en) a journal article failed up to 5 times... skipped.
+23-03-21 22:32:56 - WARNING - Description set operation Q5924 (en) a journal article failed up to 5 times... skipped.
+23-03-21 22:32:56 - WARNING - Description set operation Q5925 (en) a journal article failed up to 5 times... skipped.
+23-03-21 22:32:56 - WARNING - Description set operation Q5933 (en) a journal article failed up to 5 times... skipped.
+23-03-21 22:32:57 - WARNING - Description set operation Q5934 (en) a journal article failed up to 5 times... skipped.
+23-03-21 22:32:57 - WARNING - Description set operation Q5939 (en) a journal article failed up to 5 times... skipped.
+23-03-21 22:32:57 - WARNING - Description set operation Q5940 (en) a journal article failed up to 5 times... skipped.
+23-03-21 22:32:58 - WARNING - Description set operation Q5947 (en) a journal article failed up to 5 times... skipped.
+23-03-21 22:32:58 - WARNING - Description set operation Q5948 (en) a journal article failed up to 5 times... skipped.
+23-03-21 22:32:58 - WARNING - Description set operation Q5959 (en) a journal article failed up to 5 times... skipped.
+23-03-21 22:32:59 - WARNING - Description set operation Q5960 (en) a journal article failed up to 5 times... skipped.
+23-03-21 22:32:59 - WARNING - Description set operation Q5967 (en) a journal article failed up to 5 times... skipped.
+23-03-21 22:32:59 - WARNING - Description set operation Q5968 (en) a journal article failed up to 5 times... skipped.
+23-03-21 22:32:59 - WARNING - Description set operation Q5980 (en) a journal article failed up to 5 times... skipped.
+23-03-21 22:33:00 - WARNING - Description set operation Q5981 (en) a journal article failed up to 5 times... skipped.
+23-03-21 22:33:00 - WARNING - Description set operation Q5989 (en) a journal article failed up to 5 times... skipped.
+23-03-21 22:33:00 - WARNING - Description set operation Q6058 (en) a journal article failed up to 5 times... skipped.
+23-03-21 22:33:01 - WARNING - Description set operation Q6068 (en) a journal article failed up to 5 times... skipped.
+23-03-21 22:33:04 - WARNING - Description set operation Q6122 (en) a journal article failed up to 5 times... skipped.
+23-03-21 22:33:04 - WARNING - Description set operation Q6180 (en) a journal article failed up to 5 times... skipped.
+23-03-21 22:33:04 - WARNING - Description set operation Q6183 (en) a journal article failed up to 5 times... skipped.
+23-03-21 22:33:05 - WARNING - Description set operation Q6309 (en) a journal article failed up to 5 times... skipped.
+23-03-21 22:33:15 - WARNING - Description set operation Q22819 (en) a journal article failed up to 5 times... skipped.
+23-03-21 22:33:15 - WARNING - Description set operation Q22833 (en) a journal article failed up to 5 times... skipped.
+23-03-21 22:33:16 - WARNING - Description set operation Q22958 (en) a journal article failed up to 5 times... skipped.
+23-03-21 22:33:16 - WARNING - Description set operation Q23032 (en) a journal article failed up to 5 times... skipped.
+23-03-21 22:33:17 - WARNING - Description set operation Q23034 (en) a journal article failed up to 5 times... skipped.
+23-03-21 22:33:17 - WARNING - Description set operation Q23037 (en) a journal article failed up to 5 times... skipped.
+23-03-21 22:33:17 - WARNING - Description set operation Q23038 (en) a journal article failed up to 5 times... skipped.
+23-03-21 22:33:18 - WARNING - Description set operation Q23039 (en) a journal article failed up to 5 times... skipped.
+23-03-21 22:42:12 - WARNING - Description set operation Q1880 (en) a conference paper failed up to 5 times... skipped.
+23-03-21 22:46:18 - WARNING - Description set operation Q20970 (en) a Place failed up to 5 times... skipped.
+23-03-21 22:49:37 - WARNING - Description set operation Q21012 (en) a Place failed up to 5 times... skipped.
+23-03-21 22:51:35 - WARNING - Description set operation Q20803 (en) a Place failed up to 5 times... skipped.
+23-03-21 22:51:48 - WARNING - Description set operation Q20810 (en) a Place failed up to 5 times... skipped.
+23-03-21 22:51:48 - WARNING - Description set operation Q20813 (en) a Place failed up to 5 times... skipped.
+23-03-21 22:52:28 - WARNING - Description set operation Q20834 (en) a Place failed up to 5 times... skipped.
+23-03-21 22:52:34 - WARNING - Description set operation Q20837 (en) a Place failed up to 5 times... skipped.
+23-03-21 22:52:55 - WARNING - Description set operation Q20849 (en) a Place failed up to 5 times... skipped.
+23-03-21 22:53:01 - WARNING - Description set operation Q20851 (en) a Place failed up to 5 times... skipped.
+23-03-21 22:53:28 - WARNING - Description set operation Q20861 (en) a Place failed up to 5 times... skipped.
+23-03-21 22:54:05 - WARNING - Description set operation Q20869 (en) a Place failed up to 5 times... skipped.
+23-03-21 22:54:11 - WARNING - Description set operation Q20870 (en) a Place failed up to 5 times... skipped.
+23-03-21 22:54:12 - WARNING - Description set operation Q20871 (en) a Place failed up to 5 times... skipped.
+23-03-21 22:54:26 - WARNING - Description set operation Q20875 (en) a Place failed up to 5 times... skipped.
+23-03-21 22:54:32 - WARNING - Description set operation Q20877 (en) a Place failed up to 5 times... skipped.
+23-03-21 22:55:04 - WARNING - Description set operation Q20884 (en) a Place failed up to 5 times... skipped.
+23-03-21 22:55:23 - WARNING - Description set operation Q20888 (en) a Place failed up to 5 times... skipped.
+23-03-21 22:55:48 - WARNING - Description set operation Q20893 (en) a Place failed up to 5 times... skipped.
+23-03-21 22:56:59 - WARNING - Description set operation Q20909 (en) a Place failed up to 5 times... skipped.
+23-03-21 22:57:47 - WARNING - Description set operation Q20922 (en) a Place failed up to 5 times... skipped.
+23-03-21 22:57:59 - WARNING - Description set operation Q20925 (en) a Place failed up to 5 times... skipped.
+23-03-21 22:59:59 - WARNING - Description set operation Q21573 (en) a Place failed up to 5 times... skipped.
+23-03-21 23:01:37 - WARNING - Description set operation Q21595 (en) a Place failed up to 5 times... skipped.
+23-03-21 23:04:07 - WARNING - Description set operation Q21626 (en) a Place failed up to 5 times... skipped.
+23-03-21 23:04:46 - WARNING - Description set operation Q21636 (en) a Place failed up to 5 times... skipped.
+23-03-21 23:05:05 - WARNING - Description set operation Q21640 (en) a Place failed up to 5 times... skipped.
+23-03-21 23:05:18 - WARNING - Description set operation Q21644 (en) a Place failed up to 5 times... skipped.
+23-03-21 23:06:32 - WARNING - Description set operation Q21456 (en) a Place failed up to 5 times... skipped.
+23-03-21 23:06:38 - WARNING - Description set operation Q21459 (en) a Place failed up to 5 times... skipped.
+23-03-21 23:06:58 - WARNING - Description set operation Q21464 (en) a Place failed up to 5 times... skipped.
+23-03-21 23:07:04 - WARNING - Description set operation Q21465 (en) a Place failed up to 5 times... skipped.
+23-03-21 23:07:17 - WARNING - Description set operation Q21468 (en) a Place failed up to 5 times... skipped.
+23-03-21 23:07:55 - WARNING - Description set operation Q21476 (en) a Place failed up to 5 times... skipped.
+23-03-21 23:08:28 - WARNING - Description set operation Q21483 (en) a Place failed up to 5 times... skipped.
+23-03-21 23:09:08 - WARNING - Description set operation Q21492 (en) a Place failed up to 5 times... skipped.
+23-03-21 23:10:05 - WARNING - Description set operation Q21502 (en) a Place failed up to 5 times... skipped.
+23-03-21 23:10:11 - WARNING - Description set operation Q21504 (en) a Place failed up to 5 times... skipped.
+23-03-21 23:10:18 - WARNING - Description set operation Q21506 (en) a Place failed up to 5 times... skipped.
+23-03-21 23:10:30 - WARNING - Description set operation Q21509 (en) a Place failed up to 5 times... skipped.
+23-03-21 23:10:56 - WARNING - Description set operation Q21515 (en) a Place failed up to 5 times... skipped.
+23-03-21 23:12:14 - WARNING - Description set operation Q21532 (en) a Place failed up to 5 times... skipped.
+23-03-21 23:12:45 - WARNING - Description set operation Q21538 (en) a Place failed up to 5 times... skipped.
+23-03-21 23:12:46 - WARNING - Description set operation Q21539 (en) a Place failed up to 5 times... skipped.
+23-03-21 23:12:52 - WARNING - Description set operation Q21541 (en) a Place failed up to 5 times... skipped.
+23-03-21 23:13:10 - WARNING - Description set operation Q21544 (en) a Place failed up to 5 times... skipped.
+23-03-21 23:13:43 - WARNING - Description set operation Q21552 (en) a Place failed up to 5 times... skipped.
+23-03-21 23:14:02 - WARNING - Description set operation Q21556 (en) a Place failed up to 5 times... skipped.
+23-03-21 23:14:40 - WARNING - Description set operation Q21665 (en) a Place failed up to 5 times... skipped.
+23-03-21 23:16:23 - WARNING - Description set operation Q21685 (en) a Place failed up to 5 times... skipped.
+23-03-21 23:21:04 - WARNING - Description set operation Q21733 (en) a Place failed up to 5 times... skipped.
+23-03-21 23:21:16 - WARNING - Description set operation Q21735 (en) a Place failed up to 5 times... skipped.
+23-03-21 23:21:47 - WARNING - Description set operation Q21740 (en) a Place failed up to 5 times... skipped.
+23-03-21 23:22:11 - WARNING - Description set operation Q21744 (en) a Place failed up to 5 times... skipped.
+23-03-21 23:22:18 - WARNING - Description set operation Q21746 (en) a Place failed up to 5 times... skipped.
+23-03-21 23:22:25 - WARNING - Description set operation Q21747 (en) a Place failed up to 5 times... skipped.
+23-03-21 23:22:25 - WARNING - Description set operation Q21748 (en) a Place failed up to 5 times... skipped.
+23-03-21 23:22:38 - WARNING - Description set operation Q21751 (en) a Place failed up to 5 times... skipped.
+23-03-21 23:24:08 - WARNING - Description set operation Q21768 (en) a Place failed up to 5 times... skipped.
+23-03-21 23:25:37 - WARNING - Description set operation Q21786 (en) a Place failed up to 5 times... skipped.
+23-03-21 23:25:49 - WARNING - Description set operation Q21789 (en) a Place failed up to 5 times... skipped.
+23-03-21 23:25:55 - WARNING - Description set operation Q21790 (en) a Place failed up to 5 times... skipped.
+23-03-21 23:26:08 - WARNING - Description set operation Q21793 (en) a Place failed up to 5 times... skipped.
+23-03-21 23:27:05 - WARNING - Description set operation Q21815 (en) a Place failed up to 5 times... skipped.
+23-03-21 23:27:11 - WARNING - Description set operation Q21818 (en) a Place failed up to 5 times... skipped.
+23-03-21 23:27:17 - WARNING - Description set operation Q21819 (en) a Place failed up to 5 times... skipped.
+23-03-21 23:27:17 - WARNING - Description set operation Q21820 (en) a Place failed up to 5 times... skipped.
+23-03-21 23:27:36 - WARNING - Description set operation Q21826 (en) a Place failed up to 5 times... skipped.
+23-03-21 23:28:51 - WARNING - Description set operation Q21846 (en) a Place failed up to 5 times... skipped.
+23-03-21 23:28:58 - WARNING - Description set operation Q21848 (en) a Place failed up to 5 times... skipped.
+23-03-21 23:29:23 - WARNING - Description set operation Q21853 (en) a Place failed up to 5 times... skipped.
+23-03-21 23:31:25 - WARNING - Description set operation Q21344 (en) a Place failed up to 5 times... skipped.
+23-03-21 23:31:45 - WARNING - Description set operation Q21348 (en) a Place failed up to 5 times... skipped.
+23-03-21 23:31:58 - WARNING - Description set operation Q21351 (en) a Place failed up to 5 times... skipped.
+23-03-21 23:32:10 - WARNING - Description set operation Q21354 (en) a Place failed up to 5 times... skipped.
+23-03-21 23:32:35 - WARNING - Description set operation Q21358 (en) a Place failed up to 5 times... skipped.
+23-03-21 23:33:07 - WARNING - Description set operation Q21366 (en) a Place failed up to 5 times... skipped.
+23-03-21 23:33:13 - WARNING - Description set operation Q21367 (en) a Place failed up to 5 times... skipped.
+23-03-21 23:33:26 - WARNING - Description set operation Q21371 (en) a Place failed up to 5 times... skipped.

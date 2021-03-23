@@ -36,7 +36,9 @@ with open('D:/LexBib/zot2wb/attachment_folders.csv', 'r', encoding="utf-8") as f
 		attachment_folder_list[row[0]] = int(row[1])
 
 # define LexBib BibItem URI
+emergency = 1
 def define_uri(item):
+	global emergency
 
 	if "archive_location" in item:
 		if item["archive_location"].startswith('http') == True:
@@ -67,11 +69,17 @@ def define_uri(item):
 	if item['type'] == "book" or item['type'] == "thesis":
 		if "ISBN" in item: # use worldcat namespaced ISBN
 			return "http://worldcat.org/isbn/"+re.search(r'^\d+', item["ISBN"].replace("-","")).group(0)
+		if "URL" in item: # use URL field content removing slash at the end
+			return re.sub('/$','',item["URL"])
 	if item['type'] == "chapter" or item['type'] == "paper-conference":
-		if "ISBN" in item and "page" in item: # use own ISBN underscore starting page number
-			return "http://lexbib.org/lexbib/item#"+re.search(r'^\d+', item["ISBN"].replace("-","")).group(0)+"_"+item["page"].split('-')[0]
-	if "URL" in item: # use URL field content removing slash at the end
-		return re.sub('/$','',item["URL"])
+		if "ISBN" in item:
+			if "page" in item: # use own ISBN underscore starting page number
+				return "http://lexbib.org/lexbib/item#"+re.search(r'^\d+', item["ISBN"].replace("-","")).group(0)+"_"+item["page"].split('-')[0]
+			else:
+				returnstring = "http://lexbib.org/lexbib/item#"+re.search(r'^\d+', item["ISBN"].replace("-","")).group(0)+"_"+str(emergency)
+				emergency += 1
+				return returnstring
+
 
 	print('*** ERROR: Could not define lexbib Uri for '+item['title']+'. Item SKIPPED!!!')
 	lwb.logging.error('Could not define lexbib Uri for '+item['title']+'. Item SKIPPED!!!')
@@ -218,11 +226,15 @@ for item in data:
 				propvals.append({"property":"P14","datatype":"string","value":year})
 				if len(val["date-parts"][0]) > 1:
 					month = str(val["date-parts"][0][1])
+					if len(month) == 1:
+						month = "0"+month
 					precision = 10
 				else:
 					month = "01"
 				if len(val["date-parts"][0]) > 2:
 					day = str(val["date-parts"][0][2])
+					if len(day) == 1:
+						day = "0"+day
 					precision = 11
 				else:
 					day = "01"
